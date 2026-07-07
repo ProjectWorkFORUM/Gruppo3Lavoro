@@ -30,4 +30,30 @@ public class Acquisto {
         this.data_acqusito = data_acqusito;
         this.prezzo_pagato = prezzo_pagato;
     }
+
+    public Long getId() {
+        return id;
+    }
+
+    public void setId(Long id) {
+        this.id = id;
+    }
+
+    public String getData_acqusito() {
+        return data_acqusito;
+    }
+
+    public void setData_acqusito(String data_acqusito) {
+        this.data_acqusito = data_acqusito;
+    }
+
+    public double getPrezzo_pagato() {
+        return prezzo_pagato;
+    }
+
+    public void setPrezzo_pagato(double prezzo_pagato) {
+        this.prezzo_pagato = prezzo_pagato;
+    }
+
+    
 }
