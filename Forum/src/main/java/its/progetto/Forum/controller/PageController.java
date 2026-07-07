@@ -11,5 +11,4 @@ public class PageController {
     public String landingPage( ) {
         return "Landing_page";
     }
-    
 }
