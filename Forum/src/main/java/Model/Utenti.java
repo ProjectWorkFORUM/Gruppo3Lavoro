@@ -1,13 +1,10 @@
 package Model;
 
 import jakarta.persistence.*;
+import jakarta.validation.constraints.*;
 import org.springframework.format.annotation.DateTimeFormat;
 
-import jakarta.validation.constraints.Email;
-import jakarta.validation.constraints.NotBlank;
-import jakarta.validation.constraints.NotNull;
-import jakarta.validation.constraints.Size;
-
+import java.time.LocalDate;
 import java.util.HashSet;
 import java.util.Set;
 
@@ -31,46 +28,39 @@ public class Utenti {
 
     @Size(min = 2, max=30)
     @NotBlank(message = "Username richiesto")
-    @Column(name="username")
     private String username;
 
     @Size(min = 2,max=30)
     @NotBlank(message = "Nome richiesto")
-    @Column(name="nome")
     private String nome;
 
     @Size(min = 2,max=30)
-    @NotNull(message = "Cognome richiesto")
     @NotBlank(message = "Cognome richiesto")
-    @Column(name="cognome")
     private String cognome;
 
     @Size(min =4,max=50)
     @Email(message = "Email non valida")
-    @NotNull(message = "Email richiesta")
-    @Column(name="email")
+    @NotBlank(message = "Email richiesta")
     private String email;
 
     @Size(min=8,max=20)
-    @NotNull(message = "password richiesta")
-    @Column(name="password")
+    @NotBlank(message = "password richiesta")
     private String password;
 
-    @DateTimeFormat(pattern = "yyyy-MM-dd")
     @NotNull(message = "Data di nascita richiesta")
-    @Column(name="data_nascita")
-    private String data_nascita;
-
+    @Past(message = "La data di nascita deve essere nel passato")
     @DateTimeFormat(pattern = "yyyy-MM-dd")
-    @Column(name="data_registrazione")
-    private String data_registrazione;
+    private LocalDate dataNascita;
+
+    @NotNull(message = "Data di nascita richiesta")
+    @Past(message = "La data di nascita deve essere nel passato")
+    @DateTimeFormat(pattern = "yyyy-MM-dd")
+    private LocalDate dataRegistrazione;
 
     @NotNull(message = "Stato account richiesto")
-    @Column(name="stato_account")
     private StatoAccount stato_account;
 
     @NotNull(message = "Ruolo richiesto")
-    @Column(name="ruolo")
     private Ruolo ruolo;
 
     //forse OneToMany con gli acquisti/recensioni
@@ -78,27 +68,27 @@ public class Utenti {
     public Utenti() {
     }
     
-    public Utenti(String username, String nome, String cognome, String email, String password, String data_nascita, String data_registrazione, StatoAccount stato_account, Ruolo ruolo) {
+    public Utenti(String username, String nome, String cognome, String email, String password, @NotNull @Past LocalDate data_nascita, @NotNull @Past LocalDate data_registrazione, StatoAccount stato_account, Ruolo ruolo) {
         this.username = username;
         this.nome = nome;
         this.cognome = cognome;
         this.email = email;
         this.password = password;
-        this.data_nascita = data_nascita;
-        this.data_registrazione = data_registrazione;
+        this.dataNascita = data_nascita;
+        this.dataRegistrazione = data_registrazione;
         this.stato_account = stato_account;
         this.ruolo = ruolo;
     }
 
-    public Utenti(Long id, String username, String nome, String cognome, String email, String password, String data_nascita, String data_registrazione, StatoAccount stato_account, Ruolo ruolo) {
+    public Utenti(Long id, String username, String nome, String cognome, String email, String password, @NotNull @Past LocalDate data_nascita, @NotNull @Past LocalDate data_registrazione, StatoAccount stato_account, Ruolo ruolo) {
         this.id = id;
         this.username = username;
         this.nome = nome;
         this.cognome = cognome;
         this.email = email;
         this.password = password;
-        this.data_nascita = data_nascita;
-        this.data_registrazione = data_registrazione;
+        this.dataNascita= data_nascita;
+        this.dataRegistrazione = data_registrazione;
         this.stato_account = stato_account;
         this.ruolo = ruolo;
     }
@@ -151,20 +141,21 @@ public class Utenti {
         this.password = password;
     }
 
-    public String getData_nascita() {
-        return data_nascita;
+    public LocalDate getData_nascita() {
+        return dataNascita;
     }
 
-    public void setData_nascita(String data_nascita) {
-        this.data_nascita = data_nascita;
+    public void setData_nascita(@NotNull @Past LocalDate data_nascita) {
+        this.dataNascita = data_nascita;
     }
 
-    public String getData_registrazione() {
-        return data_registrazione;
+
+    public LocalDate getDataRegistrazione() {
+        return dataRegistrazione;
     }
 
-    public void setData_registrazione(String data_registrazione) {
-        this.data_registrazione = data_registrazione;
+    public void setDataRegistrazione(LocalDate dataRegistrazione) {
+        this.dataRegistrazione = dataRegistrazione;
     }
 
     public StatoAccount getStato_account() {
@@ -192,8 +183,8 @@ public class Utenti {
                 ", cognome='" + cognome + '\'' +
                 ", email='" + email + '\'' +
                 ", password='" + password + '\'' +
-                ", data_nascita='" + data_nascita + '\'' +
-                ", data_registrazione='" + data_registrazione + '\'' +
+                ", data_nascita='" + dataNascita + '\'' +
+                ", data_registrazione='" + dataRegistrazione + '\'' +
                 ", stato_account=" + stato_account +
                 ", ruolo=" + ruolo +
                 '}';
