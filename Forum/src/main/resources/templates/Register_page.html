@@ -1,0 +1,189 @@
+<!DOCTYPE html>
+<!--
+  ════════════════════════════════════════════════════════════════
+  PUGLIAMARE FORUM · REGISTRAZIONE
+  Pagina standalone, pronta per Thymeleaf + Spring Boot.
+
+  Per integrarla in Thymeleaf:
+   2. Aggiungi il namespace:  <html lang="it" xmlns:th="http://www.thymeleaf.org">
+   3. Sul <form>:  th:action="@{/register}" th:object="${userForm}" method="post"
+   4. Sui campi usa th:field, es:
+        <input type="text" th:field="*{nome}" ...>
+      e per gli errori di validazione:
+        <span th:if="${#fields.hasErrors('nome')}" th:errors="*{nome}"></span>
+   5. CSRF: con Spring Security il token è iniettato in automatico;
+      altrimenti aggiungi dentro il form:
+        <input type="hidden" th:name="${_csrf.parameterName}" th:value="${_csrf.token}"/>
+   6. I name attuali (nome, cognome, email, password, confirmPassword)
+      corrispondono ai campi tipici di un DTO di registrazione.
+  ════════════════════════════════════════════════════════════════
+-->
+<html lang="it">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Registrati · Pugliamare Forum</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Outfit:wght@400;500;600;700;800&family=Mulish:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+<style>
+  *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+  body { font-family: 'Mulish', -apple-system, sans-serif; background: #F5EFE2; color: #15323B; }
+  ::selection { background: #CE6F3D; color: #fff; }
+  input, button { font-family: inherit; }
+  a { color: inherit; }
+  @keyframes pmFade { from { opacity: 0; transform: translateY(14px); } to { opacity: 1; transform: none; } }
+
+  .auth { min-height: 100vh; display: grid; grid-template-columns: 1fr 1fr; }
+
+  /* ── Left visual panel ── */
+  .auth-visual {
+    position: relative; padding: 48px;
+    display: flex; flex-direction: column; justify-content: space-between;
+    color: #fff; background-color: #07323D;
+    background:
+      linear-gradient(180deg, rgba(7,50,61,.5), rgba(7,50,61,.8)),
+      url('https://www.pugliamare.it/cdn/shop/files/DSCF1985-RAF_DxO_DeepPRIME.jpg?v=1776767615') center / cover no-repeat;
+  }
+  .brand { display: flex; align-items: center; gap: 11px; text-decoration: none; color: #fff; }
+  .brand-icon {
+    width: 42px; height: 42px; border-radius: 13px;
+    background: rgba(255,255,255,.16); backdrop-filter: blur(4px);
+    display: flex; align-items: center; justify-content: center;
+    font-family: 'Outfit'; font-weight: 800; font-size: 22px;
+  }
+  .brand-name { font-family: 'Outfit'; font-weight: 800; font-size: 21px; }
+  .brand-name span { font-weight: 500; opacity: .7; }
+  .visual-copy h2 { font-family: 'Outfit'; font-weight: 800; font-size: 38px; line-height: 1.1; margin-bottom: 18px; }
+  .perks { display: flex; flex-direction: column; gap: 12px; }
+  .perk { display: flex; align-items: center; gap: 11px; font-size: 16px; opacity: .92; }
+  .perk::before { content: '✓'; font-weight: 800; }
+
+  /* ── Right form panel ── */
+  .auth-form-wrap {
+    display: flex; align-items: center; justify-content: center;
+    padding: 48px; background: #F5EFE2;
+  }
+  .auth-form { width: 100%; max-width: 430px; animation: pmFade .45s ease both; }
+  .auth-form h1 { font-family: 'Outfit'; font-weight: 800; font-size: 32px; color: #0C4A57; margin-bottom: 6px; }
+  .auth-form .lead { color: #7C8C92; font-size: 15px; margin-bottom: 26px; }
+
+  .grid-2 { display: grid; grid-template-columns: 1fr 1fr; gap: 14px; }
+  .field { margin-bottom: 16px; }
+  .field label { display: block; font-weight: 700; font-size: 13.5px; color: #15323B; margin-bottom: 6px; }
+  .field input {
+    width: 100%; border: 1.5px solid #E6DCCB; border-radius: 12px;
+    padding: 13px 15px; font-size: 15px; color: #15323B;
+    background: #fff; outline: none; transition: border-color .15s, box-shadow .15s;
+  }
+  .field input:focus { border-color: #1B8DA3; box-shadow: 0 0 0 3px rgba(27,141,163,.14); }
+  .field .err { display: block; color: #B2400F; font-size: 12.5px; font-weight: 600; margin-top: 5px; }
+
+  .terms { display: flex; align-items: flex-start; gap: 9px; margin: 6px 0 22px; }
+  .terms input { width: 17px; height: 17px; margin-top: 2px; accent-color: #CE6F3D; flex: none; }
+  .terms label { font-size: 13px; color: #5F7882; line-height: 1.45; }
+  .terms a { color: #176B7E; font-weight: 700; text-decoration: none; }
+  .terms a:hover { text-decoration: underline; }
+
+  .btn-submit {
+    width: 100%; border: none; background: #CE6F3D; color: #fff;
+    font-weight: 700; font-size: 16px; padding: 15px; border-radius: 13px;
+    box-shadow: 0 6px 18px rgba(206,111,61,.3); transition: filter .15s; cursor: pointer;
+  }
+  .btn-submit:hover { filter: brightness(.93); }
+
+  .switch { text-align: center; color: #7C8C92; font-size: 14px; margin-top: 20px; }
+  .switch a { color: #0C4A57; font-weight: 800; text-decoration: none; }
+  .switch a:hover { color: #CE6F3D; }
+
+  @media (max-width: 860px) {
+    .auth { grid-template-columns: 1fr; }
+    .auth-visual { min-height: 240px; padding: 32px; }
+    .visual-copy h2 { font-size: 26px; }
+    .auth-form-wrap { padding: 40px 24px; }
+  }
+</style>
+</head>
+<body>
+
+<div class="auth">
+  <!-- Visual side -->
+  <div class="auth-visual">
+    <a class="brand" href="/">
+      <div class="brand-icon">P</div>
+      <div class="brand-name">Pugliamare <span>Forum</span></div>
+    </a>
+    <div class="visual-copy">
+      <h2>Entra a far parte della community.</h2>
+      <div class="perks">
+        <div class="perk">Pubblica e leggi recensioni autentiche</div>
+        <div class="perk">Salva i posti del cuore</div>
+        <div class="perk">Segui i contributori local</div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Form side -->
+  <div class="auth-form-wrap">
+    <!-- th:action="@{/register}" th:object="${userForm}" method="post" -->
+    <form class="auth-form" action="/register" method="post">
+
+      <h1>Crea il tuo account</h1>
+      <p class="lead">È gratis e ci vuole meno di un minuto.</p>
+
+      <div class="grid-2">
+        <div class="field">
+          <label for="nome">Nome</label>
+          <!-- th:field="*{nome}" -->
+          <input type="text" id="nome" name="nome" placeholder="Marco" autocomplete="given-name" required>
+          <!-- <span class="err" th:if="${#fields.hasErrors('nome')}" th:errors="*{nome}"></span> -->
+        </div>
+        <div class="field">
+          <label for="cognome">Cognome</label>
+          <!-- th:field="*{cognome}" -->
+          <input type="text" id="cognome" name="cognome" placeholder="Pollo" autocomplete="family-name" required>
+          <!-- <span class="err" th:if="${#fields.hasErrors('cognome')}" th:errors="*{cognome}"></span> -->
+        </div>
+      </div>
+
+      <div class="field">
+        <label for="email">Email</label>
+        <!-- th:field="*{email}" -->
+        <input type="email" id="email" name="email" placeholder="nome@email.it" autocomplete="email" required>
+        <!-- <span class="err" th:if="${#fields.hasErrors('email')}" th:errors="*{email}"></span> -->
+      </div>
+
+      <div class="grid-2">
+        <div class="field">
+          <label for="password">Password</label>
+          <!-- th:field="*{password}" -->
+          <input type="password" id="password" name="password" placeholder="••••••••" autocomplete="new-password" required>
+          <!-- <span class="err" th:if="${#fields.hasErrors('password')}" th:errors="*{password}"></span> -->
+        </div>
+        <div class="field">
+          <label for="confirmPassword">Ripeti password</label>
+          <!-- th:field="*{confirmPassword}" -->
+          <input type="password" id="confirmPassword" name="confirmPassword" placeholder="••••••••" autocomplete="new-password" required>
+        </div>
+      </div>
+
+      <div class="terms">
+        <input type="checkbox" id="accept" name="accettaTermini" required>
+        <label for="accept">Accetto i <a href="/termini">Termini di servizio</a> e la <a href="/privacy">Privacy Policy</a> di Pugliamare.</label>
+      </div>
+
+      <!-- CSRF (Spring Security): decommentare in Thymeleaf
+      <input type="hidden" th:name="${_csrf.parameterName}" th:value="${_csrf.token}"/>
+      -->
+
+      <button type="submit" class="btn-submit">Registrati</button>
+
+      <div class="switch">
+        Sei già registrato? <a href="/login">Fai il login</a>
+      </div>
+    </form>
+  </div>
+</div>
+
+</body>
+</html>
