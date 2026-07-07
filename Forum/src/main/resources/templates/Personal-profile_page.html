@@ -118,6 +118,53 @@
   .review-text { font-size: 14px; color: #34474E; line-height: 1.5; margin-bottom: 8px; }
   .review-date { color: #9DA8A2; font-size: 12.5px; }
 
+ .anagrafica-card {
+  background: #fff;
+  margin-left: 20px;
+  margin-right: 20px;
+  border: 1px solid #EDE3D2;
+  border-radius: 22px;
+  padding: 24px 34px;
+  box-shadow: 0 6px 22px rgba(7,50,61,.07);
+}
+
+.anagrafica-title {
+  font-family: 'Outfit', sans-serif;
+  font-weight: 700;
+  font-size: 24px;
+  color: #0C4A57;
+  margin-bottom: 12px;
+  text-align: center;
+}
+
+.anagrafica-field {
+  font-size: 16px;
+  color: #15323B;
+  font-weight: 600;
+  margin-bottom: 8px;
+  border-style: solid;
+  border-bottom-width: 5px;
+  border-color: black;
+  padding: 10px;
+  text-align: center;
+}
+
+.anagrafica-edit-btn {
+  border: 1.5px solid #D9CDB6;
+  background: #fff;
+  color: #0C4A57;
+  font-weight: 700;
+  font-size: 14px;
+  padding: 11px 20px;
+  border-radius: 12px;
+  cursor: pointer;
+  margin-bottom: 10px;
+}
+
+.anagrafica-edit-btn:hover {
+  background: #F8F3E9;
+}
+
   @media (max-width: 780px) {
     .reviews-grid { grid-template-columns: 1fr; }
     nav.top { display: none; }
@@ -152,7 +199,6 @@
       <a href="/dashboard">Dashboard</a>
       <a href="/backoffice">Backoffice</a>
     </nav>
-    <a href="/recensioni/nuova"><button class="btn-write">✎ Recensione</button></a>
     <a class="avatar-top" href="/profilo" title="Il tuo profilo">MP</a>
   </div>
 </header>
@@ -175,7 +221,7 @@
           <!-- TH: th:text="${utente.badge} + ' · Membro dal ' + ${utente.annoIscrizione} + ' · ' + ${utente.citta}" -->
           <div class="meta">Zesty · Membro dal 2024 · Conversano (BA)</div>
         </div>
-        <a href="/profilo/modifica"><button class="btn-edit" type="button">✎ Modifica profilo</button></a>
+        <a href="#anagrafica-card"><button class="btn-edit" type="button">✎ Modifica profilo</button></a>
       </div>
 
       <div class="stats">
@@ -236,6 +282,16 @@
       <div class="review-date">Mar 2026</div>
     </div>
   </div>
+</div>
+
+    <div class="anagrafica-card" id="anagrafica-card">
+  <div class="anagrafica-title">Anagrafica utente</div>
+  <p class="anagrafica-field" >Nome: Marco</p>
+  <p class="anagrafica-field">Cognome: Pollo</p>
+  <p class="anagrafica-field">Username: marco.pollo</p>
+  <p class="anagrafica-field" >Email: marco.pollo@pollo.it</p>
+  <p class="anagrafica-field">Data di nascita: 01/02/2003</p>
+  <button class="anagrafica-edit-btn" type="button">✎ Modifica Dati</button>
 </div>
 
 </body>
