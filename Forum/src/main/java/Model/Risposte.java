@@ -1,12 +1,17 @@
 package Model;
 //id,titolo,testo,data_creazione,id_utente
 
+import java.util.HashSet;
+import java.util.Set;
+
 import org.springframework.format.annotation.DateTimeFormat;
 
+import jakarta.persistence.CascadeType;
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.Id;
+import jakarta.persistence.OneToMany;
 import jakarta.persistence.Table;
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.NotNull;
@@ -36,24 +41,21 @@ public class Risposte {
     @Column(name="data_creazione")
     private String data_creazione;
 
-    @NotNull(message = "ID utente richiesto")
-    @Column(name="id_utente")
-    private Long id_utente;
+   @OneToMany(mappedBy = "id_utente")
+    private Set<Utenti> utenti = new HashSet<>();
 
     public Risposte(){}
-    public Risposte(String titolo, String testo, String data_creazione, Long id_utente){
+    public Risposte(String titolo, String testo, String data_creazione){
         this.titolo = titolo;
         this.testo = testo;
         this.data_creazione = data_creazione;
-        this.id_utente = id_utente;
     }
     
-    public Risposte(Long id, String titolo, String testo, String data_creazione, Long id_utente){
+    public Risposte(Long id, String titolo, String testo, String data_creazione){
         this.id = id;
         this.titolo = titolo;
         this.testo = testo;
         this.data_creazione = data_creazione;
-        this.id_utente = id_utente;
     }
 
     public void setId(Long id) {
