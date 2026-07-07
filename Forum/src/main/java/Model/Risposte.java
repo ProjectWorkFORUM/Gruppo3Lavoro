@@ -92,10 +92,10 @@ public class Risposte {
     }
 
     public void setId_utente(Long id_utente) {
-        this.id_utente = id_utente;
+        this.id = id_utente;
     }
 
     public Long getId_utente() {
-        return id_utente;
+        return id;
     }   
 }
