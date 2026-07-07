@@ -9,6 +9,8 @@ import org.springframework.format.annotation.DateTimeFormat;
 public class Recensioni {
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
+    @NotNull(message = "ID richiesto")
+    
     private Long id;
 
     @Size(min = 3, max=30 )
@@ -19,6 +21,8 @@ public class Recensioni {
 
     @DateTimeFormat(pattern = "yyyy-MM-dd")
     private String data_creazione;
+
+    //id-utente da joinare
 
     public Recensioni(){}
 
