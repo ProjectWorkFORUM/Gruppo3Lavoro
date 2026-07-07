@@ -1,10 +1,8 @@
 package Model;
 
 import jakarta.persistence.*;
-import jakarta.validation.constraints.Min;
-import jakarta.validation.constraints.NotBlank;
-import jakarta.validation.constraints.NotNull;
-import jakarta.validation.constraints.Size;
+import jakarta.validation.constraints.*;
+
 import java.util.HashSet;
 import java.util.Set;
 
@@ -14,28 +12,24 @@ public class Esperienze {
     @Id
     @GeneratedValue(strategy = jakarta.persistence.GenerationType.AUTO)
     @NotNull(message = "ID richiesto")
-    @NotBlank(message = "ID non può essere vuoto")
     private Long id;
 
     @Size(min= 4, max=20)
-    @NotNull(message = "Titolo richiesto")
     @NotBlank(message = "Titolo non può essere vuoto")
     private String titolo;
 
 
     @Size(min = 5, max=50 ) 
-    @NotNull(message = "Descrizione richiesta")
     @NotBlank(message = "Descrizione non può essere vuota")
     private String descrizione;
 
 
     // valutare se inserire un prezzo massimo o minimo di esperienza nel analisi
-    @NotNull(message = "Prezzo richiesto")
     @Min(value=10,  message  = "Il prezzo del esperienza deve essere di almeno 10 euro")
     @NotBlank(message = "Prezzo non può essere vuoto")
     private Double prezzo;
 
-    @NotNull(message = "Categorie richieste")
+    @NotEmpty
     @NotBlank(message = "Categorie non può essere vuota")
     @OneToMany(mappedBy = "cliente")
     private Set<Categorie> categorie = new HashSet<>();
@@ -43,26 +37,26 @@ public class Esperienze {
     @NotNull(message = "Categorie richieste")
     @NotBlank(message = "Categorie non può essere vuota")
     @OneToMany(mappedBy = "id")
-    private Set<Acquisti> acquisti = new HashSet<>();
+    private Set<Acquisto> acquisto = new HashSet<>();
 
     public Esperienze() {
     }
 
-    public Esperienze(Long id, String titolo, String descrizione, Double prezzo, Set<Categorie> categorie, Set<Acquisti> acquisti, Set<Acquisti> acquisti1) {
+    public Esperienze(Long id, String titolo, String descrizione, Double prezzo, Set<Categorie> categorie, Set<Acquisto> acquisto, Set<Acquisto> acquisto1) {
         this.id = id;
         this.titolo = titolo;
         this.descrizione = descrizione;
         this.prezzo = prezzo;
         this.categorie = categorie;
-        this.acquisti = acquisti;
+        this.acquisto = acquisto;
     }
 
-     public Esperienze( String titolo, String descrizione, Double prezzo, Set<Categorie> categorie, Set<Acquisti> acquisti, Set<Acquisti> acquisti1) {
+     public Esperienze(String titolo, String descrizione, Double prezzo, Set<Categorie> categorie, Set<Acquisto> acquisto, Set<Acquisto> acquisto1) {
         this.titolo = titolo;
         this.descrizione = descrizione;
         this.prezzo = prezzo;
         this.categorie = categorie;
-        this.acquisti = acquisti;
+        this.acquisto = acquisto;
     }
 
     public Long getId() {
