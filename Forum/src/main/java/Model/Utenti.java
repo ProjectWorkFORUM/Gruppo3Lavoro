@@ -1,18 +1,17 @@
 package Model;
 
+import jakarta.persistence.*;
 import org.springframework.format.annotation.DateTimeFormat;
 
-import jakarta.persistence.Column;
-import jakarta.persistence.Entity;
-import jakarta.persistence.GeneratedValue;
-import jakarta.persistence.Id;
-import jakarta.persistence.Table;
 import jakarta.validation.constraints.Email;
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.NotNull;
 import jakarta.validation.constraints.Size;
 
- enum StatoAccount {
+import java.util.HashSet;
+import java.util.Set;
+
+enum StatoAccount {
     ATTIVO,
     SOSPESO,
     DISATTIVATO
@@ -31,11 +30,11 @@ public class Utenti {
     private Long id;
 
     @Size(min = 2, max=30)
-    @NotNull(message = "Username richiesto")
+    @NotBlank(message = "Username richiesto")
     @Column(name="username")
     private String username;
 
-    @NotNull(message = "Nome richiesto")
+    @Size(min = 2,max=30)
     @NotBlank(message = "Nome richiesto")
     @Column(name="nome")
     private String nome;
@@ -103,7 +102,7 @@ public class Utenti {
         this.stato_account = stato_account;
         this.ruolo = ruolo;
     }
-    
+
     public Long getId() {
         return id;
     }
@@ -199,6 +198,11 @@ public class Utenti {
                 ", ruolo=" + ruolo +
                 '}';
     }
+
+
+    @OneToMany(mappedBy = "utenti")
+    private Set<Acquisto> acquistoSet = new HashSet<>();
+    private Set<Acquisto> risposteSet = new HashSet<>();
 }
 
    
