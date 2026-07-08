@@ -1,10 +1,7 @@
-package Model;
+package its.progetto.Forum.Model;
 
 import jakarta.persistence.*;
 import jakarta.validation.constraints.*;
-
-import java.util.HashSet;
-import java.util.Set;
 
 @Entity
 @Table
@@ -21,7 +18,7 @@ public class Esperienze {
     @JoinColumn(name = "id_categoria")
     private Categoria categoria;
 
-
+    //attributi
     @Id
     @GeneratedValue(strategy = jakarta.persistence.GenerationType.AUTO)
     @NotNull(message = "ID richiesto")
@@ -39,7 +36,7 @@ public class Esperienze {
 
     // valutare se inserire un prezzo massimo o minimo di esperienza nel analisi
     @Min(value=10,  message  = "Il prezzo del esperienza deve essere di almeno 10 euro")
-    @NotBlank(message = "Prezzo non può essere vuoto")
+    @NotNull(message = "Prezzo non può essere vuoto")
     private Double prezzo;
 
 

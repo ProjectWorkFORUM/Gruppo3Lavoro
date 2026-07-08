@@ -1,4 +1,4 @@
-package Model;
+package its.progetto.Forum.Model;
     //id,id_risposte,titolo,data_apertura,stato
 
 import java.util.HashSet;
@@ -6,7 +6,6 @@ import java.util.Set;
 
 import org.springframework.format.annotation.DateTimeFormat;
 
-import jakarta.persistence.CascadeType;
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
@@ -44,9 +43,9 @@ public class Thread {
     private boolean  stato;
 
     //id-esperienza da joinare
-    @JoinColumn
-    @ManyToOne()
-    private Set<Risposte> risposte = new HashSet<>();
+   @ManyToOne
+   @JoinColumn(name = "id_risposte")
+    private Risposte risposte;
 
     public Thread() {
     }

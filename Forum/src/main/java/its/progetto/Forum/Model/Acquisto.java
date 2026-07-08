@@ -1,4 +1,4 @@
-package Model;
+package its.progetto.Forum.Model;
 
 import jakarta.persistence.*;
 import jakarta.validation.constraints.NotNull;
@@ -17,6 +17,16 @@ public class Acquisto {
 
     @NotNull
     private double prezzo_pagato;
+
+
+    // relazioni le due forein key
+    @ManyToOne
+    @JoinColumn(name = "id_utente")
+    private Utenti utente;
+
+    @ManyToOne
+    @JoinColumn(name = "esperienza_id")
+    private Esperienze esperienza;
 
     public Acquisto(){}
 
@@ -55,5 +65,19 @@ public class Acquisto {
         this.prezzo_pagato = prezzo_pagato;
     }
 
-    
+    public Utenti getUtente() {
+        return utente;
+    }
+
+    public void setUtente(Utenti utente) {
+        this.utente = utente;
+    }
+
+    public Esperienze getEsperienza() {
+        return esperienza;
+    }
+
+    public void setEsperienza(Esperienze esperienza) {
+        this.esperienza = esperienza;
+    }
 }

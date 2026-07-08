@@ -1,4 +1,4 @@
-package Model;
+package its.progetto.Forum.Model;
 
 import jakarta.persistence.*;
 import jakarta.validation.constraints.*;
@@ -191,9 +191,10 @@ public class Utenti {
     }
 
 
-    @OneToMany(mappedBy = "utenti")
+    @OneToMany(mappedBy = "utente")
     private Set<Acquisto> acquistoSet = new HashSet<>();
-    private Set<Acquisto> risposteSet = new HashSet<>();
+    @OneToMany(mappedBy = "utente")
+    private Set<Risposte> risposteSet = new HashSet<>();
 }
 
    

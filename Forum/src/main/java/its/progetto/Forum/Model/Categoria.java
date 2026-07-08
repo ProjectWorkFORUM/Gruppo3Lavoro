@@ -1,4 +1,4 @@
-package Model;
+package its.progetto.Forum.Model;
 
 import jakarta.persistence.*;
 import jakarta.validation.constraints.NotBlank;
