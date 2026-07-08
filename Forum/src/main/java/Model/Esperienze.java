@@ -9,6 +9,19 @@ import java.util.Set;
 @Entity
 @Table
 public class Esperienze {
+
+    // relazioni foreinkey corrette
+
+    @ManyToOne
+    @JoinColumn(name = "id_acquisto")
+    private Acquisto acquisto;
+
+
+    @ManyToOne
+    @JoinColumn(name = "id_categoria")
+    private Categoria categoria;
+
+
     @Id
     @GeneratedValue(strategy = jakarta.persistence.GenerationType.AUTO)
     @NotNull(message = "ID richiesto")
@@ -29,33 +42,17 @@ public class Esperienze {
     @NotBlank(message = "Prezzo non può essere vuoto")
     private Double prezzo;
 
-    @NotEmpty
-    @NotBlank(message = "Categorie non può essere vuota")
-    @OneToMany(mappedBy = "cliente")
-    private Set<Categorie> categorie = new HashSet<>();
 
-    @NotNull(message = "Categorie richieste")
-    @NotBlank(message = "Categorie non può essere vuota")
-    @OneToMany(mappedBy = "id")
-    private Set<Acquisto> acquisto = new HashSet<>();
 
     public Esperienze() {
     }
 
-    public Esperienze(Long id, String titolo, String descrizione, Double prezzo, Set<Categorie> categorie, Set<Acquisto> acquisto, Set<Acquisto> acquisto1) {
+    public Esperienze(Long id, String titolo, String descrizione, Double prezzo, Categoria categoria, Acquisto acquisto) {
         this.id = id;
         this.titolo = titolo;
         this.descrizione = descrizione;
         this.prezzo = prezzo;
-        this.categorie = categorie;
-        this.acquisto = acquisto;
-    }
-
-     public Esperienze(String titolo, String descrizione, Double prezzo, Set<Categorie> categorie, Set<Acquisto> acquisto, Set<Acquisto> acquisto1) {
-        this.titolo = titolo;
-        this.descrizione = descrizione;
-        this.prezzo = prezzo;
-        this.categorie = categorie;
+        this.categoria = categoria;
         this.acquisto = acquisto;
     }
 
@@ -91,13 +88,7 @@ public class Esperienze {
         this.prezzo = prezzo;
     }
 
-    public Set<Categorie> getCategorie() {
-        return categorie;
-    }
 
-    public void setCategorie(Set<Categorie> categorie) {
-        this.categorie = categorie;
-    }
 
     @Override
     public String toString() {
@@ -106,7 +97,12 @@ public class Esperienze {
                 ", descrizione='" + descrizione + '\'' +
                 ", prezzo=" + prezzo +
                 ", id=" + id +
-                ", categorie=" + categorie +
+                ", categorie=" + categoria +
                 '}';
     }
+
+
+
+
+
 }
