@@ -1,6 +1,7 @@
 package its.progetto.Forum.Dao;
 
-import Model.Recensioni;
+
+import its.progetto.Forum.Model.Recensioni;
 import org.springframework.data.jpa.repository.JpaRepository;
 
 import java.util.List;

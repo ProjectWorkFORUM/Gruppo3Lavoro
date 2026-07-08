@@ -13,7 +13,7 @@ public class Acquisto {
 
     @DateTimeFormat(pattern = "yyyy-MM-dd")
     @NotNull
-    private String data_acqusito;
+    private String dataAcquisto;
 
     @NotNull
     private double prezzo_pagato;
@@ -30,14 +30,14 @@ public class Acquisto {
 
     public Acquisto(){}
 
-    public Acquisto(String data_acqusito, double prezzo_pagato){
-        this.data_acqusito = data_acqusito;
+    public Acquisto(String dataAcquisto, double prezzo_pagato){
+        this.dataAcquisto = dataAcquisto;
         this.prezzo_pagato = prezzo_pagato;
     }
 
-    public Acquisto(Long id, String data_acqusito, double prezzo_pagato ){
+    public Acquisto(Long id, String dataAcquisto, double prezzo_pagato ){
         this.id = id;
-        this.data_acqusito = data_acqusito;
+        this.dataAcquisto = dataAcquisto;
         this.prezzo_pagato = prezzo_pagato;
     }
 
@@ -49,12 +49,12 @@ public class Acquisto {
         this.id = id;
     }
 
-    public String getData_acqusito() {
-        return data_acqusito;
+    public String getDataAcquisto() {
+        return dataAcquisto;
     }
 
-    public void setData_acqusito(String data_acqusito) {
-        this.data_acqusito = data_acqusito;
+    public void setDataAcquisto(String data_acqusito) {
+        this.dataAcquisto = data_acqusito;
     }
 
     public double getPrezzo_pagato() {

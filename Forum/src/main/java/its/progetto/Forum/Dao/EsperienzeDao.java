@@ -1,7 +1,8 @@
 package its.progetto.Forum.Dao;
 
-import Model.Categoria;
-import Model.Esperienze;
+import its.progetto.Forum.Model.Categoria;
+import its.progetto.Forum.Model.Esperienze;
+
 import org.springframework.data.jpa.repository.JpaRepository;
 
 import java.util.List;

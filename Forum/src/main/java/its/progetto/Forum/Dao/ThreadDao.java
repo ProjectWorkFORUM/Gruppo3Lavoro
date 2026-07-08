@@ -1,6 +1,5 @@
 package its.progetto.Forum.Dao;
-
-import Model.Thread;
+import its.progetto.Forum.Model.Thread;
 import org.springframework.data.jpa.repository.JpaRepository;
 
 import java.util.List;

@@ -1,6 +1,5 @@
 package its.progetto.Forum.Dao;
-
-import Model.Utenti;
+import its.progetto.Forum.Model.Utenti;
 import org.springframework.data.jpa.repository.JpaRepository;
 
 import java.util.Optional;
