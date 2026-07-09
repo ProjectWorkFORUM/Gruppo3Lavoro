@@ -37,6 +37,8 @@ nav.top a.active { color: #0C4A57; font-weight: 800; border-bottom-color: #CE6F3
 
 /* ── TABLE ── */
 .table-card { background: #fff; border: 1px solid #EDE3D2; border-radius: 20px; overflow: hidden; box-shadow: 0 4px 18px rgba(7,50,61,.06); }
+.tab-content.hidden { display: none; }
+.actions form { display: inline-flex; }
 .tabs { display: flex; gap: 6px; padding: 16px 22px 0; border-bottom: 1px solid #F0E8D8; }
 .tabs button { border: none; background: none; cursor: pointer; font-weight: 700; font-size: 15px; padding: 10px 6px; color: #9DA8A2; border-bottom: 3px solid transparent; transition: color .15s; }
 .tabs button:first-child { margin-right: 18px; }

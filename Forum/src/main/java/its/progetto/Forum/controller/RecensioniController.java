@@ -61,6 +61,7 @@ public class RecensioniController {
         }
 
         model.addAttribute("esperienza", esperienzeDao.findById(esperienzaId).orElseThrow());
+        model.addAttribute("esperienze", esperienzeDao.findAll());
         return "crea-recensione";
     }
 
@@ -88,6 +89,7 @@ public class RecensioniController {
 
         if (bindingResult.hasErrors()) {
             model.addAttribute("esperienza", esperienza);
+            model.addAttribute("esperienze", esperienzeDao.findAll());
             return "crea-recensione";
         }
 

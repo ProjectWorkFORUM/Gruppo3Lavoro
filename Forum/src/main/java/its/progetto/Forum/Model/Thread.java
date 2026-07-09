@@ -38,9 +38,12 @@ public class Thread {
     private String data_apertura;
 
     
-    @NotNull(message = "Stato richiesto")   
+    @NotNull(message = "Stato richiesto")
     @Column(name="stato")
     private boolean  stato;
+
+    @Column(name="visibile")
+    private boolean visibile = true;
 
     //id-esperienza da joinare
    @ManyToOne
@@ -84,6 +87,14 @@ public class Thread {
 
     public void setStato(boolean stato) {
         this.stato = stato;
+    }
+
+    public boolean isVisibile() {
+        return visibile;
+    }
+
+    public void setVisibile(boolean visibile) {
+        this.visibile = visibile;
     }
 
     @Override
