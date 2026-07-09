@@ -44,4 +44,9 @@ public class PageController {
         return "Personal-profile_page";
     }
 
+    @GetMapping("/recensione")
+    public String recensionePage( ) {
+        return "crea-recensione";
+    }
+
 }
