@@ -10,17 +10,17 @@ import jakarta.persistence.JoinColumn;
 import jakarta.persistence.ManyToOne;
 import jakarta.persistence.Table;
 import jakarta.validation.constraints.Max;
+import jakarta.validation.constraints.Min;
 import jakarta.validation.constraints.NotBlank;
-import jakarta.validation.constraints.NotNull;
 import jakarta.validation.constraints.Size;
+
+import java.time.LocalDate;
 
 @Entity
 @Table(name="Recensioni")
 public class Recensioni {
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
-    @NotNull(message = "ID richiesto")
-    
     private Long id;
 
     @NotBlank(message = "Titolo richiesto")
@@ -31,13 +31,12 @@ public class Recensioni {
     @Size(min = 3, max=255 )
     private String testo;
 
-    @NotNull
+    @Min(value = 1)
     @Max(value = 5)
     private int voto;
 
-    @NotNull(message = "Data richiesta")
     @DateTimeFormat(pattern = "yyyy-MM-dd")
-    private String data_creazione;
+    private LocalDate dataCreazione;
 
     @ManyToOne
     @JoinColumn(name = "esperienza_id")
@@ -45,17 +44,10 @@ public class Recensioni {
 
     public Recensioni(){}
 
-    public Recensioni(String titolo, String testo, String data_creazione){
+    public Recensioni(String titolo, String testo, int voto){
         this.titolo = titolo;
         this.testo = testo;
-        this.data_creazione = data_creazione;
-    }
-
-    public Recensioni(Long id, String titolo, String testo, String data_creazione){
-        this.id= id;
-        this.titolo = titolo;
-        this.testo = testo;
-        this.data_creazione = data_creazione;
+        this.voto = voto;
     }
 
     public void setId(Long id) {
@@ -82,11 +74,27 @@ public class Recensioni {
         return testo;
     }
 
-    public void setData_creazione(String data_creazione) {
-        this.data_creazione = data_creazione;
+    public void setDataCreazione(LocalDate dataCreazione) {
+        this.dataCreazione = dataCreazione;
     }
 
-    public String getData_creazione() {
-        return data_creazione;
+    public LocalDate getDataCreazione() {
+        return dataCreazione;
+    }
+
+    public void setVoto(int voto) {
+        this.voto = voto;
+    }
+
+    public int getVoto() {
+        return voto;
+    }
+
+    public void setEsperienza(Esperienze esperienza) {
+        this.esperienza = esperienza;
+    }
+
+    public Esperienze getEsperienza() {
+        return esperienza;
     }
 }
