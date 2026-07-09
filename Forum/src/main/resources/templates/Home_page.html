@@ -31,31 +31,7 @@
 <body>
 
 <!-- ══ APP BAR ══ -->
-<header>
-  <div class="bar">
-    <a class="logo" href="/">
-      <div class="logo-icon">P</div>
-      <div>
-        <div class="logo-name">Pugliamare</div>
-        <div class="logo-tag">FORUM · COMMUNITY</div>
-      </div>
-    </a>
-    <div class="search">
-      <span>⌕</span>
-      <input type="text" placeholder="Cerca un'esperienza, una città, un #hashtag…" aria-label="Cerca">
-    </div>
-    <nav class="top">
-      <a href="/home" class="active">Home</a>
-      <a href="/esperienze">Esperienze</a>
-      <a href="/dashboard">Dashboard</a>
-      <a href="/backoffice" 
-      th:if="${user != null and user.isAdmin()}">
-      Backoffice</a>
-    </nav>
-    
-    <a class="avatar" href="/profilo" title="Il tuo profilo" th:text="${user != null ? user.iniziali : 'MP'}">MP</a>
-  </div>
-</header>
+<header th:replace="~{fragments/navbar :: main-navbar}"></header>
 
 <!-- ══ HOME ══ -->
 <div class="page">

@@ -135,26 +135,7 @@
 <body>
 
 <!-- ══ APP BAR ══ -->
-<header>
-  <div class="bar">
-    <a class="logo" href="/">
-      <div class="logo-icon">P</div>
-      <div>
-        <div class="logo-name">Pugliamare</div>
-        <div class="logo-tag">FORUM · COMMUNITY</div>
-      </div>
-    </a>
-    <nav class="top">
-      <a href="/home">Home</a>
-      <a href="/esperienze">Esperienze</a>
-      <a href="/dashboard">Dashboard</a>
-      <a href="/backoffice"
-      th:if="${user != null and user.isAdmin()}">
-      Backoffice</a>
-    </nav>
-    <a class="avatar-top" href="/profilo" title="Il tuo profilo">MP</a>
-  </div>
-</header>
+<header th:replace="~{fragments/navbar :: main-navbar}"></header>
 
 <!-- ══ THREAD / DISCUSSIONI ══ -->
 <div class="page">

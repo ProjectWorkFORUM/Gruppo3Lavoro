@@ -14,23 +14,7 @@
 <div style="min-height:100vh;">
 
   <!-- ── Header ──────────────────────────────────────── -->
-  <header class="site-header">
-    <div class="inner">
-      <a class="logo" th:href="@{/home}">
-        <div>
-          <div class="name">Pugliamare</div>
-          <div class="tagline">FORUM · COMMUNITY</div>
-        </div>
-      </a>
-      <nav class="site-nav">
-        <a th:href="@{/home}">Home</a>
-        <a th:href="@{/esperienze}">Esperienze</a>
-        <a th:href="@{/dashboard}">Dashboard</a>
-      </nav>
-
-      <a class="avatar" th:href="@{/profilo}" title="Il tuo profilo">MP</a>
-    </div>
-  </header>
+  <header th:replace="~{fragments/navbar :: main-navbar}"></header>
 
   <!-- ── Contenuto ───────────────────────────────────── -->
   <div class="page">

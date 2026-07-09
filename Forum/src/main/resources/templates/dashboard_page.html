@@ -11,24 +11,7 @@
 
 </head>
 <body>
-<header th:fragment="main-navbar">
-  <div class="bar">
-    <a class="logo" th:href="@{/}">
-      <div class="logo-icon">P</div>
-      <div>
-        <div class="logo-name">Pugliamare</div>
-        <div class="logo-tag">FORUM · COMMUNITY</div>
-      </div>
-    </a>
-    <nav class="top">
-      <a th:href="@{/home}">Home</a>
-      <a th:href="@{/esperienze}">Esperienze</a>
-      <a th:href="@{/dashboard}" class="active">Dashboard</a>
-      <a th:href="@{/backoffice}" th:if="${user != null and user.isAdmin()}">Backoffice</a>
-    </nav>
-    <a class="avatar-top" th:href="@{/profilo}" title="Il tuo profilo" th:text="${user != null ? user.iniziali : 'MP'}">MP</a>
-  </div>
-</header>
+<header th:replace="~{fragments/navbar :: main-navbar}"></header>
 
 <div class="page">
   <div class="head">
