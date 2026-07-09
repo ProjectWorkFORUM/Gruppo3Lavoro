@@ -38,6 +38,10 @@ public class Risposte {
     @ManyToOne
     @JoinColumn
     private Utenti utente;
+    // correzione relazione modifiche fede
+    @ManyToOne
+    @JoinColumn
+    private Thread thread;
 
     public Risposte(){}
     public Risposte(String titolo, String testo, String data_creazione){

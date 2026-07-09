@@ -9,9 +9,6 @@ public class Esperienze {
 
     // relazioni foreinkey corrette
 
-    @ManyToOne
-    @JoinColumn(name = "id_acquisto")
-    private Acquisto acquisto;
 
 
     @ManyToOne
