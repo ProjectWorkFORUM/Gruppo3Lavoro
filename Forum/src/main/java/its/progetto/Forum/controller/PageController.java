@@ -12,29 +12,21 @@ public class PageController {
         return "Landing_page";
     }
 
-    @GetMapping("/login")
-    public String loginPage( ) {
-        return "Login_page";
-    }
 
-    @GetMapping("/register")
-    public String registerPage( ) {
-        return "Register_page";
-    }
 
     @GetMapping("/backoffice")
     public String backofficePage( ) {
-        return "Backoffice_page";
+        return "backoffice_page";
     }
 
     @GetMapping("/dashboard")
     public String dashboardPage( ) {
-        return "Dashboard_page";
+        return "dashboard_page";
     }
 
     @GetMapping("/esperienze")
     public String esperienzePage( ) {
-        return "Esperienze_page";
+        return "Esperienza_page";
     }
     
     @GetMapping("/home")
@@ -44,12 +36,12 @@ public class PageController {
 
     @GetMapping("/profilo")
     public String profiloPage( ) {
-        return "Profilo_page";
+        return "profile_page";
     }
 
     @GetMapping("/profilo-personale")
     public String profiloPersonalePage( ) {
-        return "Profilo_personale_page";
+        return "Personal-profile_page";
     }
 
 }

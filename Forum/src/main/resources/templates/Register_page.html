@@ -18,9 +18,9 @@
       corrispondono ai campi tipici di un DTO di registrazione.
   ════════════════════════════════════════════════════════════════
 -->
-<html lang="it">
+<html lang="it" xmlns:th="http://www.thymeleaf.org">
 <head>
-<meta charset="utf-8">
+<meta charset=utf-8>
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <title>Registrati · Pugliamare Forum</title>
 <link rel="preconnect" href="https://fonts.googleapis.com">
@@ -79,6 +79,12 @@
   .field input:focus { border-color: #1B8DA3; box-shadow: 0 0 0 3px rgba(27,141,163,.14); }
   .field .err { display: block; color: #B2400F; font-size: 12.5px; font-weight: 600; margin-top: 5px; }
 
+  .alert {
+    background: #F6DAD0; color: #B2400F; border: 1px solid #EEC0B2;
+    font-size: 13.5px; font-weight: 600; padding: 11px 14px;
+    border-radius: 11px; margin-bottom: 18px;
+  }
+
   .terms { display: flex; align-items: flex-start; gap: 9px; margin: 6px 0 22px; }
   .terms input { width: 17px; height: 17px; margin-top: 2px; accent-color: #CE6F3D; flex: none; }
   .terms label { font-size: 13px; color: #5F7882; line-height: 1.45; }
@@ -126,43 +132,53 @@
   <!-- Form side -->
   <div class="auth-form-wrap">
     <!-- th:action="@{/register}" th:object="${userForm}" method="post" -->
-    <form class="auth-form" action="/register" method="post">
+    <form class="auth-form" action="/register" method="post"  th:action="@{/registrazione}" th:object="${utenti}" >
 
       <h1>Crea il tuo account</h1>
       <p class="lead">È gratis e ci vuole meno di un minuto.</p>
 
+      <div class="alert" th:if="${#fields.hasGlobalErrors()}"
+           th:each="err : ${#fields.globalErrors()}" th:text="${err}"></div>
+
       <div class="grid-2">
         <div class="field">
           <label for="nome">Nome</label>
-          <!-- th:field="*{nome}" -->
-          <input type="text" id="nome" name="nome" placeholder="Marco" autocomplete="given-name" required>
-          <!-- <span class="err" th:if="${#fields.hasErrors('nome')}" th:errors="*{nome}"></span> -->
+          <input type="text" id="nome" th:field="*{nome}" placeholder="Marco" autocomplete="given-name" required>
+          <span class="err" th:if="${#fields.hasErrors('nome')}" th:errors="*{nome}"></span>
         </div>
         <div class="field">
           <label for="cognome">Cognome</label>
-          <!-- th:field="*{cognome}" -->
-          <input type="text" id="cognome" name="cognome" placeholder="Pollo" autocomplete="family-name" required>
-          <!-- <span class="err" th:if="${#fields.hasErrors('cognome')}" th:errors="*{cognome}"></span> -->
+          <input type="text" id="cognome" th:field="*{cognome}" placeholder="Pollo" autocomplete="family-name" required>
+          <span class="err" th:if="${#fields.hasErrors('cognome')}" th:errors="*{cognome}"></span>
         </div>
       </div>
 
       <div class="field">
+        <label for="username">Username</label>
+        <input type="text" id="username" th:field="*{username}" placeholder="Il tuo username" autocomplete="username" required>
+        <span class="err" th:if="${#fields.hasErrors('username')}" th:errors="*{username}"></span>
+      </div>
+
+      <div class="field">
         <label for="email">Email</label>
-        <!-- th:field="*{email}" -->
-        <input type="email" id="email" name="email" placeholder="nome@email.it" autocomplete="email" required>
-        <!-- <span class="err" th:if="${#fields.hasErrors('email')}" th:errors="*{email}"></span> -->
+        <input type="email" id="email" th:field="*{email}" placeholder="nome@email.it" autocomplete="email" required>
+        <span class="err" th:if="${#fields.hasErrors('email')}" th:errors="*{email}"></span>
+      </div>
+
+      <div class="field">
+        <label for="dataNascita">Data di nascita</label>
+        <input type="date" id="dataNascita" th:field="*{dataNascita}" required>
+        <span class="err" th:if="${#fields.hasErrors('dataNascita')}" th:errors="*{dataNascita}"></span>
       </div>
 
       <div class="grid-2">
         <div class="field">
           <label for="password">Password</label>
-          <!-- th:field="*{password}" -->
-          <input type="password" id="password" name="password" placeholder="••••••••" autocomplete="new-password" required>
-          <!-- <span class="err" th:if="${#fields.hasErrors('password')}" th:errors="*{password}"></span> -->
+          <input type="password" id="password" th:field="*{password}" placeholder="••••••••" autocomplete="new-password" required>
+          <span class="err" th:if="${#fields.hasErrors('password')}" th:errors="*{password}"></span>
         </div>
         <div class="field">
           <label for="confirmPassword">Ripeti password</label>
-          <!-- th:field="*{confirmPassword}" -->
           <input type="password" id="confirmPassword" name="confirmPassword" placeholder="••••••••" autocomplete="new-password" required>
         </div>
       </div>

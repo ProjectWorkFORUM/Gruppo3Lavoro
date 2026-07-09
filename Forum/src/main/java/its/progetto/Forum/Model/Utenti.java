@@ -52,16 +52,12 @@ public class Utenti {
     @DateTimeFormat(pattern = "yyyy-MM-dd")
     private LocalDate dataNascita;
 
-    @NotNull(message = "Data di nascita richiesta")
-    @Past(message = "La data di nascita deve essere nel passato")
     @DateTimeFormat(pattern = "yyyy-MM-dd")
     private LocalDate dataRegistrazione;
 
-    @NotNull(message = "Stato account richiesto")
-    private StatoAccount stato_account;
+    private StatoAccount stato_account = StatoAccount.ATTIVO;
 
-    @NotNull(message = "Ruolo richiesto")
-    private Ruolo ruolo;
+    private Ruolo ruolo = Ruolo.UTENTE;
 
     //forse OneToMany con gli acquisti/recensioni
 
@@ -141,12 +137,12 @@ public class Utenti {
         this.password = password;
     }
 
-    public LocalDate getData_nascita() {
+    public LocalDate getDataNascita() {
         return dataNascita;
     }
 
-    public void setData_nascita(@NotNull @Past LocalDate data_nascita) {
-        this.dataNascita = data_nascita;
+    public void setDataNascita(LocalDate dataNascita) {
+        this.dataNascita = dataNascita;
     }
 
 
