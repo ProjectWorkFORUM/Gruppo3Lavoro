@@ -174,7 +174,7 @@
 
       <!-- Nuovo thread -->
       <!-- TH: th:action="@{/esperienze/{id}/discussioni(id=${esperienza.id})}" th:object="${threadForm}" method="post" -->
-      <form class="new-thread" action="/esperienze/tour-barca-polignano/discussioni" method="post">
+      <form class="new-thread"  th:action="@{/esperienze/{id}/discussioni(id=${esperienza.id})}"" action="/esperienze/tour-barca-polignano/discussioni" method="post" th:object="${threadForm} >
         <!-- TH: th:field="*{testo}" -->
         <textarea name="testo" placeholder="Fai una domanda o lascia un commento su questa esperienza…" required></textarea>
         <!-- CSRF: <input type="hidden" th:name="${_csrf.parameterName}" th:value="${_csrf.token}"/> -->
