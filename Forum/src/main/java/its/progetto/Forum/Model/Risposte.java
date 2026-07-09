@@ -1,13 +1,12 @@
-package Model;
+package its.progetto.Forum.Model;
 //id,titolo,testo,data_creazione,id_utente
 
+import java.util.HashSet;
+import java.util.Set;
+
+import jakarta.persistence.*;
 import org.springframework.format.annotation.DateTimeFormat;
 
-import jakarta.persistence.Column;
-import jakarta.persistence.Entity;
-import jakarta.persistence.GeneratedValue;
-import jakarta.persistence.Id;
-import jakarta.persistence.Table;
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.NotNull;
 import jakarta.validation.constraints.Size;
@@ -36,24 +35,26 @@ public class Risposte {
     @Column(name="data_creazione")
     private String data_creazione;
 
-    @NotNull(message = "ID utente richiesto")
-    @Column(name="id_utente")
-    private Long id_utente;
+    @ManyToOne
+    @JoinColumn
+    private Utenti utente;
+    // correzione relazione modifiche fede
+    @ManyToOne
+    @JoinColumn
+    private Thread thread;
 
     public Risposte(){}
-    public Risposte(String titolo, String testo, String data_creazione, Long id_utente){
+    public Risposte(String titolo, String testo, String data_creazione){
         this.titolo = titolo;
         this.testo = testo;
         this.data_creazione = data_creazione;
-        this.id_utente = id_utente;
     }
     
-    public Risposte(Long id, String titolo, String testo, String data_creazione, Long id_utente){
+    public Risposte(Long id, String titolo, String testo, String data_creazione){
         this.id = id;
         this.titolo = titolo;
         this.testo = testo;
         this.data_creazione = data_creazione;
-        this.id_utente = id_utente;
     }
 
     public void setId(Long id) {
@@ -90,10 +91,10 @@ public class Risposte {
     }
 
     public void setId_utente(Long id_utente) {
-        this.id_utente = id_utente;
+        this.id = id_utente;
     }
 
     public Long getId_utente() {
-        return id_utente;
+        return id;
     }   
 }

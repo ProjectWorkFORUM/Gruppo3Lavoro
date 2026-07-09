@@ -1,44 +1,52 @@
-package Model;
+package its.progetto.Forum.Model;
 
 import jakarta.persistence.*;
-import jakarta.validation.constraints.Min;
-import jakarta.validation.constraints.Size;
-import org.hibernate.annotations.Audited;
-
-import java.util.HashSet;
-import java.util.Set;
+import jakarta.validation.constraints.*;
 
 @Entity
 @Table
 public class Esperienze {
+
+    // relazioni foreinkey corrette
+
+
+
+    @ManyToOne
+    @JoinColumn(name = "id_categoria")
+    private Categoria categoria;
+
+    //attributi
     @Id
+    @GeneratedValue(strategy = jakarta.persistence.GenerationType.AUTO)
+    @NotNull(message = "ID richiesto")
     private Long id;
 
     @Size(min= 4, max=20)
+    @NotBlank(message = "Titolo non può essere vuoto")
     private String titolo;
 
 
-    @Size(min = 5, max=50 )
+    @Size(min = 5, max=50 ) 
+    @NotBlank(message = "Descrizione non può essere vuota")
     private String descrizione;
 
 
     // valutare se inserire un prezzo massimo o minimo di esperienza nel analisi
     @Min(value=10,  message  = "Il prezzo del esperienza deve essere di almeno 10 euro")
+    @NotNull(message = "Prezzo non può essere vuoto")
     private Double prezzo;
 
 
-    @OneToMany(mappedBy = "cliente", cascade = CascadeType.ALL)
-    private Set<Categorie> categorie = new HashSet<>();
 
     public Esperienze() {
     }
 
-    public Esperienze(Long id, String titolo, String descrizione, Double prezzo, Set<Categorie> categorie) {
+    public Esperienze(Long id, String titolo, String descrizione, Double prezzo, Categoria categoria, Acquisto acquisto) {
         this.id = id;
         this.titolo = titolo;
         this.descrizione = descrizione;
         this.prezzo = prezzo;
-        this.categorie = categorie;
+        this.categoria = categoria;
     }
 
     public Long getId() {
@@ -73,13 +81,7 @@ public class Esperienze {
         this.prezzo = prezzo;
     }
 
-    public Set<Categorie> getCategorie() {
-        return categorie;
-    }
 
-    public void setCategorie(Set<Categorie> categorie) {
-        this.categorie = categorie;
-    }
 
     @Override
     public String toString() {
@@ -88,7 +90,12 @@ public class Esperienze {
                 ", descrizione='" + descrizione + '\'' +
                 ", prezzo=" + prezzo +
                 ", id=" + id +
-                ", categorie=" + categorie +
+                ", categorie=" + categoria +
                 '}';
     }
+
+
+
+
+
 }

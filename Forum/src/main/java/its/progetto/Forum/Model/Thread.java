@@ -1,5 +1,8 @@
-package Model;
+package its.progetto.Forum.Model;
     //id,id_risposte,titolo,data_apertura,stato
+
+import java.util.HashSet;
+import java.util.Set;
 
 import org.springframework.format.annotation.DateTimeFormat;
 
@@ -8,9 +11,11 @@ import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.Id;
 import jakarta.persistence.JoinColumn;
-import jakarta.persistence.OneToMany;
+import jakarta.persistence.ManyToOne;
 import jakarta.persistence.Table;
+import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.NotNull;
+import jakarta.validation.constraints.Size;
 
 @Entity
 @Table(name= "Thread")
@@ -21,11 +26,11 @@ public class Thread {
     private Long id;
 
     
-    @JoinColumn
-    @OneToMany(mappedBy="id_utente")
-    
-
-
+    @Size(min = 3, max=30 )
+    @NotNull(message = "Titolo richiesto")
+    @NotBlank(message = "Titolo non può essere vuoto")
+    @Column(name="titolo")
+    private String titolo;
 
     @DateTimeFormat(pattern = "yyyy-MM-dd")
     @NotNull(message = "Data apertura richiesta")
@@ -38,6 +43,10 @@ public class Thread {
     private boolean  stato;
 
     //id-esperienza da joinare
+   @ManyToOne
+   @JoinColumn(name = "id_risposte")
+    private Risposte risposte;
+
     public Thread() {
     }
 
