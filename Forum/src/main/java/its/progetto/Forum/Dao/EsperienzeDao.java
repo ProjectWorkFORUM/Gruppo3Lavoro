@@ -1,13 +1,15 @@
 package its.progetto.Forum.Dao;
 
-import its.progetto.Forum.Model.Categoria;
-import its.progetto.Forum.Model.Esperienze;
+import java.util.List;
 
 import org.springframework.data.jpa.repository.JpaRepository;
 
-import java.util.List;
+import its.progetto.Forum.Model.Categoria;
+import its.progetto.Forum.Model.Esperienze;
 
 public interface EsperienzeDao extends JpaRepository<Esperienze, Long> {
+
+    //List<Esperienze> findById(Long id);
 
     List<Esperienze> findByCategoria(Categoria categoria);
 
