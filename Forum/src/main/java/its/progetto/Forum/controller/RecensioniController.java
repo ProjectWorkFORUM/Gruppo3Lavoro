@@ -3,6 +3,7 @@ package its.progetto.Forum.controller;
 import its.progetto.Forum.Dao.AcquistoDao;
 import its.progetto.Forum.Dao.EsperienzeDao;
 import its.progetto.Forum.Dao.RecensioniDao;
+import its.progetto.Forum.Model.Acquisto;
 import its.progetto.Forum.Model.Esperienze;
 import its.progetto.Forum.Model.LoginForm;
 import its.progetto.Forum.Model.Recensioni;
@@ -89,15 +90,20 @@ public class RecensioniController {
 
         if (bindingResult.hasErrors()) {
             model.addAttribute("esperienza", esperienza);
-            model.addAttribute("esperienze", esperienzeDao.findAll());
+            model.addAttribute("esperienze", acquistoDao.findByUtenteId(loggato.getId())
+                    .stream()
+                    .map(Acquisto::getEsperienza)
+                    .distinct()
+                    .toList());
             return "crea-recensione";
         }
 
         recensioni.setEsperienza(esperienza);
+        recensioni.setAutore(loggato);
         recensioni.setDataCreazione(LocalDate.now());
         recensioniDao.save(recensioni);
 
-        return "redirect:/esperienze/" + esperienzaId;
+        return "redirect:/home";
     }
 
 

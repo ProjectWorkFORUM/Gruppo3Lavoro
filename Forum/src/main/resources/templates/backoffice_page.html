@@ -23,6 +23,7 @@
     </a>
     <nav class="top">
       <a href="/home">Home</a>
+      <a href="/esperienze">Esperienze</a>
       <a href="/dashboard">Dashboard</a>
       <a href="/backoffice" class="active">Backoffice</a>
     </nav>
@@ -142,6 +143,9 @@
         <div class="actions">
           <form method="post" th:if="${u.stato_account.name() != 'DISATTIVATO'}" th:action="@{/admin/utenti/{id}/elimina(id=${u.id})}">
             <button class="btn-reject" type="submit">Disattiva</button>
+          </form>
+          <form method="post" th:if="${u.stato_account.name() == 'DISATTIVATO'}" th:action="@{/admin/utenti/{id}/riabilita(id=${u.id})}">
+            <button class="btn-resolve" type="submit">Riabilita</button>
           </form>
         </div>
       </div>

@@ -11,4 +11,10 @@ public interface RecensioniDao extends JpaRepository<Recensioni, Long> {
     List<Recensioni> findByTitoloContainingIgnoreCase(String titolo);
 
     List<Recensioni> findByVisibileTrue();
+
+    List<Recensioni> findByVisibileTrueOrderByIdDesc();
+
+    List<Recensioni> findByEsperienzaIdAndVisibileTrue(Long esperienzaId);
+
+    List<Recensioni> findByAutoreIdAndVisibileTrueOrderByIdDesc(Long autoreId);
 }

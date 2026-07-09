@@ -11,4 +11,6 @@ public interface ThreadDao extends JpaRepository<Thread, Long> {
     List<Thread> findByTitoloContainingIgnoreCase(String titolo);
 
     List<Thread> findByVisibileTrue();
+
+    List<Thread> findByEsperienzaIdAndVisibileTrue(Long esperienzaId);
 }

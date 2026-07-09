@@ -12,7 +12,7 @@ public interface AcquistoDao extends JpaRepository<Acquisto, Long> {
 
     List<Acquisto> findByDataAcquisto(String dataAcquisto);
     // da revisione chiedendo a fede
-    List<Acquisto> findByUtenteId(Utenti  utente);
+    List<Acquisto> findByUtenteId(Long utenteId);
     List<Acquisto> findByEsperienza(Esperienze esperienza);
 
     boolean existsByUtenteIdAndEsperienzaId(Long utenteId, Long esperienzaId);

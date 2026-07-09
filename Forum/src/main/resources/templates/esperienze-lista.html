@@ -91,7 +91,7 @@
   <div class="grid-wrap">
     <div class="grid">
       <a class="exp-card" th:each="exp : ${esperienze}"
-         th:href="@{/esperienze/{id}(id=${exp.id})}">
+         th:href="@{/esperienze/{id}/discussioni(id=${exp.id})}">
         <div class="exp-media">
           <span class="placeholder" th:text="'foto: ' + ${exp.titolo}">foto: Tour in barca</span>
           <span class="exp-badge" th:if="${exp.categoria != null}" th:text="${exp.categoria.nome}">Al mare</span>

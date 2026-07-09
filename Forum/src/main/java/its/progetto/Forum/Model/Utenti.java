@@ -78,7 +78,7 @@ public class Utenti {
         this.ruolo = ruolo;
     }
 
-    public Utenti getId() {
+    public Long getId() {
         return id;
     }
 
@@ -153,6 +153,17 @@ public class Utenti {
 
     public Ruolo getRuolo() {
         return ruolo;
+    }
+
+    public boolean isAdmin() {
+        return ruolo == Ruolo.ADMIN;
+    }
+
+    public String getIniziali() {
+        StringBuilder iniziali = new StringBuilder();
+        if (nome != null && !nome.isEmpty()) iniziali.append(nome.charAt(0));
+        if (cognome != null && !cognome.isEmpty()) iniziali.append(cognome.charAt(0));
+        return iniziali.length() > 0 ? iniziali.toString().toUpperCase() : "PM";
     }
 
     public void setRuolo(Ruolo ruolo) {

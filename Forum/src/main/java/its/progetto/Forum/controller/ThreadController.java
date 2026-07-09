@@ -29,11 +29,25 @@ public class ThreadController {
     private EsperienzeDao esperienzeDao;
 
     @GetMapping("/Threads")
-        public String listaThread (Model model){
+        public String listaThread (Model model, HttpSession session){
         List<Thread> lista = threadDao.findAll();
         model.addAttribute("listaThread", lista);
+        model.addAttribute("user", session.getAttribute("loggedUser"));
         return "Thread_page";
     };
+
+    // discussioni di una singola esperienza: aperte a tutti (anche non loggati) in visualizzazione
+    @GetMapping("/esperienze/{esperienzaId}/discussioni")
+    public String discussioniEsperienza(@PathVariable Long esperienzaId, Model model, HttpSession session){
+        Esperienze esperienza = esperienzeDao.findById(esperienzaId).orElse(null);
+        if(esperienza == null){
+            return "redirect:/esperienze";
+        }
+        model.addAttribute("esperienza", esperienza);
+        model.addAttribute("listaThread", threadDao.findByEsperienzaIdAndVisibileTrue(esperienzaId));
+        model.addAttribute("user", session.getAttribute("loggedUser"));
+        return "Thread_page";
+    }
 
     @GetMapping("/esperienze/{esperienzaId}/Thread/nuovo")
     public String nuovoThread(@PathVariable Long esperienzaId, Thread thread, Model model, HttpSession session){
@@ -45,7 +59,8 @@ public class ThreadController {
             return "redirect:/esperienze";
         }
         model.addAttribute("esperienza", esperienzeDao.findById(esperienzaId).orElseThrow());
-        return "Thread";
+        model.addAttribute("user", loggato);
+        return "Thread_page";
 
     }
 
@@ -58,16 +73,17 @@ public class ThreadController {
 
         Esperienze esperienza = esperienzeDao.findById(esperienzaId).orElseThrow();
 
-        if(!acquistoDao.existsByUtenteIdAndEsperienzaId(loggato.getId(), esperienzaId)){
-            return "redirect:/esperienze/" + esperienzaId + "?nonAcquistata";
-        }
+        // le discussioni sono aperte a qualsiasi utente loggato (nessun vincolo di acquisto)
         if(bindingResult.hasErrors()){
             model.addAttribute("esperienza", esperienza);
-            return"Thread";
+            model.addAttribute("listaThread", threadDao.findByEsperienzaIdAndVisibileTrue(esperienzaId));
+            model.addAttribute("user", loggato);
+            return "Thread_page";
         }
         thread.setData_apertura(java.time.LocalDate.now().toString());
         thread.setStato(true);
+        thread.setEsperienza(esperienza);
         threadDao.save(thread);
-        return "redirect:/Threads";
+        return "redirect:/esperienze/" + esperienzaId + "/discussioni";
     }
 }

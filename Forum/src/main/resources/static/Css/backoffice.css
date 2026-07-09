@@ -44,6 +44,8 @@ nav.top a.active { color: #0C4A57; font-weight: 800; border-bottom-color: #CE6F3
 .tabs button:first-child { margin-right: 18px; }
 .tabs button.active { color: #0C4A57; border-bottom-color: #CE6F3D; }
 .thead, .row { display: grid; grid-template-columns: 1fr 130px 150px 90px 130px; align-items: center; }
+[data-tab-content="utenti"] .thead,
+[data-tab-content="utenti"] .row { grid-template-columns: 1fr 110px 230px 120px 170px; }
 .thead { padding: 14px 24px; background: #FBF7EF; color: #7C8C92; font-size: 12px; font-weight: 800; letter-spacing: .06em; text-transform: uppercase; }
 .thead .right { text-align: right; }
 .row { padding: 16px 24px; border-top: 1px solid #F4EDDF; transition: background .12s; }

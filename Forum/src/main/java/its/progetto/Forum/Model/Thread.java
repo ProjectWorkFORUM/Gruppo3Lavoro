@@ -22,7 +22,6 @@ import jakarta.validation.constraints.Size;
 public class Thread {
     @Id
     @GeneratedValue(strategy = jakarta.persistence.GenerationType.AUTO)
-    @NotNull(message = "ID richiesto")
     private Long id;
 
     
@@ -33,12 +32,10 @@ public class Thread {
     private String titolo;
 
     @DateTimeFormat(pattern = "yyyy-MM-dd")
-    @NotNull(message = "Data apertura richiesta")
     @Column(name="data_apertura")
     private String data_apertura;
 
-    
-    @NotNull(message = "Stato richiesto")
+
     @Column(name="stato")
     private boolean  stato;
 
@@ -49,6 +46,10 @@ public class Thread {
    @ManyToOne
    @JoinColumn(name = "id_risposte")
     private Risposte risposte;
+
+    @ManyToOne
+    @JoinColumn(name = "esperienza_id")
+    private Esperienze esperienza;
 
     public Thread() {
     }
@@ -72,6 +73,13 @@ public class Thread {
         this.id = id;
     }
 
+    public String getTitolo() {
+        return titolo;
+    }
+
+    public void setTitolo(String titolo) {
+        this.titolo = titolo;
+    }
 
     public String getData_apertura() {
         return data_apertura;
@@ -95,6 +103,14 @@ public class Thread {
 
     public void setVisibile(boolean visibile) {
         this.visibile = visibile;
+    }
+
+    public Esperienze getEsperienza() {
+        return esperienza;
+    }
+
+    public void setEsperienza(Esperienze esperienza) {
+        this.esperienza = esperienza;
     }
 
     @Override

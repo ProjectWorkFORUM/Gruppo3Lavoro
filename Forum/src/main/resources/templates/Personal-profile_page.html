@@ -42,9 +42,10 @@
     </a>
     <nav class="top">
       <a th:href="@{/home}" >Home</a>
+      <a th:href="@{/esperienze}">Esperienze</a>
       <a th:href="@{/dashboard}">Dashboard</a>
       <a href="/backoffice"
-      th:if="${user.isAdmin()}">
+      th:if="${user != null and user.isAdmin()}">
       Backoffice</a>
     </nav>
     <a class="avatar-top" href="/profilo" title="Il tuo profilo">MP</a>

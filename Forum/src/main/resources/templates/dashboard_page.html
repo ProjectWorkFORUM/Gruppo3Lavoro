@@ -22,10 +22,11 @@
     </a>
     <nav class="top">
       <a th:href="@{/home}">Home</a>
+      <a th:href="@{/esperienze}">Esperienze</a>
       <a th:href="@{/dashboard}" class="active">Dashboard</a>
-      <a th:href="@{/backoffice}" th:if="${user.isAdmin()}">Backoffice</a>
+      <a th:href="@{/backoffice}" th:if="${user != null and user.isAdmin()}">Backoffice</a>
     </nav>
-    <a class="avatar-top" th:href="@{/profilo}" title="Il tuo profilo" th:text="${utente?.iniziali} ?: 'MP'">MP</a>
+    <a class="avatar-top" th:href="@{/profilo}" title="Il tuo profilo" th:text="${user != null ? user.iniziali : 'MP'}">MP</a>
   </div>
 </header>
 
@@ -33,16 +34,14 @@
   <div class="head">
     <div>
       <div class="eyebrow">LA TUA DASHBOARD</div>
-      <h1 th:text="'Ciao ' + (${utente?.nome} ?: 'Marco') + ', ecco la tua Puglia'">Ciao Marco, ecco la tua Puglia</h1>
+      <h1 th:text="${user != null ? 'Ciao ' + user.nome + ', ecco la tua Puglia' : 'Ciao, ecco la tua Puglia'}">Ciao Marco, ecco la tua Puglia</h1>
     </div>
-    <a th:href="@{/recensioni/gestisci}"><button class="btn-primary" type="button">✎ Gestisci recensione</button></a>
+    <a th:href="@{/profilo}"><button class="btn-primary" type="button">✎ Le tue recensioni</button></a>
   </div>
 
   <div class="tiles">
-    <div class="tile"><div class="num" style="color:#1B8DA3;" th:text="${stats?.completate} ?: '20'">20</div><div class="lbl">esperienze completate</div></div>
-    <div class="tile"><div class="num" style="color:#E7A736;" th:text="${stats?.inCorso} ?: '3'">3</div><div class="lbl">in corso</div></div>
-    <div class="tile"><div class="num" style="color:#B2400F;" th:text="${stats?.annullate} ?: '1'">1</div><div class="lbl">annullate</div></div>
-    <div class="tile"><div class="num" style="color:#CE6F3D;" th:text="${stats?.punti} ?: '1.560'">1.560</div><div class="lbl">punti community</div></div>
+    <div class="tile"><div class="num" style="color:#1B8DA3;" th:text="${numAcquisti} ?: 0">20</div><div class="lbl">esperienze acquistate</div></div>
+    <div class="tile"><div class="num" style="color:#E7A736;" th:text="${ultimeRecensioni != null ? #lists.size(ultimeRecensioni) : 0}">3</div><div class="lbl">recensioni scritte</div></div>
   </div>
 
   <div class="grid">
@@ -68,9 +67,9 @@
 
     <aside>
       <div class="profile-card">
-        <div class="ava" th:text="${utente?.iniziali} ?: 'MP'">MP</div>
-        <div class="name" th:text="${utente != null ? utente.nome + ' ' + utente.cognome : 'Marco Pollo'}">Marco Pollo</div>
-        <div class="role" th:text="${utente != null ? utente.ruolo + ' · Livello ' + utente.livello : 'Foodie · Livello 4'}">Foodie · Livello 4</div>
+        <div class="ava" th:text="${user != null ? user.iniziali : 'MP'}">MP</div>
+        <div class="name" th:text="${user != null ? user.nome + ' ' + user.cognome : ''}">Marco Pollo</div>
+        <div class="role" th:text="${user != null ? user.ruolo : ''}">Foodie · Livello 4</div>
         <a th:href="@{/profilo}"><button class="btn-secondary" type="button">Vai al profilo</button></a>
       </div>
 
@@ -79,11 +78,14 @@
         <div class="mini-reviews">
 
           <div class="mini-review" th:each="r : ${ultimeRecensioni}">
-            <div class="exp" th:text="${r.titoloExp}">Titolo Esperienza</div>
+            <div class="exp" th:text="${r.esperienza != null ? r.esperienza.titolo : r.titolo}">Titolo Esperienza</div>
             <div class="meta">
-              <span class="stars" th:utext="${r.stelleHtml}">★★★★★</span>
-              <span class="date" th:text="${r.data}">Mese Anno</span>
+              <span class="stars" th:text="${#strings.repeat('★', r.voto)}">★★★★★</span>
+              <span class="date" th:text="${r.dataCreazione}">Mese Anno</span>
             </div>
+          </div>
+          <div class="mini-review" th:if="${ultimeRecensioni == null or #lists.isEmpty(ultimeRecensioni)}">
+            <div class="exp">Nessuna recensione ancora</div>
           </div>
 
         </div>

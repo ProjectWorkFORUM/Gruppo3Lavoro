@@ -18,7 +18,7 @@
       con le tue risorse /static o un campo dinamico se necessario.
   ════════════════════════════════════════════════════════════════
 -->
-<html lang="it">
+<html lang="it" xmlns:th="http://www.thymeleaf.org">
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
@@ -46,13 +46,14 @@
     </div>
     <nav class="top">
       <a href="/home" class="active">Home</a>
+      <a href="/esperienze">Esperienze</a>
       <a href="/dashboard">Dashboard</a>
       <a href="/backoffice" 
-      th:if="${user.isAdmin()}">
+      th:if="${user != null and user.isAdmin()}">
       Backoffice</a>
     </nav>
     
-    <a class="avatar" href="/profilo" title="Il tuo profilo">MP</a>
+    <a class="avatar" href="/profilo" title="Il tuo profilo" th:text="${user != null ? user.iniziali : 'MP'}">MP</a>
   </div>
 </header>
 
@@ -63,8 +64,7 @@
     <!-- FEED -->
     <main>
       <div class="feed-head">
-        <!-- TH: th:text="'Bentornato, ' + ${#authentication.name}" -->
-        <h1>Bentornato, Marco</h1>
+        <h1 th:text="${user != null ? 'Bentornato, ' + user.nome : 'Benvenuto nella community'}">Bentornato, Marco</h1>
         <div class="segments">
           <a href="#" class="active">Per te</a>
           <a href="#">Recenti</a>
@@ -72,78 +72,43 @@
         </div>
       </div>
 
-      <!-- TH: sostituisci i 3 <article> con  <article class="post" th:each="post : ${posts}"> -->
-
-      <!-- Post 1 -->
-      <article class="post">
+      <!-- Feed dinamico: una card per ogni recensione pubblicata -->
+      <article class="post" th:each="r : ${recensioni}">
         <div class="post-head">
-          <div class="post-ava">GF</div>
+          <div class="post-ava" th:text="${r.autore != null ? r.autore.iniziali : 'PM'}">GF</div>
           <div style="flex:1;">
-            <div class="post-user">Giulia Ferri</div>
-            <div class="post-meta">2 ore fa · ha recensito</div>
+            <div class="post-user" th:text="${r.autore != null ? r.autore.nome + ' ' + r.autore.cognome : 'Utente'}">Giulia Ferri</div>
+            <div class="post-meta" th:text="${r.dataCreazione} + ' · ha recensito'">2 ore fa · ha recensito</div>
           </div>
-          <span class="post-cat">Al mare</span>
+          <span class="post-cat"
+                th:if="${r.esperienza != null and r.esperienza.categoria != null}"
+                th:text="${r.esperienza.categoria.nome}">Al mare</span>
         </div>
-        <a class="post-body" href="/Thread">
+        <a class="post-body" th:href="@{/esperienze/{id}/discussioni(id=${r.esperienza != null ? r.esperienza.id : 0})}">
           <div class="post-exp-row">
-            <span class="stars">★★★★★<span class="off"></span></span>
-            <span class="post-exp">Tour in barca nelle Grotte di Polignano</span>
+            <span class="stars" th:text="${#strings.repeat('★', r.voto)}">★★★★★</span>
+            <span class="post-exp" th:text="${r.esperienza != null ? r.esperienza.titolo : ''}">Tour in barca nelle Grotte di Polignano</span>
           </div>
-          <p class="post-text">Esperienza da sogno: le grotte al tramonto e l'aperitivo in barca. Lo skipper conosceva ogni anfratto della costa. Da rifare assolutamente!</p>
+          <p class="post-text" th:text="${r.testo}">Esperienza da sogno: le grotte al tramonto e l'aperitivo in barca.</p>
         </a>
         <div class="post-actions">
-          <button class="like" type="button">♡ 34</button>
-          <button type="button">💬 8</button>
+          <button class="like" type="button">♡ 0</button>
+          <button type="button">💬 0</button>
           <button class="share" type="button">↗ Condividi</button>
         </div>
       </article>
 
-      <!-- Post 2 -->
-      <article class="post">
+      <!-- Stato vuoto: nessuna recensione ancora pubblicata -->
+      <article class="post" th:if="${#lists.isEmpty(recensioni)}">
         <div class="post-head">
-          <div class="post-ava">MP</div>
           <div style="flex:1;">
-            <div class="post-user">Marco Pollo</div>
-            <div class="post-meta">ieri · ha recensito</div>
+            <div class="post-user">Ancora nessuna recensione</div>
+            <div class="post-meta">Sii il primo a condividere la tua esperienza con la community.</div>
           </div>
-          <span class="post-cat">Food e Wine</span>
         </div>
-        <a class="post-body" href="/Thread">
-          <div class="post-exp-row">
-            <span class="stars">★★★★★<span class="off"></span></span>
-            <span class="post-exp">Cooking Class di cucina pugliese</span>
-          </div>
-          <p class="post-text">Ho imparato a fare orecchiette e focaccia con una local chef simpaticissima. Cena finale con vino pugliese inclusa. Top!</p>
+        <a class="post-body" th:href="@{/recensione}">
+          <p class="post-text">✎ Scrivi la prima recensione →</p>
         </a>
-        <div class="post-actions">
-          <button class="like active" type="button">♥ 53</button>
-          <button type="button">💬 13</button>
-          <button class="share" type="button">↗ Condividi</button>
-        </div>
-      </article>
-
-      <!-- Post 3 -->
-      <article class="post">
-        <div class="post-head">
-          <div class="post-ava">LP</div>
-          <div style="flex:1;">
-            <div class="post-user">Luca Pezzolo</div>
-            <div class="post-meta">2 giorni fa · ha recensito</div>
-          </div>
-          <span class="post-cat">City tours</span>
-        </div>
-        <a class="post-body" href="/Thread">
-          <div class="post-exp-row">
-            <span class="stars">★★★★<span class="off">★</span></span>
-            <span class="post-exp">Tour UNESCO: Matera e Alberobello</span>
-          </div>
-          <p class="post-text">Matera è semplicemente magica e la guida era preparatissima. Unica pecca: giornata un po' lunga, ma ne vale la pena.</p>
-        </a>
-        <div class="post-actions">
-          <button class="like" type="button">♡ 28</button>
-          <button type="button">💬 5</button>
-          <button class="share" type="button">↗ Condividi</button>
-        </div>
       </article>
     </main>
 

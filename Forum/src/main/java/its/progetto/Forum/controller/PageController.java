@@ -62,22 +62,33 @@ public class PageController {
     }
 
     @GetMapping("/dashboard")
-    public String dashboardPage( ) {
+    public String dashboardPage(HttpSession session, Model model) {
+        Utenti loggato = (Utenti) session.getAttribute("loggedUser");
+        if (loggato == null) {
+            return "redirect:/login";
+        }
+        model.addAttribute("ultimeRecensioni", recensioniDao.findByAutoreIdAndVisibileTrueOrderByIdDesc(loggato.getId()));
+        model.addAttribute("numAcquisti", acquistoDao.findByUtenteId(loggato.getId()).size());
         return "dashboard_page";
     }
 
-    @GetMapping("/esperienze")
-    public String esperienzePage( ) {
-        return "Esperienza_page";
-    }
-    
     @GetMapping("/home")
-    public String homePage( ) {
+    public String homePage(Model model) {
+        model.addAttribute("recensioni", recensioniDao.findByVisibileTrueOrderByIdDesc());
         return "Home_page";
     }
 
     @GetMapping("/profilo")
-    public String profiloPage( ) {
+    public String profiloPage(HttpSession session, Model model) {
+        Utenti loggato = (Utenti) session.getAttribute("loggedUser");
+        if (loggato == null) {
+            return "redirect:/login";
+        }
+
+        List<Recensioni> recensioni = recensioniDao.findByAutoreIdAndVisibileTrueOrderByIdDesc(loggato.getId());
+        model.addAttribute("profilo", loggato);
+        model.addAttribute("recensioni", recensioni);
+        model.addAttribute("numRecensioni", recensioni.size());
         return "profile_page";
     }
 

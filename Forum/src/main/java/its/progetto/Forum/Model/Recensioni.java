@@ -42,6 +42,10 @@ public class Recensioni {
     @JoinColumn(name = "esperienza_id")
     private Esperienze esperienza;
 
+    @ManyToOne
+    @JoinColumn(name = "autore_id")
+    private Utenti autore;
+
     private boolean visibile = true;
 
     public Recensioni(){}
@@ -98,6 +102,14 @@ public class Recensioni {
 
     public Esperienze getEsperienza() {
         return esperienza;
+    }
+
+    public void setAutore(Utenti autore) {
+        this.autore = autore;
+    }
+
+    public Utenti getAutore() {
+        return autore;
     }
 
     public boolean isVisibile() {

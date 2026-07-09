@@ -71,6 +71,21 @@ public class AdminController {
     }
 
     /**
+     * Riattiva un account utente precedentemente disattivato.
+     */
+    @PostMapping("/utenti/{id}/riabilita")
+    public String riabilitaUtente(@PathVariable(name = "id") Long id, HttpSession session) {
+        if (!isAdmin(session)) return "redirect:/login";
+
+        utentiDao.findById(id).ifPresent(utente -> {
+            utente.setStato_account(StatoAccount.ATTIVO);
+            utentiDao.save(utente);
+        });
+
+        return "redirect:/backoffice?tab=utenti";
+    }
+
+    /**
      * Nasconde un thread e tutte le risposte associate.
      */
     @Transactional

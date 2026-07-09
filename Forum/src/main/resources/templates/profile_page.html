@@ -18,7 +18,7 @@
    6. CSRF sui form se implementi azioni POST.
   ════════════════════════════════════════════════════════════════
 -->
-<html lang="it">
+<html lang="it" xmlns:th="http://www.thymeleaf.org">
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
@@ -42,13 +42,14 @@
     </a>
     <nav class="top">
       <a href="/home">Home</a>
+      <a href="/esperienze">Esperienze</a>
       <a href="/dashboard">Dashboard</a>
       <a href="/backoffice"
-      th:if="${user.isAdmin()}">
+      th:if="${user != null and user.isAdmin()}">
       Backoffice</a>
     </nav>
-    <a href="/recensioni/nuova"><button class="btn-write">✎ Recensione</button></a>
-    <a class="avatar-top" href="/profilo" title="Il tuo profilo">MP</a>
+    <a href="/recensione"><button class="btn-write">✎ Recensione</button></a>
+    <a class="avatar-top" href="/profilo" title="Il tuo profilo" th:text="${user != null ? user.iniziali : 'MP'}">MP</a>
   </div>
 </header>
 
@@ -60,28 +61,20 @@
     <div class="cover"></div>
     <div class="profile-body">
       <div class="profile-top">
-        <!-- TH: th:text="${utente.iniziali}" -->
-        <div class="p-avatar">MP
+        <div class="p-avatar" th:text="${profilo.iniziali}">MP
           <a class="edit" href="/profilo/modifica" title="Modifica foto">✎</a>
         </div>
         <div class="p-info">
-          <!-- TH: th:text="${utente.nomeCompleto}" -->
-          <h1>Marco Pollo</h1>
-          <!-- TH: th:text="${utente.badge} + ' · Membro dal ' + ${utente.annoIscrizione} + ' · ' + ${utente.citta}" -->
-          <div class="meta">Zesty · Membro dal 2024 · Conversano (BA)</div>
+          <h1 th:text="${profilo.nome + ' ' + profilo.cognome}">Marco Pollo</h1>
+          <div class="meta" th:text="${profilo.ruolo + (profilo.dataRegistrazione != null ? ' · Membro dal ' + profilo.dataRegistrazione : '') + ' · @' + profilo.username}">UTENTE · Membro dal 2024</div>
         </div>
         <a href="/profilo/modifica"><button class="btn-edit" type="button">✎ Modifica profilo</button></a>
       </div>
 
       <div class="stats">
-        <!-- TH: th:text="${utente.numRecensioni}" -->
-        <div><span class="num">20</span> <span class="lbl">recensioni</span></div>
-        <!-- TH: th:text="${utente.punti}" -->
-        <div><span class="num">1.560</span> <span class="lbl">punti</span></div>
-        <!-- TH: th:text="${utente.follower}" -->
-        <div><span class="num">86</span> <span class="lbl">follower</span></div>
-        <!-- TH: th:text="${utente.dataNascita}" -->
-        <div class="birthday">🎂 19/02/1980</div>
+        <div><span class="num" th:text="${numRecensioni}">0</span> <span class="lbl">recensioni</span></div>
+        <div><span class="lbl">✉ </span> <span class="lbl" th:text="${profilo.email}">email</span></div>
+        <div class="birthday" th:if="${profilo.dataNascita != null}" th:text="'🎂 ' + ${profilo.dataNascita}">🎂 19/02/1980</div>
       </div>
     </div>
   </div>
@@ -89,46 +82,21 @@
   <!-- Recensioni -->
   <h2 class="section">Le tue recensioni</h2>
   <div class="reviews-grid">
-    <!-- TH: <div class="review" th:each="r : ${recensioni}"> -->
 
-    <div class="review">
+    <div class="review" th:each="r : ${recensioni}">
       <div class="review-head">
-        <span class="review-cat">Al mare</span>
-        <span class="stars">★★★★★<span class="off"></span></span>
+        <span class="review-cat"
+              th:if="${r.esperienza != null and r.esperienza.categoria != null}"
+              th:text="${r.esperienza.categoria.nome}">Al mare</span>
+        <span class="stars" th:text="${#strings.repeat('★', r.voto)}">★★★★★</span>
       </div>
-      <div class="review-exp">Tour in barca nelle Grotte di Polignano</div>
-      <p class="review-text">Indimenticabile, mare cristallino e aperitivo al tramonto.</p>
-      <div class="review-date">Giu 2026</div>
+      <div class="review-exp" th:text="${r.esperienza != null ? r.esperienza.titolo : ''}">Tour in barca nelle Grotte di Polignano</div>
+      <p class="review-text" th:text="${r.testo}">Indimenticabile, mare cristallino e aperitivo al tramonto.</p>
+      <div class="review-date" th:text="${r.dataCreazione}">Giu 2026</div>
     </div>
 
-    <div class="review">
-      <div class="review-head">
-        <span class="review-cat">Food e Wine</span>
-        <span class="stars">★★★★<span class="off">★</span></span>
-      </div>
-      <div class="review-exp">Street Food Tour a Bari</div>
-      <p class="review-text">Tante tappe e ottimo cibo di strada nella città vecchia.</p>
-      <div class="review-date">Mag 2026</div>
-    </div>
-
-    <div class="review">
-      <div class="review-head">
-        <span class="review-cat">Natura</span>
-        <span class="stars">★★★★★<span class="off"></span></span>
-      </div>
-      <div class="review-exp">Picnic negli oliveti di Conversano</div>
-      <p class="review-text">Romantico e super rilassante tra gli ulivi secolari.</p>
-      <div class="review-date">Apr 2026</div>
-    </div>
-
-    <div class="review">
-      <div class="review-head">
-        <span class="review-cat">Food e Wine</span>
-        <span class="stars">★★★★★<span class="off"></span></span>
-      </div>
-      <div class="review-exp">Cooking Class a Bari</div>
-      <p class="review-text">Chef simpaticissima, orecchiette fatte a mano e vino locale.</p>
-      <div class="review-date">Mar 2026</div>
+    <div class="review" th:if="${#lists.isEmpty(recensioni)}">
+      <p class="review-text">Non hai ancora scritto recensioni. <a th:href="@{/recensione}">Scrivi la prima →</a></p>
     </div>
   </div>
 </div>
