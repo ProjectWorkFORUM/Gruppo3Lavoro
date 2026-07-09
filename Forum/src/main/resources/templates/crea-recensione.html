@@ -36,7 +36,7 @@
     <div class="eyebrow">CONDIVIDI CON LA COMMUNITY</div>
     <h1>Scrivi una recensione</h1>
 
-    <form class="card" id="creaRecensioneForm" method="post" enctype="multipart/form-data">
+    <form class="card" id="creaRecensioneForm" method="post" enctype="multipart/form-data" action="#" th:object="${recensioni}" >
 
       <!-- Esperienza -->
       <label class="field-label" for="esperienza">Esperienza</label>
@@ -51,7 +51,7 @@
       <label class="field-label" for="titolo">Titolo</label>
       <div class="field">
         <input type="text" id="titolo" name="titolo"
-               placeholder="Riassumi la tua esperienza in una frase" required>
+               placeholder="Riassumi la tua esperienza in una frase"  th:if="${#fields.hasErrors('titolo')}" th:errors="*{titolo}" required>
       </div>
 
       <!-- Valutazione -->
@@ -65,7 +65,7 @@
           <span class="star" data-value="5">★</span>
         </div>
         <span class="rating-label" id="ratingLabel">Tocca le stelle per votare</span>
-        <input type="hidden" name="voto" id="voto" value="0">
+        <input type="hidden" name="voto" id="voto" value="0" th:field="*{voto}">
       </div>
 
       <!-- Descrizione -->
@@ -90,7 +90,7 @@
       <div class="actions">
         <!-- TODO: azione annulla -->
         <button type="button" class="btn-secondary">Annulla</button>
-        <button type="submit" class="btn-primary">Pubblica recensione</button>
+        <button type="submit" class="btn-primary" >Pubblica recensione</button>
       </div>
 
     </form>

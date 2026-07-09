@@ -1,12 +1,7 @@
 package its.progetto.Forum.controller;
 
-import its.progetto.Forum.Dao.EsperienzeDao;
-import its.progetto.Forum.Dao.RecensioniDao;
-import its.progetto.Forum.Dao.RisposteDao;
-import its.progetto.Forum.Dao.ThreadDao;
-import its.progetto.Forum.Dao.UtentiDao;
-import its.progetto.Forum.Model.Ruolo;
-import its.progetto.Forum.Model.Utenti;
+import its.progetto.Forum.Dao.*;
+import its.progetto.Forum.Model.*;
 import jakarta.servlet.http.HttpSession;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -14,6 +9,7 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 
+import java.util.List;
 
 
 @Controller
@@ -33,6 +29,9 @@ public class PageController {
 
     @Autowired
     private UtentiDao utentiDao;
+
+    @Autowired
+    private AcquistoDao acquistoDao;
 
     @GetMapping("/")
     public String landingPage( ) {
@@ -93,9 +92,21 @@ public class PageController {
     }
 
     @GetMapping("/recensione")
-    public String recensionePage(Model model) {
-        model.addAttribute("esperienze", esperienzeDao.findAll());
+
+
+    public String recensionePage(Recensioni recensioni, Model model, HttpSession session) {
+        Utenti loggato = (Utenti) session.getAttribute("loggedUser");
+        if (loggato == null) {
+            return "redirect:/login";
+        }
+
+        List<Esperienze> acquistate = acquistoDao.findByUtenteId(loggato.getId())
+                .stream()
+                .map(Acquisto::getEsperienza)
+                .distinct()
+                .toList();
+
+        model.addAttribute("esperienze", acquistate);
         return "crea-recensione";
     }
-
 }
