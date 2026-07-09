@@ -78,7 +78,7 @@ public class Utenti {
         this.ruolo = ruolo;
     }
 
-    public Long getId() {
+    public Utenti getId() {
         return id;
     }
 
