@@ -12,7 +12,7 @@ import java.util.Set;
 @Table(name= "Utenti")
 public class Utenti {
     @Id
-    @GeneratedValue(strategy = jakarta.persistence.GenerationType.AUTO)
+    @GeneratedValue(strategy = jakarta.persistence.GenerationType.IDENTITY)
     private Long id;
 
     @Size(min = 2, max=30)

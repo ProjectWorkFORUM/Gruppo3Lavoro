@@ -11,7 +11,7 @@ import java.util.Set;
 @Table
 public class Categoria {
     @Id
-    @GeneratedValue(strategy = GenerationType.AUTO)
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     Long id;
 
     @NotBlank(message = "Nome categoria richiesto")

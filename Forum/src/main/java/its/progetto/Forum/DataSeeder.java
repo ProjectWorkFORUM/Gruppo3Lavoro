@@ -45,7 +45,9 @@ public class DataSeeder implements CommandLineRunner {
         if (utentiDao.existsByUsername("mario")) {
             return;
         }
-
+        if (utentiDao.count() > 0) {
+            return;
+        }
         // --- Admin ---
         Utenti admin = new Utenti();
         admin.setUsername("admin");

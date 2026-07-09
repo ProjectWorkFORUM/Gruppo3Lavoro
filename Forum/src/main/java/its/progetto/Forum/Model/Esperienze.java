@@ -18,8 +18,7 @@ public class Esperienze {
     //primary key
 
     @Id
-    @GeneratedValue(strategy = jakarta.persistence.GenerationType.AUTO)
-    @NotNull(message = "ID richiesto")
+    @GeneratedValue(strategy = jakarta.persistence.GenerationType.IDENTITY)
     private Long id;
 
     // relazioni foreignkey corrette

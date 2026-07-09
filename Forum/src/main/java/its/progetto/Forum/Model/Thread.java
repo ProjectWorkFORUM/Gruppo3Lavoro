@@ -21,7 +21,7 @@ import jakarta.validation.constraints.Size;
 @Table(name= "Thread")
 public class Thread {
     @Id
-    @GeneratedValue(strategy = jakarta.persistence.GenerationType.AUTO)
+    @GeneratedValue(strategy = jakarta.persistence.GenerationType.IDENTITY)
     private Long id;
 
     

@@ -176,7 +176,7 @@
       <!-- Nuovo thread: solo per utenti loggati -->
       <form class="new-thread" th:if="${esperienza != null and user != null}" th:action="@{/esperienze/{id}/Thread(id=${esperienza.id})}" action="#" method="post">
 
-        <textarea name="titolo" placeholder="Fai una domanda o lascia un commento su questa esperienza…" required minlength="3" maxlength="30"></textarea>
+        <textarea name="titolo" placeholder="Fai una domanda o lascia un commento su questa esperienza…" required minlength="3" maxlength="255" ></textarea>
         <div class="row">
           <button class="btn-post" type="submit">Pubblica</button>
         </div>

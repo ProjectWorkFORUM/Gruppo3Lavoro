@@ -15,7 +15,7 @@ import jakarta.validation.constraints.Size;
 @Table(name= "Risposte")
 public class Risposte {
     @Id
-    @GeneratedValue(strategy = jakarta.persistence.GenerationType.AUTO)
+    @GeneratedValue(strategy = jakarta.persistence.GenerationType.IDENTITY)
     private Long id;
 
     @Size(min = 3, max=30)

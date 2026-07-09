@@ -8,7 +8,7 @@ import org.springframework.format.annotation.DateTimeFormat;
 @Table
 public class Acquisto {
     @Id
-    @GeneratedValue(strategy = GenerationType.AUTO)
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     Long id;
 
     @DateTimeFormat(pattern = "yyyy-MM-dd")

@@ -20,7 +20,7 @@ import java.time.LocalDate;
 @Table(name="Recensioni")
 public class Recensioni {
     @Id
-    @GeneratedValue(strategy = GenerationType.AUTO)
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
     @NotBlank(message = "Titolo richiesto")
