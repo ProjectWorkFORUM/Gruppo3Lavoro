@@ -190,13 +190,13 @@
     <a class="logo" href="/">
       <div class="logo-icon">P</div>
       <div>
-        <div class="logo-name">Pugliamare</div>
+        <div class="logo-name" > Pugliamare</div>
         <div class="logo-tag">FORUM · COMMUNITY</div>
       </div>
     </a>
     <nav class="top">
-      <a href="/home">Home</a>
-      <a href="/dashboard">Dashboard</a>
+      <a th:href="@{/home}" >Home</a>
+      <a th:href="@{/dashboard}">Dashboard</a>
       <a href="/backoffice">Backoffice</a>
     </nav>
     <a class="avatar-top" href="/profilo" title="Il tuo profilo">MP</a>
@@ -212,7 +212,7 @@
     <div class="profile-body">
       <div class="profile-top">
         <!-- TH: th:text="${utente.iniziali}" -->
-        <div class="p-avatar">MP
+        <div class="p-avatar"> <a th:href="@{/profilo-personale}"></a>MP
           <a class="edit" href="/profilo/modifica" title="Modifica foto">✎</a>
         </div>
         <div class="p-info">

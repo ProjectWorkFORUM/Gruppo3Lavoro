@@ -7,92 +7,11 @@
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@400;500;600;700;800&family=Mulish:wght@400;500;600;700;800&display=swap" rel="stylesheet">
-  <style>
-    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
-    body { font-family: 'Mulish', -apple-system, sans-serif; background: #F5EFE2; color: #15323B; }
-    ::selection { background: #CE6F3D; color: #fff; }
-    input, button { font-family: inherit; }
-    a { color: inherit; text-decoration: none; }
-    img { display: block; }
-    @keyframes pmFade { from { opacity: 0; transform: translateY(16px); } to { opacity: 1; transform: none; } }
-    @keyframes pmPin  { 0% { opacity: 0; transform: translate(-50%,-150%); } 65% { transform: translate(-50%,-90%); } 100% { opacity: 1; transform: translate(-50%,-100%); } }
+  <link rel="stylesheet" href="../static/css/style.css" th:href="@{/Css/style.css}">
 
-    /* ── APP BAR ── */
-    header { position: sticky; top: 0; z-index: 40; background: rgba(250,247,238,.9); backdrop-filter: blur(12px); border-bottom: 1px solid #EADFCC; }
-    .bar { max-width: 1340px; margin: 0 auto; display: flex; align-items: center; gap: 22px; padding: 13px 40px; }
-    .logo { display: flex; align-items: center; gap: 11px; }
-    .logo-icon { width: 42px; height: 42px; border-radius: 13px; background: linear-gradient(135deg, #115E6F, #1B8DA3); display: flex; align-items: center; justify-content: center; color: #fff; font-family: 'Outfit'; font-weight: 800; font-size: 22px; box-shadow: 0 4px 12px rgba(17,94,111,.3); }
-    .logo-name { font-family: 'Outfit'; font-weight: 800; font-size: 20px; color: #0C4A57; line-height: 1.05; }
-    .logo-tag  { font-size: 10px; letter-spacing: .2em; color: #CE6F3D; font-weight: 800; }
-    nav.top { display: flex; align-items: center; gap: 4px; margin-left: auto; }
-    nav.top a { font-size: 15px; padding: 8px 13px; border-radius: 8px 8px 0 0; color: #5F7882; font-weight: 600; border-bottom: 2px solid transparent; transition: background .15s; }
-    nav.top a:hover { background: #F1ECE0; }
-    nav.top a.active { color: #0C4A57; font-weight: 800; border-bottom-color: #CE6F3D; }
-    .avatar-top { width: 42px; height: 42px; border-radius: 50%; background: linear-gradient(135deg, #0C4A57, #1B8DA3); display: flex; align-items: center; justify-content: center; color: #fff; font-weight: 800; font-family: 'Outfit'; border: 2px solid #fff; box-shadow: 0 2px 8px rgba(0,0,0,.15); }
-
-    /* ── LAYOUT ── */
-    .page { max-width: 1340px; margin: 0 auto; padding: 28px 40px 96px; animation: pmFade .35s ease both; }
-    .head { display: flex; align-items: flex-end; justify-content: space-between; margin-bottom: 24px; }
-    .eyebrow { color: #CE6F3D; font-weight: 800; letter-spacing: .14em; font-size: 12.5px; margin-bottom: 7px; }
-    .head h1 { font-family: 'Outfit'; font-weight: 800; font-size: 32px; color: #0C4A57; }
-    .btn-primary { border: none; background: #CE6F3D; color: #fff; font-weight: 700; font-size: 14px; padding: 12px 20px; border-radius: 12px; cursor: pointer; box-shadow: 0 4px 14px rgba(206,111,61,.28); transition: filter .15s; }
-    .btn-primary:hover { filter: brightness(.94); }
-
-    /* ── STAT TILES ── */
-    .tiles { display: grid; grid-template-columns: repeat(4, 1fr); gap: 18px; margin-bottom: 22px; }
-    .tile { background: #fff; border: 1px solid #EDE3D2; border-radius: 16px; padding: 20px; }
-    .tile .num { font-family: 'Outfit'; font-weight: 800; font-size: 32px; }
-    .tile .lbl { color: #5F7882; font-size: 13.5px; font-weight: 600; }
-
-    /* ── MAIN GRID ── */
-    .grid { display: grid; grid-template-columns: 1fr 360px; gap: 24px; align-items: start; }
-    .map-card { background: #fff; border: 1px solid #EDE3D2; border-radius: 20px; padding: 22px; box-shadow: 0 4px 18px rgba(7,50,61,.06); }
-    .map-head { display: flex; align-items: center; justify-content: space-between; margin-bottom: 8px; }
-    .map-head .t { font-family: 'Outfit'; font-weight: 800; font-size: 19px; color: #0C4A57; }
-    .legend { display: flex; gap: 16px; font-size: 12.5px; font-weight: 700; }
-    .legend .done { color: #1B8DA3; }
-    .legend .todo { color: #CE6F3D; }
-    .map-wrap { position: relative; border-radius: 14px; overflow: hidden; background: #EAF3F2; }
-    .map-wrap img { width: 100%; display: block; mix-blend-mode: multiply; opacity: .92; }
-    .pin { position: absolute; transform: translate(-50%,-100%); display: flex; flex-direction: column; align-items: center; animation: pmPin .55s ease both; }
-    .pin .tag { color: #fff; font-size: 11px; font-weight: 800; padding: 3px 9px; border-radius: 8px; white-space: nowrap; box-shadow: 0 3px 8px rgba(0,0,0,.3); }
-    .pin .dot { width: 15px; height: 15px; border-radius: 50%; border: 3px solid #fff; margin-top: 3px; box-shadow: 0 3px 7px rgba(0,0,0,.35); }
-    .pin.done .tag, .pin.done .dot { background: #1B8DA3; }
-    .pin.todo .tag, .pin.todo .dot { background: #CE6F3D; }
-
-    aside { display: flex; flex-direction: column; gap: 18px; }
-    .profile-card { background: #fff; border: 1px solid #EDE3D2; border-radius: 18px; padding: 20px; text-align: center; box-shadow: 0 4px 16px rgba(7,50,61,.05); }
-    .profile-card .ava { width: 96px; height: 96px; border-radius: 50%; margin: 0 auto 12px; background: linear-gradient(135deg, #0C4A57, #1B8DA3); display: flex; align-items: center; justify-content: center; color: #fff; font-family: 'Outfit'; font-weight: 800; font-size: 34px; border: 4px solid #F1ECE0; }
-    .profile-card .name { font-family: 'Outfit'; font-weight: 800; font-size: 19px; color: #15323B; }
-    .profile-card .role { color: #CE6F3D; font-weight: 700; font-size: 13px; margin-bottom: 14px; }
-    .btn-secondary { width: 100%; border: 1.5px solid #D9CDB6; background: #fff; color: #0C4A57; font-weight: 700; font-size: 14px; padding: 11px; border-radius: 11px; cursor: pointer; transition: background .15s; }
-    .btn-secondary:hover { background: #F8F3E9; }
-    .list-card { background: #fff; border: 1px solid #EDE3D2; border-radius: 18px; padding: 18px; box-shadow: 0 4px 16px rgba(7,50,61,.05); }
-    .list-card .t { font-family: 'Outfit'; font-weight: 800; font-size: 15px; color: #0C4A57; margin-bottom: 13px; }
-    .mini-reviews { display: flex; flex-direction: column; gap: 13px; }
-    .mini-review { border-left: 3px solid #CE6F3D; padding-left: 12px; }
-    .mini-review .exp { font-weight: 700; font-size: 13.5px; color: #15323B; line-height: 1.3; }
-    .mini-review .meta { font-size: 12px; margin-top: 2px; }
-    .mini-review .stars { color: #E7A736; }
-    .mini-review .off { color: #DDD3C2; }
-    .mini-review .date { color: #9DA8A2; }
-
-    @media (max-width: 980px) {
-      .grid { grid-template-columns: 1fr; }
-      .tiles { grid-template-columns: 1fr 1fr; }
-      nav.top { display: none; }
-    }
-    @media (max-width: 600px) {
-      .bar { padding: 12px 18px; }
-      .page { padding: 20px 18px 80px; }
-      .tiles { grid-template-columns: 1fr; }
-      .head { flex-direction: column; align-items: flex-start; gap: 14px; }
-    }
-  </style>
 </head>
 <body>
-
-<header>
+<header th:fragment="main-navbar">
   <div class="bar">
     <a class="logo" th:href="@{/}">
       <div class="logo-icon">P</div>
@@ -106,7 +25,7 @@
       <a th:href="@{/dashboard}" class="active">Dashboard</a>
       <a th:href="@{/backoffice}">Backoffice</a>
     </nav>
-    <a class="avatar-top" th:href="@{/profilo}" title="Il tuo profilo" th:text="${utente.iniziali}">MP</a>
+    <a class="avatar-top" th:href="@{/profilo}" title="Il tuo profilo" th:text="${utente?.iniziali} ?: 'MP'">MP</a>
   </div>
 </header>
 
@@ -114,16 +33,16 @@
   <div class="head">
     <div>
       <div class="eyebrow">LA TUA DASHBOARD</div>
-      <h1 th:text="'Ciao ' + ${utente.nome} + ', ecco la tua Puglia'">Ciao Marco, ecco la tua Puglia</h1>
+      <h1 th:text="'Ciao ' + (${utente?.nome} ?: 'Marco') + ', ecco la tua Puglia'">Ciao Marco, ecco la tua Puglia</h1>
     </div>
     <a th:href="@{/recensioni/gestisci}"><button class="btn-primary" type="button">✎ Gestisci recensione</button></a>
   </div>
 
   <div class="tiles">
-    <div class="tile"><div class="num" style="color:#1B8DA3;" th:text="${stats.completate}">20</div><div class="lbl">esperienze completate</div></div>
-    <div class="tile"><div class="num" style="color:#E7A736;" th:text="${stats.inCorso}">3</div><div class="lbl">in corso</div></div>
-    <div class="tile"><div class="num" style="color:#B2400F;" th:text="${stats.annullate}">1</div><div class="lbl">annullate</div></div>
-    <div class="tile"><div class="num" style="color:#CE6F3D;" th:text="${stats.punti}">1.560</div><div class="lbl">punti community</div></div>
+    <div class="tile"><div class="num" style="color:#1B8DA3;" th:text="${stats?.completate} ?: '20'">20</div><div class="lbl">esperienze completate</div></div>
+    <div class="tile"><div class="num" style="color:#E7A736;" th:text="${stats?.inCorso} ?: '3'">3</div><div class="lbl">in corso</div></div>
+    <div class="tile"><div class="num" style="color:#B2400F;" th:text="${stats?.annullate} ?: '1'">1</div><div class="lbl">annullate</div></div>
+    <div class="tile"><div class="num" style="color:#CE6F3D;" th:text="${stats?.punti} ?: '1.560'">1.560</div><div class="lbl">punti community</div></div>
   </div>
 
   <div class="grid">
@@ -149,9 +68,9 @@
 
     <aside>
       <div class="profile-card">
-        <div class="ava" th:text="${utente.iniziali}">MP</div>
-        <div class="name" th:text="${utente.nome} + ' ' + ${utente.cognome}">Marco Pollo</div>
-        <div class="role" th:text="${utente.ruolo} + ' · Livello ' + ${utente.livello}">Foodie · Livello 4</div>
+        <div class="ava" th:text="${utente?.iniziali} ?: 'MP'">MP</div>
+        <div class="name" th:text="${utente != null ? utente.nome + ' ' + utente.cognome : 'Marco Pollo'}">Marco Pollo</div>
+        <div class="role" th:text="${utente != null ? utente.ruolo + ' · Livello ' + utente.livello : 'Foodie · Livello 4'}">Foodie · Livello 4</div>
         <a th:href="@{/profilo}"><button class="btn-secondary" type="button">Vai al profilo</button></a>
       </div>
 
