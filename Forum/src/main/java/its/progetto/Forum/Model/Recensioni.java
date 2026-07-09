@@ -42,6 +42,8 @@ public class Recensioni {
     @JoinColumn(name = "esperienza_id")
     private Esperienze esperienza;
 
+    private boolean visibile = true;
+
     public Recensioni(){}
 
     public Recensioni(String titolo, String testo, int voto){
@@ -96,5 +98,13 @@ public class Recensioni {
 
     public Esperienze getEsperienza() {
         return esperienza;
+    }
+
+    public boolean isVisibile() {
+        return visibile;
+    }
+
+    public void setVisibile(boolean visibile) {
+        this.visibile = visibile;
     }
 }

@@ -1,10 +1,18 @@
 package its.progetto.Forum.controller;
 
 import its.progetto.Forum.Dao.EsperienzeDao;
+import its.progetto.Forum.Dao.RecensioniDao;
+import its.progetto.Forum.Dao.RisposteDao;
+import its.progetto.Forum.Dao.ThreadDao;
+import its.progetto.Forum.Dao.UtentiDao;
+import its.progetto.Forum.Model.Ruolo;
+import its.progetto.Forum.Model.Utenti;
+import jakarta.servlet.http.HttpSession;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 
 
 
@@ -13,6 +21,19 @@ public class PageController {
 
     @Autowired
     private EsperienzeDao esperienzeDao;
+
+    @Autowired
+    private ThreadDao threadDao;
+
+    @Autowired
+    private RisposteDao risposteDao;
+
+    @Autowired
+    private RecensioniDao recensioniDao;
+
+    @Autowired
+    private UtentiDao utentiDao;
+
     @GetMapping("/")
     public String landingPage( ) {
         return "Landing_page";
@@ -21,7 +42,23 @@ public class PageController {
 
 
     @GetMapping("/backoffice")
-    public String backofficePage( ) {
+    public String backofficePage(HttpSession session, Model model,
+                                  @RequestParam(name = "tab", required = false, defaultValue = "thread") String tab) {
+        Utenti utente = (Utenti) session.getAttribute("loggedUser");
+
+        if (utente == null) {
+            return "redirect:/login";
+        }
+        if (utente.getRuolo() != Ruolo.ADMIN) {
+            return "redirect:/home";
+        }
+
+        model.addAttribute("threads", threadDao.findByVisibileTrue());
+        model.addAttribute("risposte", risposteDao.findByVisibileTrue());
+        model.addAttribute("recensioni", recensioniDao.findByVisibileTrue());
+        model.addAttribute("utenti", utentiDao.findAll());
+        model.addAttribute("activeTab", tab);
+
         return "backoffice_page";
     }
 
@@ -48,6 +85,11 @@ public class PageController {
     @GetMapping("/profilo-personale")
     public String profiloPersonalePage( ) {
         return "Personal-profile_page";
+    }
+
+    @GetMapping("/Thread")
+    public String threadPage( ) {
+        return "Thread_page";
     }
 
     @GetMapping("/recensione")

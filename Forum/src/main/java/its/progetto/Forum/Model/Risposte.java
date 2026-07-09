@@ -43,6 +43,9 @@ public class Risposte {
     @JoinColumn
     private Thread thread;
 
+    @Column(name="visibile")
+    private boolean visibile = true;
+
     public Risposte(){}
     public Risposte(String titolo, String testo, String data_creazione){
         this.titolo = titolo;
@@ -96,5 +99,29 @@ public class Risposte {
 
     public Long getId_utente() {
         return id;
-    }   
+    }
+
+    public Utenti getUtente() {
+        return utente;
+    }
+
+    public void setUtente(Utenti utente) {
+        this.utente = utente;
+    }
+
+    public Thread getThread() {
+        return thread;
+    }
+
+    public void setThread(Thread thread) {
+        this.thread = thread;
+    }
+
+    public boolean isVisibile() {
+        return visibile;
+    }
+
+    public void setVisibile(boolean visibile) {
+        this.visibile = visibile;
+    }
 }

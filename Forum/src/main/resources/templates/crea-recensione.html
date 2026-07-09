@@ -36,19 +36,22 @@
     <div class="eyebrow">CONDIVIDI CON LA COMMUNITY</div>
     <h1>Scrivi una recensione</h1>
 
-    <form class="card" th:object="${recensioni}" method="post" enctype="multipart/form-data" th:action="@{/esperienze/{id}/recensioni(id=${esperienza.id})}">
+    <form class="card" id="creaRecensioneForm" method="post" enctype="multipart/form-data">
 
-      <!-- Esperienza: decisa dall'URL, mostrata come testo -->
-      <label class="field-label">Esperienza</label>
+      <!-- Esperienza -->
+      <label class="field-label" for="esperienza">Esperienza</label>
       <div class="field">
-        <input type="text" th:value="${esperienza.titolo}" disabled>
+        <select id="esperienza" name="esperienzaId" required>
+          <option value="" disabled selected>Seleziona un'esperienza…</option>
+          <option th:each="exp : ${esperienze}" th:value="${exp.id}" th:text="${exp.titolo}">Tour in barca nelle Grotte di Polignano</option>
+        </select>
       </div>
 
       <!-- Titolo -->
       <label class="field-label" for="titolo">Titolo</label>
       <div class="field">
-        <input type="text" id="titolo" th:field="*{titolo}" placeholder="Riassumi la tua esperienza in una frase" required>
-        <span class="err" th:if="${#fields.hasErrors('titolo')}" th:errors="*{titolo}"></span>
+        <input type="text" id="titolo" name="titolo"
+               placeholder="Riassumi la tua esperienza in una frase" required>
       </div>
 
       <!-- Valutazione -->
@@ -62,17 +65,15 @@
           <span class="star" data-value="5">★</span>
         </div>
         <span class="rating-label" id="ratingLabel">Tocca le stelle per votare</span>
-        <input type="hidden" id="voto" th:field="*{voto}">
-        <span class="err" th:if="${#fields.hasErrors('voto')}" th:errors="*{voto}"></span>
+        <input type="hidden" name="voto" id="voto" value="0">
       </div>
 
       <!-- Descrizione -->
-      <label class="field-label" for="testo">Descrizione</label>
+      <label class="field-label" for="descrizione">Descrizione</label>
       <div class="field">
-        <textarea id="testo" th:field="*{testo}"
+        <textarea id="descrizione" name="testo"
                   placeholder="Racconta com'è andata: cosa ti è piaciuto, consigli per gli altri viaggiatori…"
                   required></textarea>
-        <span class="err" th:if="${#fields.hasErrors('testo')}" th:errors="*{testo}"></span>
       </div>
 
       <!-- Foto -->
@@ -123,6 +124,13 @@
   document.getElementById('foto').addEventListener('change', e => {
     const files = Array.from(e.target.files || []);
     document.getElementById('filenames').textContent = files.map(f => f.name).join(', ');
+  });
+
+  // Il controller è mappato su /esperienze/{esperienzaId}/recensioni: costruiamo
+  // l'action dinamicamente in base all'esperienza scelta nella select.
+  document.getElementById('creaRecensioneForm').addEventListener('submit', function () {
+    const esperienzaId = document.getElementById('esperienza').value;
+    this.action = '/esperienze/' + esperienzaId + '/recensioni';
   });
 </script>
 

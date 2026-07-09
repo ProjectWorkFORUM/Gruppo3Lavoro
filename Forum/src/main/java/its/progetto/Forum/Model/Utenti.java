@@ -8,17 +8,6 @@ import java.time.LocalDate;
 import java.util.HashSet;
 import java.util.Set;
 
-enum StatoAccount {
-    ATTIVO,
-    SOSPESO,
-    DISATTIVATO
-}
-
- enum Ruolo {
-    UTENTE,
-    MODERATORE,
-    ADMIN
-}
 @Entity
 @Table(name= "Utenti")
 public class Utenti {

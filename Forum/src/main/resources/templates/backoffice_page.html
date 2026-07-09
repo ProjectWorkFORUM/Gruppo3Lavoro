@@ -1,25 +1,5 @@
 <!DOCTYPE html>
-<!--
-  ════════════════════════════════════════════════════════════════
-  PUGLIAMARE FORUM · BACKOFFICE (moderazione)
-  Pagina standalone, pronta per Thymeleaf + Spring Boot.
-
-  Per integrarla in Thymeleaf:
-   1. Rinomina in  src/main/resources/templates/backoffice.html
-   2. Namespace:  <html lang="it" xmlns:th="http://www.thymeleaf.org">
-   3. Proteggi la rotta lato server (es. @PreAuthorize("hasRole('ADMIN')")).
-   4. Contatori in alto: th:text da ${stats} (ticket, segnalati, risolti).
-   5. Tabella ticket: sostituisci i <div class="row"> con
-        <div class="row" th:each="t : ${ticket}"> … </div>
-      usando th:text sui campi e th:classappend sul badge priorità:
-        th:classappend="${t.priorita.name().toLowerCase()}"  (alta/media/bassa)
-   6. Azioni Risolvi / Rifiuta: form POST verso /backoffice/ticket/{id}/risolvi
-      con CSRF, oppure th:href su link. I due tab (Ticket / Utenti) qui
-      sono gestiti in JS lato client; puoi anche renderli come due rotte.
-   7. CSRF sui form:  <input type="hidden" th:name="${_csrf.parameterName}" th:value="${_csrf.token}"/>
-  ════════════════════════════════════════════════════════════════
--->
-<html lang="it">
+<html lang="it" xmlns:th="http://www.thymeleaf.org">
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
@@ -62,71 +42,125 @@
 
   <!-- Contatori -->
   <div class="tiles">
-    <div class="tile"><div class="ic red">🎫</div><div><div class="num">5</div><div class="lbl">ticket da gestire</div></div></div>
-    <div class="tile"><div class="ic amber">⚠</div><div><div class="num">12</div><div class="lbl">utenti segnalati</div></div></div>
-    <div class="tile"><div class="ic teal">✓</div><div><div class="num">148</div><div class="lbl">risolti questo mese</div></div></div>
+    <div class="tile"><div class="ic red">🧵</div><div><div class="num" th:text="${threads.size()}">0</div><div class="lbl">thread attivi</div></div></div>
+    <div class="tile"><div class="ic amber">💬</div><div><div class="num" th:text="${risposte.size()}">0</div><div class="lbl">risposte pubblicate</div></div></div>
+    <div class="tile"><div class="ic teal">★</div><div><div class="num" th:text="${recensioni.size()}">0</div><div class="lbl">recensioni pubblicate</div></div></div>
   </div>
 
   <!-- Tabella -->
   <div class="table-card">
     <div class="tabs">
-      <button class="active" data-tab="ticket" type="button">Ticket da gestire</button>
-      <button data-tab="utenti" type="button">Utenti segnalati</button>
+      <button th:classappend="${activeTab == 'thread'} ? 'active'" data-tab="thread" type="button">Thread</button>
+      <button th:classappend="${activeTab == 'risposte'} ? 'active'" data-tab="risposte" type="button">Risposte</button>
+      <button th:classappend="${activeTab == 'recensioni'} ? 'active'" data-tab="recensioni" type="button">Recensioni</button>
+      <button th:classappend="${activeTab == 'utenti'} ? 'active'" data-tab="utenti" type="button">Utenti</button>
     </div>
 
-    <div class="thead">
-      <div>Titolo segnalazione</div>
-      <div>Priorità</div>
-      <div>Utente</div>
-      <div>Data</div>
-      <div class="right">Azioni</div>
+    <!-- ══ TAB: THREAD ══ -->
+    <div class="tab-content" data-tab-content="thread" th:classappend="${activeTab == 'thread'} ? '' : 'hidden'">
+      <div class="thead">
+        <div>Titolo</div>
+        <div>Stato</div>
+        <div>Apertura</div>
+        <div></div>
+        <div class="right">Azioni</div>
+      </div>
+      <div class="row" th:each="t : ${threads}">
+        <div><div class="title" th:text="${t.titolo}">Titolo thread</div></div>
+        <div class="prio"><span class="badge" th:classappend="${t.stato} ? 'bassa' : 'alta'" th:text="${t.stato} ? 'Aperto' : 'Chiuso'">Aperto</span></div>
+        <div class="user" th:text="${t.data_apertura}">2026-01-01</div>
+        <div></div>
+        <div class="actions">
+          <form method="post" th:action="@{/admin/threads/{id}/elimina(id=${t.id})}">
+            <button class="btn-reject" type="submit">Nascondi</button>
+          </form>
+        </div>
+      </div>
+      <div class="row" th:if="${threads.isEmpty()}"><div class="title">Nessun thread attivo.</div></div>
     </div>
 
-    <!-- TH: <div class="row" th:each="t : ${ticket}"> -->
-    <div class="row">
-      <div><div class="title">Commento offensivo in una recensione</div><div class="cat">Linguaggio</div></div>
-      <div class="prio"><span class="badge alta">Alta</span></div>
-      <div class="user">utente_482</div>
-      <div class="date">22 giu</div>
-      <div class="actions"><button class="btn-resolve" type="button">Risolvi</button><button class="btn-reject" type="button">✕</button></div>
+    <!-- ══ TAB: RISPOSTE ══ -->
+    <div class="tab-content hidden" data-tab-content="risposte" th:classappend="${activeTab == 'risposte'} ? '' : 'hidden'">
+      <div class="thead">
+        <div>Testo</div>
+        <div>Thread</div>
+        <div>Utente</div>
+        <div>Data</div>
+        <div class="right">Azioni</div>
+      </div>
+      <div class="row" th:each="r : ${risposte}">
+        <div><div class="title" th:text="${r.titolo}">Titolo risposta</div><div class="cat" th:text="${r.testo}">Testo</div></div>
+        <div class="user" th:text="${r.thread != null ? r.thread.titolo : '-'}">Thread</div>
+        <div class="user" th:text="${r.utente != null ? r.utente.username : '-'}">utente</div>
+        <div class="date" th:text="${r.data_creazione}">2026-01-01</div>
+        <div class="actions">
+          <form method="post" th:action="@{/admin/risposte/{id}/elimina(id=${r.id}, redirectTo='/backoffice?tab=risposte')}">
+            <button class="btn-reject" type="submit">Nascondi</button>
+          </form>
+        </div>
+      </div>
+      <div class="row" th:if="${risposte.isEmpty()}"><div class="title">Nessuna risposta attiva.</div></div>
     </div>
-    <div class="row">
-      <div><div class="title">Foto non pertinente caricata</div><div class="cat">Contenuto</div></div>
-      <div class="prio"><span class="badge media">Media</span></div>
-      <div class="user">mario.d</div>
-      <div class="date">21 giu</div>
-      <div class="actions"><button class="btn-resolve" type="button">Risolvi</button><button class="btn-reject" type="button">✕</button></div>
+
+    <!-- ══ TAB: RECENSIONI ══ -->
+    <div class="tab-content hidden" data-tab-content="recensioni" th:classappend="${activeTab == 'recensioni'} ? '' : 'hidden'">
+      <div class="thead">
+        <div>Titolo</div>
+        <div>Voto</div>
+        <div>Esperienza</div>
+        <div>Data</div>
+        <div class="right">Azioni</div>
+      </div>
+      <div class="row" th:each="rec : ${recensioni}">
+        <div><div class="title" th:text="${rec.titolo}">Titolo recensione</div><div class="cat" th:text="${rec.testo}">Testo</div></div>
+        <div class="prio"><span class="badge media" th:text="${rec.voto} + '/5'">5/5</span></div>
+        <div class="user" th:text="${rec.esperienza != null ? rec.esperienza.titolo : '-'}">Esperienza</div>
+        <div class="date" th:text="${rec.dataCreazione}">2026-01-01</div>
+        <div class="actions">
+          <form method="post" th:action="@{/admin/recensioni/{id}/elimina(id=${rec.id})}">
+            <button class="btn-reject" type="submit">Nascondi</button>
+          </form>
+        </div>
+      </div>
+      <div class="row" th:if="${recensioni.isEmpty()}"><div class="title">Nessuna recensione attiva.</div></div>
     </div>
-    <div class="row">
-      <div><div class="title">Spam con link esterni</div><div class="cat">Spam</div></div>
-      <div class="prio"><span class="badge alta">Alta</span></div>
-      <div class="user">guest_99</div>
-      <div class="date">21 giu</div>
-      <div class="actions"><button class="btn-resolve" type="button">Risolvi</button><button class="btn-reject" type="button">✕</button></div>
-    </div>
-    <div class="row">
-      <div><div class="title">Recensione duplicata</div><div class="cat">Qualità</div></div>
-      <div class="prio"><span class="badge bassa">Bassa</span></div>
-      <div class="user">giulia.f</div>
-      <div class="date">20 giu</div>
-      <div class="actions"><button class="btn-resolve" type="button">Risolvi</button><button class="btn-reject" type="button">✕</button></div>
-    </div>
-    <div class="row">
-      <div><div class="title">Richiesta cancellazione account</div><div class="cat">Account</div></div>
-      <div class="prio"><span class="badge media">Media</span></div>
-      <div class="user">luca.p</div>
-      <div class="date">19 giu</div>
-      <div class="actions"><button class="btn-resolve" type="button">Risolvi</button><button class="btn-reject" type="button">✕</button></div>
+
+    <!-- ══ TAB: UTENTI ══ -->
+    <div class="tab-content hidden" data-tab-content="utenti" th:classappend="${activeTab == 'utenti'} ? '' : 'hidden'">
+      <div class="thead">
+        <div>Nome</div>
+        <div>Ruolo</div>
+        <div>Email</div>
+        <div>Stato</div>
+        <div class="right">Azioni</div>
+      </div>
+      <div class="row" th:each="u : ${utenti}">
+        <div><div class="title" th:text="${u.nome + ' ' + u.cognome}">Nome Cognome</div><div class="cat" th:text="${u.username}">username</div></div>
+        <div class="prio"><span class="badge bassa" th:text="${u.ruolo}">UTENTE</span></div>
+        <div class="user" th:text="${u.email}">mail@esempio.it</div>
+        <div class="date" th:text="${u.stato_account}">ATTIVO</div>
+        <div class="actions">
+          <form method="post" th:if="${u.stato_account.name() != 'DISATTIVATO'}" th:action="@{/admin/utenti/{id}/elimina(id=${u.id})}">
+            <button class="btn-reject" type="submit">Disattiva</button>
+          </form>
+        </div>
+      </div>
+      <div class="row" th:if="${utenti.isEmpty()}"><div class="title">Nessun utente registrato.</div></div>
     </div>
   </div>
 </div>
 
 <script>
-  // Tab switch (demo lato client). In Thymeleaf/Spring puoi anche usare due rotte separate.
   document.querySelectorAll('.tabs button').forEach(function (btn) {
     btn.addEventListener('click', function () {
+      var tab = btn.getAttribute('data-tab');
+
       document.querySelectorAll('.tabs button').forEach(function (b) { b.classList.remove('active'); });
       btn.classList.add('active');
+
+      document.querySelectorAll('[data-tab-content]').forEach(function (section) {
+        section.classList.toggle('hidden', section.getAttribute('data-tab-content') !== tab);
+      });
     });
   });
 </script>
