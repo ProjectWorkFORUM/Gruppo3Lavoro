@@ -50,6 +50,11 @@ public class PageController {
         return "Personal-profile_page";
     }
 
+    @GetMapping("/Thread")
+    public String threadPage( ) {
+        return "Thread_page";
+    }
+
     @GetMapping("/recensione")
     public String recensionePage(Model model) {
         model.addAttribute("esperienze", esperienzeDao.findAll());
