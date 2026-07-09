@@ -1,25 +1,35 @@
 package its.progetto.Forum.Model;
 
-import jakarta.persistence.*;
-import jakarta.validation.constraints.*;
+import jakarta.persistence.Entity;
+import jakarta.persistence.GeneratedValue;
+import jakarta.persistence.Id;
+import jakarta.persistence.JoinColumn;
+import jakarta.persistence.ManyToOne;
+import jakarta.persistence.Table;
+import jakarta.validation.constraints.Min;
+import jakarta.validation.constraints.NotBlank;
+import jakarta.validation.constraints.NotNull;
+import jakarta.validation.constraints.Size;
 
 @Entity
 @Table
 public class Esperienze {
 
-    // relazioni foreinkey corrette
+    //primary key
 
+    @Id
+    @GeneratedValue(strategy = jakarta.persistence.GenerationType.AUTO)
+    @NotNull(message = "ID richiesto")
+    private Long id;
 
+    // relazioni foreignkey corrette
 
     @ManyToOne
     @JoinColumn(name = "id_categoria")
     private Categoria categoria;
 
     //attributi
-    @Id
-    @GeneratedValue(strategy = jakarta.persistence.GenerationType.AUTO)
-    @NotNull(message = "ID richiesto")
-    private Long id;
+
 
     @Size(min= 4, max=20)
     @NotBlank(message = "Titolo non può essere vuoto")
