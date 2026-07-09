@@ -1,12 +1,18 @@
 package its.progetto.Forum.controller;
 
+import its.progetto.Forum.Dao.EsperienzeDao;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
+import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 
 
 
 @Controller
 public class PageController {
+
+    @Autowired
+    private EsperienzeDao esperienzeDao;
     @GetMapping("/")
     public String landingPage( ) {
         return "Landing_page";
@@ -45,7 +51,8 @@ public class PageController {
     }
 
     @GetMapping("/recensione")
-    public String recensionePage( ) {
+    public String recensionePage(Model model) {
+        model.addAttribute("esperienze", esperienzeDao.findAll());
         return "crea-recensione";
     }
 
