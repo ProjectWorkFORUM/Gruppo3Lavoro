@@ -47,7 +47,6 @@ public class Esperienze {
         this.descrizione = descrizione;
         this.prezzo = prezzo;
         this.categoria = categoria;
-        this.acquisto = acquisto;
     }
 
     public Long getId() {
