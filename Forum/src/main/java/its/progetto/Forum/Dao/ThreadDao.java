@@ -9,4 +9,6 @@ public interface ThreadDao extends JpaRepository<Thread, Long> {
     List<Thread> findByStato(boolean stato);
 
     List<Thread> findByTitoloContainingIgnoreCase(String titolo);
+
+    List<Thread> findByVisibileTrue();
 }

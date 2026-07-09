@@ -36,8 +36,7 @@
     <div class="eyebrow">CONDIVIDI CON LA COMMUNITY</div>
     <h1>Scrivi una recensione</h1>
 
-    <!-- TODO: collegare al controller, es. th:action="@{/recensioni/crea}" th:object="${recensioneForm}" -->
-    <form class="card" method="post" enctype="multipart/form-data">
+    <form class="card" id="creaRecensioneForm" method="post" enctype="multipart/form-data">
 
       <!-- Esperienza -->
       <label class="field-label" for="esperienza">Esperienza</label>
@@ -72,7 +71,7 @@
       <!-- Descrizione -->
       <label class="field-label" for="descrizione">Descrizione</label>
       <div class="field">
-        <textarea id="descrizione" name="descrizione"
+        <textarea id="descrizione" name="testo"
                   placeholder="Racconta com'è andata: cosa ti è piaciuto, consigli per gli altri viaggiatori…"
                   required></textarea>
       </div>
@@ -125,6 +124,13 @@
   document.getElementById('foto').addEventListener('change', e => {
     const files = Array.from(e.target.files || []);
     document.getElementById('filenames').textContent = files.map(f => f.name).join(', ');
+  });
+
+  // Il controller è mappato su /esperienze/{esperienzaId}/recensioni: costruiamo
+  // l'action dinamicamente in base all'esperienza scelta nella select.
+  document.getElementById('creaRecensioneForm').addEventListener('submit', function () {
+    const esperienzaId = document.getElementById('esperienza').value;
+    this.action = '/esperienze/' + esperienzaId + '/recensioni';
   });
 </script>
 
