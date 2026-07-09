@@ -43,7 +43,9 @@
     <nav class="top">
       <a href="/home">Home</a>
       <a href="/dashboard">Dashboard</a>
-      <a href="/backoffice">Backoffice</a>
+      <a href="/backoffice"
+      th:if="${user.isAdmin()}">
+      Backoffice</a>
     </nav>
     <a href="/recensioni/nuova"><button class="btn-write">✎ Recensione</button></a>
     <a class="avatar-top" href="/profilo" title="Il tuo profilo">MP</a>

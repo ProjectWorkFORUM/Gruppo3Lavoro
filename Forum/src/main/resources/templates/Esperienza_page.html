@@ -28,7 +28,7 @@
     <nav class="top">
       <a th:href="@{/home}">Home</a>
       <a th:href="@{/dashboard}">Dashboard</a>
-      <a th:href="@{/backoffice}">Backoffice</a>
+      <a th:href="@{/backoffice}" th:if="${user.isAdmin()}">Backoffice</a>
     </nav>
     <a th:href="@{/recensioni/nuova}"><button class="btn-write">✎ Recensione</button></a>
     <a class="avatar" th:href="@{/profilo}" title="Il tuo profilo" th:text="${utente != null ? utente.iniziali : 'MP'}">MP</a>

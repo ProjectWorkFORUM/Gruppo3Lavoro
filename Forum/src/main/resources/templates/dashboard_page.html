@@ -23,7 +23,7 @@
     <nav class="top">
       <a th:href="@{/home}">Home</a>
       <a th:href="@{/dashboard}" class="active">Dashboard</a>
-      <a th:href="@{/backoffice}">Backoffice</a>
+      <a th:href="@{/backoffice}" th:if="${user.isAdmin()}">Backoffice</a>
     </nav>
     <a class="avatar-top" th:href="@{/profilo}" title="Il tuo profilo" th:text="${utente?.iniziali} ?: 'MP'">MP</a>
   </div>
