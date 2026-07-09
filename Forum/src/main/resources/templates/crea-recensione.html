@@ -152,9 +152,8 @@
       <label class="field-label" for="esperienza">Esperienza</label>
       <div class="field">
         <select id="esperienza" name="esperienzaId" required>
-          <!-- TODO: lista esperienze dal model, es.
-               <option th:each="exp : ${esperienze}" th:value="${exp.id}" th:text="${exp.titolo}"></option> -->
-          <option value="">Tour in barca nelle Grotte di Polignano</option>
+          <option value="" disabled selected>Seleziona un'esperienza…</option>
+          <option th:each="exp : ${esperienze}" th:value="${exp.id}" th:text="${exp.titolo}">Tour in barca nelle Grotte di Polignano</option>
         </select>
       </div>
 

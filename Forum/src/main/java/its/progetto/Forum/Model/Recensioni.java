@@ -1,9 +1,18 @@
 package its.progetto.Forum.Model;
 
-import jakarta.persistence.*;
+import org.springframework.format.annotation.DateTimeFormat;
+
+import jakarta.persistence.Entity;
+import jakarta.persistence.GeneratedValue;
+import jakarta.persistence.GenerationType;
+import jakarta.persistence.Id;
+import jakarta.persistence.JoinColumn;
+import jakarta.persistence.ManyToOne;
+import jakarta.persistence.Table;
+import jakarta.validation.constraints.Max;
+import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.NotNull;
 import jakarta.validation.constraints.Size;
-import org.springframework.format.annotation.DateTimeFormat;
 
 @Entity
 @Table(name="Recensioni")
@@ -14,16 +23,25 @@ public class Recensioni {
     
     private Long id;
 
+    @NotBlank(message = "Titolo richiesto")
     @Size(min = 3, max=30 )
     private String titolo;
 
+    @NotBlank(message = "Testo richiesto")
     @Size(min = 3, max=255 )
     private String testo;
 
+    @NotNull
+    @Max(value = 5)
+    private int voto;
+
+    @NotNull(message = "Data richiesta")
     @DateTimeFormat(pattern = "yyyy-MM-dd")
     private String data_creazione;
 
-    //id-utente da joinare
+    @ManyToOne
+    @JoinColumn(name = "esperienza_id")
+    private Esperienze esperienza;
 
     public Recensioni(){}
 
