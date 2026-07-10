@@ -51,10 +51,14 @@
       <a href="/backoffice" 
       th:if="${user != null and user.isAdmin()}">
       Backoffice</a>
-    </nav>
-    
-    <a class="avatar" href="/profilo" title="Il tuo profilo" th:text="${user != null ? user.iniziali : 'MP'}">MP</a>
+          <div class="auth">
+      <a th:href="@{/login}" th:if="${user == null}">Accedi</a>
+      <a th:href="@{/register}" th:if="${user == null}">Registrati</a>
+      <a th:href="@{/logout}" th:if="${user != null}">Logout</a>
   </div>
+      <a class="avatar" th:if="${user != null}" th:href="@{/profilo}" title="Il tuo profilo" th:text="${user != null ? user.iniziali : 'MP'}">MP</a>
+    </nav>
+
 </header>
 
 <!-- ══ HOME ══ -->

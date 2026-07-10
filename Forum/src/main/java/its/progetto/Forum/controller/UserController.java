@@ -1,17 +1,19 @@
 package its.progetto.Forum.controller;
 
+import java.time.LocalDate;
+import java.util.Optional;
+
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Controller;
+import org.springframework.validation.BindingResult;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PostMapping;
+
 import its.progetto.Forum.Dao.UtentiDao;
 import its.progetto.Forum.Model.LoginForm;
 import its.progetto.Forum.Model.Utenti;
 import jakarta.servlet.http.HttpSession;
 import jakarta.validation.Valid;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.stereotype.Controller;
-import org.springframework.validation.BindingResult;
-import org.springframework.web.bind.annotation.*;
-
-import java.time.LocalDate;
-import java.util.Optional;
 
 @Controller
 public class UserController {
@@ -48,9 +50,16 @@ public class UserController {
         }
 
         session.setAttribute("loggedUser", utente.get());
-        return "redirect:/home";
+        return "redirect:/";
 
     }
+
+    @GetMapping("/logout")
+    public String logout(HttpSession session) {
+        session.invalidate();
+        return "redirect:/";
+    }
+    
 
     @GetMapping("/register")
     public String registerPage(Utenti utenti) {
@@ -82,7 +91,7 @@ public class UserController {
         utente.setDataRegistrazione(LocalDate.now());
         utentiDao.save(utente);
         session.setAttribute("loggedUser", utente);
-        return "redirect:/home";
+        return "redirect:/";
 
 
 
