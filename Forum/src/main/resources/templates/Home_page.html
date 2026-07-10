@@ -90,6 +90,14 @@
             <span class="post-exp" th:text="${r.esperienza != null ? r.esperienza.titolo : ''}">Tour in barca nelle Grotte di Polignano</span>
           </div>
           <p class="post-text" th:text="${r.testo}">Esperienza da sogno: le grotte al tramonto e l'aperitivo in barca.</p>
+
+          <!-- Foto della recensione: nomeFoto è la variabile del ciclo,
+               vale un nome di file per ogni elemento di nomeFile separato da virgola -->
+          <div th:if="${r.nomeFile != null}">
+            <img th:each="nomeFoto : ${r.nomeFile.split(',')}"
+                 th:src="@{/uploads/{nome}(nome=${nomeFoto})}" alt="Foto recensione"
+                 style="max-width:100%; border-radius:8px; margin-top:8px;">
+          </div>
         </a>
         <div class="post-actions">
           <button class="like" type="button">♡ 0</button>

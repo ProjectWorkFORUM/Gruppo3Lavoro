@@ -14,12 +14,14 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.*;
+import org.springframework.web.multipart.MultipartFile;
 
+import java.io.File;
+import java.io.IOException;
 import java.time.LocalDate;
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Optional;
 
 
@@ -47,7 +49,7 @@ public class RecensioniController {
 // creazione recensine
     @GetMapping("/esperienze/{esperienzaId}/recensioni/nuova")
     public String nuovaRecensione(@PathVariable(name = "esperienzaId") Long esperienzaId,
-                                  Recensioni recensioni,
+                                  @ModelAttribute("recensioni") Recensioni recensioni,
                                   Model model,
                                   HttpSession session) {
 
@@ -68,10 +70,7 @@ public class RecensioniController {
 
     @PostMapping("/esperienze/{esperienzaId}/recensioni")
     public String salvaRecensione(@PathVariable(name = "esperienzaId") Long esperienzaId,
-                                  @Valid Recensioni recensioni,
-                                  BindingResult bindingResult,
-                                  HttpSession session,
-                                  Model model) {
+                                  @Valid Recensioni recensioni, BindingResult bindingResult, HttpSession session, Model model, @RequestParam("foto") MultipartFile[] foto) throws IOException {
 
         Utenti loggato = (Utenti) session.getAttribute("loggedUser");
         if (loggato == null) {
@@ -98,17 +97,35 @@ public class RecensioniController {
             return "crea-recensione";
         }
 
-        recensioni.setEsperienza(esperienza);
-        recensioni.setAutore(loggato);
-        recensioni.setDataCreazione(LocalDate.now());
-        recensioniDao.save(recensioni);
+        List<String> nomiImmagini = new ArrayList<>();
+        String cartellaDestinazione = "uploads/";
+        new File(cartellaDestinazione).mkdirs();
 
-        return "redirect:/home";
+        // Controlliamo che l'array non sia vuoto o nullo
+        if (foto != null && foto.length > 0) {
+            for (MultipartFile fileSingolo : foto) {
+                if (!fileSingolo.isEmpty()) {
+                    String nome = fileSingolo.getOriginalFilename();
+                    File destinazione = new File(cartellaDestinazione + nome).getAbsoluteFile();
+                    fileSingolo.transferTo(destinazione);
+                    nomiImmagini.add(nome); // Aggiungiamo il nome alla lista
+                }
+            }
+        }
+            if (!nomiImmagini.isEmpty()) {
+                String nomiUniti = String.join(",", nomiImmagini); // Es: "img1.jpg,img2.jpg"
+                recensioni.setNomeFile(nomiUniti);
+            }
+
+            recensioni.setEsperienza(esperienza);
+            recensioni.setAutore(loggato);
+            recensioni.setDataCreazione(LocalDate.now());
+            recensioniDao.save(recensioni);
+
+            return "redirect:/home";
+
+
+
     }
-
-
-
-
-
 
 }

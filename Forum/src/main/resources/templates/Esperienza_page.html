@@ -81,6 +81,13 @@
             <span class="stars" th:text="${#strings.repeat('★', r.voto)}">★★★★★</span>
           </div>
           <p class="review-text" th:text="${r.testo}">Acque cristalline e grotte spettacolari. L'aperitivo a bordo è stato il tocco perfetto.</p>
+
+          <!-- Foto della recensione -->
+          <div th:if="${r.nomeFile != null}">
+            <img th:each="nomeFoto : ${r.nomeFile.split(',')}"
+                 th:src="@{/uploads/{nome}(nome=${nomeFoto})}" alt="Foto recensione"
+                 style="max-width:100%; border-radius:8px; margin-top:8px;">
+          </div>
         </div>
 
       </div>
