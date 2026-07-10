@@ -46,7 +46,7 @@ public class RecensioniController {
 
 // creazione recensine
     @GetMapping("/esperienze/{esperienzaId}/recensioni/nuova")
-    public String nuovaRecensione(@PathVariable Long esperienzaId,
+    public String nuovaRecensione(@PathVariable(name = "esperienzaId") Long esperienzaId,
                                   Recensioni recensioni,
                                   Model model,
                                   HttpSession session) {
@@ -67,7 +67,7 @@ public class RecensioniController {
     }
 
     @PostMapping("/esperienze/{esperienzaId}/recensioni")
-    public String salvaRecensione(@PathVariable Long esperienzaId,
+    public String salvaRecensione(@PathVariable(name = "esperienzaId") Long esperienzaId,
                                   @Valid Recensioni recensioni,
                                   BindingResult bindingResult,
                                   HttpSession session,
