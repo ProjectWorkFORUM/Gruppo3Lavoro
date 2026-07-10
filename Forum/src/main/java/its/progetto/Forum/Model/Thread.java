@@ -25,8 +25,7 @@ public class Thread {
     private Long id;
 
     
-    @Size(min = 3, max=30 )
-    @NotNull(message = "Titolo richiesto")
+    @Size(min = 3, max=255)
     @NotBlank(message = "Titolo non può essere vuoto")
     @Column(name="titolo")
     private String titolo;

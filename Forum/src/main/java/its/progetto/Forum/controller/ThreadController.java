@@ -73,7 +73,11 @@ public class ThreadController {
 
         Esperienze esperienza = esperienzeDao.findById(esperienzaId).orElseThrow();
 
-        // le discussioni sono aperte a qualsiasi utente loggato (nessun vincolo di acquisto)
+        // BR-02: come per le recensioni, può porre domande solo chi ha acquistato l'esperienza
+        if(!acquistoDao.existsByUtenteIdAndEsperienzaId(loggato.getId(), esperienzaId)){
+            return "redirect:/esperienze/" + esperienzaId + "/discussioni?nonAcquistata";
+        }
+
         if(bindingResult.hasErrors()){
             model.addAttribute("esperienza", esperienza);
             model.addAttribute("listaThread", threadDao.findByEsperienzaIdAndVisibileTrue(esperienzaId));

@@ -154,6 +154,12 @@
       <div class="eyebrow">DISCUSSIONI DELLA COMMUNITY</div>
       <h1 class="title" th:text="${esperienza != null ? 'Domande e commenti su ' + esperienza.titolo : 'Discussioni della community'}">Domande e commenti su Tour in barca nelle Grotte di Polignano</h1>
 
+      <!-- Avviso: ha provato a pubblicare senza aver acquistato l'esperienza (BR-02) -->
+      <div class="new-thread" th:if="${param.nonAcquistata}"
+           style="border-color:#EEC0B2;background:#F6DAD0;color:#B2400F;font-weight:600;">
+        Puoi fare domande solo sulle esperienze che hai acquistato.
+      </div>
+
       <!-- Nuovo thread: solo per utenti loggati -->
       <form class="new-thread" th:if="${esperienza != null and user != null}" th:action="@{/esperienze/{id}/Thread(id=${esperienza.id})}" action="#" method="post">
 
