@@ -160,6 +160,12 @@
         Puoi fare domande solo sulle esperienze che hai acquistato.
       </div>
 
+      <!-- Avviso: risposta non valida (es. troppo corta) -->
+      <div class="new-thread" th:if="${param.rispostaNonValida}"
+           style="border-color:#EEC0B2;background:#F6DAD0;color:#B2400F;font-weight:600;">
+        La risposta non è valida: scrivi almeno 3 caratteri (massimo 255).
+      </div>
+
       <!-- Nuovo thread: solo per utenti loggati -->
       <form class="new-thread" th:if="${esperienza != null and user != null}" th:action="@{/esperienze/{id}/Thread(id=${esperienza.id})}" action="#" method="post">
 
@@ -184,6 +190,31 @@
             </div>
             <span class="thread-tag" th:text="${t.stato} ? 'Aperta' : 'Chiusa'">Aperta</span>
           </div>
+
+          <!-- Risposte della community (solo quelle visibili) -->
+          <div class="reply" th:each="r : ${t.risposte}" th:if="${r.visibile}">
+            <div class="reply-ava"
+                 th:text="${r.utente != null ? #strings.toUpperCase(#strings.substring(r.utente.username, 0, 2)) : 'PM'}">GF</div>
+            <div>
+              <div class="reply-user">
+                <span th:text="${r.utente != null ? r.utente.username : 'Utente'}">giulia</span>
+                <span class="time" th:text="'· ' + ${r.data_creazione}">· 2026-07-10</span>
+              </div>
+              <div class="reply-text" th:text="${r.testo}">Testo della risposta.</div>
+            </div>
+          </div>
+
+          <!-- Rispondi: toggle + form inline (solo loggati, e solo dentro una pagina esperienza) -->
+          <div class="thread-foot" th:if="${esperienza != null and user != null}">
+            <span class="respond" th:attr="data-target='reply-form-' + ${t.id}">↩ Rispondi</span>
+          </div>
+          <form class="inline-reply" th:if="${esperienza != null and user != null}"
+                th:id="'reply-form-' + ${t.id}"
+                th:action="@{/esperienze/{eid}/discussioni/{tid}/risposte(eid=${esperienza.id}, tid=${t.id})}"
+                method="post">
+            <input type="text" name="testo" placeholder="Scrivi una risposta utile…" required minlength="3" maxlength="255">
+            <button type="submit">Rispondi</button>
+          </form>
         </div>
 
         <div class="thread" th:if="${listaThread == null or #lists.isEmpty(listaThread)}">

@@ -12,6 +12,7 @@ import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.Id;
 import jakarta.persistence.JoinColumn;
 import jakarta.persistence.ManyToOne;
+import jakarta.persistence.OneToMany;
 import jakarta.persistence.Table;
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.NotNull;
@@ -41,10 +42,9 @@ public class Thread {
     @Column(name="visibile")
     private boolean visibile = true;
 
-    //id-esperienza da joinare
-   @ManyToOne
-   @JoinColumn(name = "id_risposte")
-    private Risposte risposte;
+    // lato inverso: le risposte di questo thread (la FK vive in Risposte.thread)
+    @OneToMany(mappedBy = "thread")
+    private Set<Risposte> risposte = new HashSet<>();
 
     @ManyToOne
     @JoinColumn(name = "esperienza_id")
@@ -110,6 +110,10 @@ public class Thread {
 
     public void setEsperienza(Esperienze esperienza) {
         this.esperienza = esperienza;
+    }
+
+    public Set<Risposte> getRisposte() {
+        return risposte;
     }
 
     @Override
