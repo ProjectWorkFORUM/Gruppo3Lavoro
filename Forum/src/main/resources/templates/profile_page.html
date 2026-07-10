@@ -41,14 +41,14 @@
       </div>
     </a>
     <nav class="top">
-      <a href="/home">Home</a>
-      <a href="/esperienze">Esperienze</a>
-      <a href="/dashboard">Dashboard</a>
-      <a href="/backoffice"
+      <a th:href="@{/}">Home</a>
+      <a th:href="@{/esperienze}">Esperienze</a>
+      <a th:href="@{/dashboard}">Dashboard</a>
+      <a th:href="@{/backoffice}"
       th:if="${user != null and user.isAdmin()}">
       Backoffice</a>
     </nav>
-    <a href="/recensione"><button class="btn-write">✎ Recensione</button></a>
+    <a th:href="@{/recensione}"><button class="btn-write">✎ Recensione</button></a>
     <a class="avatar-top" href="/profilo" title="Il tuo profilo" th:text="${user != null ? user.iniziali : 'MP'}">MP</a>
   </div>
 </header>

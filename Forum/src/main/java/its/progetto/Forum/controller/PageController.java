@@ -1,15 +1,25 @@
 package its.progetto.Forum.controller;
 
-import its.progetto.Forum.Dao.*;
-import its.progetto.Forum.Model.*;
-import jakarta.servlet.http.HttpSession;
+import java.util.List;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 
-import java.util.List;
+import its.progetto.Forum.Dao.AcquistoDao;
+import its.progetto.Forum.Dao.EsperienzeDao;
+import its.progetto.Forum.Dao.RecensioniDao;
+import its.progetto.Forum.Dao.RisposteDao;
+import its.progetto.Forum.Dao.ThreadDao;
+import its.progetto.Forum.Dao.UtentiDao;
+import its.progetto.Forum.Model.Acquisto;
+import its.progetto.Forum.Model.Esperienze;
+import its.progetto.Forum.Model.Recensioni;
+import its.progetto.Forum.Model.Ruolo;
+import its.progetto.Forum.Model.Utenti;
+import jakarta.servlet.http.HttpSession;
 
 
 @Controller
@@ -34,8 +44,9 @@ public class PageController {
     private AcquistoDao acquistoDao;
 
     @GetMapping("/")
-    public String landingPage( ) {
-        return "Landing_page";
+    public String homepage(Model model) {
+        model.addAttribute("recensioni", recensioniDao.findByVisibileTrueOrderByIdDesc());
+        return "Home_page";
     }
 
 
@@ -72,11 +83,7 @@ public class PageController {
         return "dashboard_page";
     }
 
-    @GetMapping("/home")
-    public String homePage(Model model) {
-        model.addAttribute("recensioni", recensioniDao.findByVisibileTrueOrderByIdDesc());
-        return "Home_page";
-    }
+ 
 
     @GetMapping("/profilo")
     public String profiloPage(HttpSession session, Model model) {

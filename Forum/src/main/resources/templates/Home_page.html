@@ -45,16 +45,20 @@
       <input type="text" placeholder="Cerca un'esperienza, una città, un #hashtag…" aria-label="Cerca">
     </div>
     <nav class="top">
-      <a href="/home" class="active">Home</a>
-      <a href="/esperienze">Esperienze</a>
-      <a href="/dashboard">Dashboard</a>
-      <a href="/backoffice" 
+      <a th:href="@{/}" class="active">Home</a>
+      <a th:href="@{/esperienze}">Esperienze</a>
+      <a th:href="@{/dashboard}">Dashboard</a>
+      <a th:href="@{/backoffice}" 
       th:if="${user != null and user.isAdmin()}">
       Backoffice</a>
-    </nav>
-    
-    <a class="avatar" href="/profilo" title="Il tuo profilo" th:text="${user != null ? user.iniziali : 'MP'}">MP</a>
+          <div class="auth">
+      <a th:href="@{/login}" th:if="${user == null}">Accedi</a>
+      <a th:href="@{/register}" th:if="${user == null}">Registrati</a>
+      <a th:href="@{/logout}" th:if="${user != null}">Logout</a>
   </div>
+      <a class="avatar" th:if="${user != null}" th:href="@{/profilo}" title="Il tuo profilo" th:text="${user != null ? user.iniziali : 'MP'}">MP</a>
+    </nav>
+
 </header>
 
 <!-- ══ HOME ══ -->
