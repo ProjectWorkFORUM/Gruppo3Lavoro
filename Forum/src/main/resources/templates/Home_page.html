@@ -45,10 +45,10 @@
       <input type="text" placeholder="Cerca un'esperienza, una città, un #hashtag…" aria-label="Cerca">
     </div>
     <nav class="top">
-      <a href="/home" class="active">Home</a>
-      <a href="/esperienze">Esperienze</a>
-      <a href="/dashboard">Dashboard</a>
-      <a href="/backoffice" 
+      <a th:href="@{/}" class="active">Home</a>
+      <a th:href="@{/esperienze}">Esperienze</a>
+      <a th:href="@{/dashboard}">Dashboard</a>
+      <a th:href="@{/backoffice}" 
       th:if="${user != null and user.isAdmin()}">
       Backoffice</a>
           <div class="auth">
