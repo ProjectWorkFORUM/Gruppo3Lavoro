@@ -5,8 +5,10 @@ import java.util.Optional;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
+import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PostMapping;
 
 import its.progetto.Forum.Dao.UtentiDao;
@@ -97,6 +99,35 @@ public class UserController {
 
     }
 
-    // registrazioni
+    @GetMapping("/profilo/modifica")
+    public String modificaProfilo(HttpSession session, Model model){
+        Utenti loggato = (Utenti) session.getAttribute("loggedUser");
+            if(loggato == null) {
+                return "redirect:/login";
+            }
+
+            model.addAttribute("utente", loggato);
+            return "Personal-profile_page";
+
+    }
+
+    @PostMapping("/profilo/modifica")
+    public String salvaModifiche(@Valid @ModelAttribute("utente") Utenti utenteModificato, BindingResult bindingResult, HttpSession session ){
+        Utenti loggato = (Utenti) session.getAttribute("loggedUser");
+        if(loggato == null){
+            return "redirect:/login";
+        }
+        if(bindingResult.hasErrors()){
+            return "Personal-profile_page";
+        }
+        loggato.setUsername(utenteModificato.getUsername());
+        loggato.setPassword(utenteModificato.getPassword());
+
+        utentiDao.save(loggato);
+
+        session.setAttribute("loggedUser", loggato);
+
+        return "redirect:/profilo?successo";
+    }
 
 }
