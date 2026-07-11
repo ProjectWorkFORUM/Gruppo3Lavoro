@@ -27,30 +27,12 @@
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@400;500;600;700;800&family=Mulish:wght@400;500;600;700;800&display=swap" rel="stylesheet">
 <link rel="stylesheet" href="../static/css/Personal-profile_page.css" th:href="@{/Css/Personal-profile_page.css}">
+<link rel="stylesheet" th:href="@{/Css/layout.css}">
 </head>
 <body>
 
-<!-- ══ APP BAR ══ -->
-<header>
-  <div class="bar">
-    <a class="logo" href="/">
-      <div class="logo-icon">P</div>
-      <div>
-        <div class="logo-name" > Pugliamare</div>
-        <div class="logo-tag">FORUM · COMMUNITY</div>
-      </div>
-    </a>
-    <nav class="top">
-      <a th:href="@{/}" >Home</a>
-      <a th:href="@{/esperienze}">Esperienze</a>
-      <a th:href="@{/dashboard}">Dashboard</a>
-      <a th:href="@{/backoffice}"
-      th:if="${user != null and user.isAdmin()}">
-      Backoffice</a>
-    </nav>
-    <a class="avatar-top" href="/profilo" title="Il tuo profilo">MP</a>
-  </div>
-</header>
+<!-- ══ APP BAR (fragment condiviso) ══ -->
+<header th:replace="~{fragments/layout :: header('')}"></header>
 
 <!-- ══ PROFILO ══ -->
 <div class="page">
@@ -142,6 +124,8 @@
   <p class="anagrafica-field">Data di nascita: 01/02/2003</p>
   <button class="anagrafica-edit-btn" type="button">✎ Modifica Dati</button>
 </div>
+
+<footer th:replace="~{fragments/layout :: footer}"></footer>
 
 </body>
 </html>

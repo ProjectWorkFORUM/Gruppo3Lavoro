@@ -27,6 +27,7 @@ public class Risposte {
     @Column(name="testo")
     private String testo;
 
+    // valorizzata lato server al salvataggio, non è un campo del form
     @DateTimeFormat(pattern = "yyyy-MM-dd")
     @Column(name="data_creazione")
     private String data_creazione;
