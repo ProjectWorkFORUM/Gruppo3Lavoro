@@ -44,7 +44,7 @@ public class EsperienzeController {
 
     // dettaglio di una singola esperienza con le sue recensioni
     @GetMapping("/esperienze/{id}")
-    public String dettagliEsperienza(@PathVariable Long id, Model model, HttpSession session) {
+    public String dettagliEsperienza(@PathVariable(name = "id") Long id, Model model, HttpSession session) {
         Esperienze esperienza = esperienzeDao.findById(id).orElse(null);
         if (esperienza == null) {
             return "redirect:/esperienze";

@@ -19,7 +19,8 @@ import its.progetto.Forum.Model.Thread;
 import its.progetto.Forum.Model.Utenti;
 
 import jakarta.servlet.http.HttpSession;
-
+// push di test per problema
+// codice per enrrico
 @Controller
 @RequestMapping("/admin")
 public class AdminController {

@@ -52,7 +52,24 @@
 <div style="min-height:100vh;">
 
   <!-- ── Header ──────────────────────────────────────── -->
-  <header th:replace="~{fragments/navbar :: main-navbar}"></header>
+  <header class="site-header">
+    <div class="inner">
+      <a class="logo" th:href="@{/home}">
+        <div class="icon">P</div>
+        <div>
+          <div class="name">Pugliamare</div>
+          <div class="tagline">FORUM · COMMUNITY</div>
+        </div>
+      </a>
+      <nav class="site-nav">
+        <a th:href="@{/}">Home</a>
+        <a th:href="@{/esperienze}" style="color:#0C4A57;">Esperienze</a>
+        <a th:href="@{/dashboard}">Dashboard</a>
+        <a th:href="@{/backoffice}" th:if="${user != null and user.isAdmin()}">Backoffice</a>
+      </nav>
+      <a class="avatar" th:href="@{/profilo}" title="Il tuo profilo">MP</a>
+    </div>
+  </header>
 
   <!-- ── Intestazione pagina ─────────────────────────── -->
   <div class="page-head">

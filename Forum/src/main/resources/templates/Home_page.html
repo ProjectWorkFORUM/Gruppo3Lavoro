@@ -31,7 +31,35 @@
 <body>
 
 <!-- ══ APP BAR ══ -->
-<header th:replace="~{fragments/navbar :: main-navbar}"></header>
+<header>
+  <div class="bar">
+    <a class="logo" href="/">
+      <div class="logo-icon">P</div>
+      <div>
+        <div class="logo-name">Pugliamare</div>
+        <div class="logo-tag">FORUM · COMMUNITY</div>
+      </div>
+    </a>
+    <div class="search">
+      <span>⌕</span>
+      <input type="text" placeholder="Cerca un'esperienza, una città, un #hashtag…" aria-label="Cerca">
+    </div>
+    <nav class="top">
+      <a th:href="@{/}" class="active">Home</a>
+      <a th:href="@{/esperienze}">Esperienze</a>
+      <a th:href="@{/dashboard}">Dashboard</a>
+      <a th:href="@{/backoffice}" 
+      th:if="${user != null and user.isAdmin()}">
+      Backoffice</a>
+          <div class="auth">
+      <a th:href="@{/login}" th:if="${user == null}">Accedi</a>
+      <a th:href="@{/register}" th:if="${user == null}">Registrati</a>
+      <a th:href="@{/logout}" th:if="${user != null}">Logout</a>
+  </div>
+      <a class="avatar" th:if="${user != null}" th:href="@{/profilo}" title="Il tuo profilo" th:text="${user != null ? user.iniziali : 'MP'}">MP</a>
+    </nav>
+
+</header>
 
 <!-- ══ HOME ══ -->
 <div class="page">
@@ -66,6 +94,14 @@
             <span class="post-exp" th:text="${r.esperienza != null ? r.esperienza.titolo : ''}">Tour in barca nelle Grotte di Polignano</span>
           </div>
           <p class="post-text" th:text="${r.testo}">Esperienza da sogno: le grotte al tramonto e l'aperitivo in barca.</p>
+
+          <!-- Foto della recensione: nomeFoto è la variabile del ciclo,
+               vale un nome di file per ogni elemento di nomeFile separato da virgola -->
+          <div th:if="${r.nomeFile != null}">
+            <img th:each="nomeFoto : ${r.nomeFile.split(',')}"
+                 th:src="@{/uploads/{nome}(nome=${nomeFoto})}" alt="Foto recensione"
+                 style="max-width:100%; border-radius:8px; margin-top:8px;">
+          </div>
         </a>
         <div class="post-actions">
           <button class="like" type="button">♡ 0</button>

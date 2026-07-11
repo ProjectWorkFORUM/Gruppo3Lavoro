@@ -48,6 +48,8 @@ public class Recensioni {
 
     private boolean visibile = true;
 
+    private String nomeFile;
+
     public Recensioni(){}
 
     public Recensioni(String titolo, String testo, int voto){
@@ -118,5 +120,13 @@ public class Recensioni {
 
     public void setVisibile(boolean visibile) {
         this.visibile = visibile;
+    }
+
+    public void setNomeFile(String nomeFile) {
+        this.nomeFile = nomeFile;
+    }
+
+    public String getNomeFile() {
+        return nomeFile;
     }
 }

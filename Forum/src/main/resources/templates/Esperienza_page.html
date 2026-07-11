@@ -12,7 +12,29 @@
 </head>
 
 <body>
-<header th:replace="~{fragments/navbar :: main-navbar}"></header>
+<header>
+  <div class="bar">
+    <a class="logo" th:href="@{/}">
+      <div class="logo-icon">P</div>
+      <div>
+        <div class="logo-name">Pugliamare</div>
+        <div class="logo-tag">FORUM · COMMUNITY</div>
+      </div>
+    </a>
+    <div class="search">
+      <span>⌕</span>
+      <input type="text" placeholder="Cerca un'esperienza, una città, un #hashtag…" aria-label="Cerca">
+    </div>
+    <nav class="top">
+      <a th:href="@{/}">Home</a>
+      <a th:href="@{/esperienze}">Esperienze</a>
+      <a th:href="@{/dashboard}">Dashboard</a>
+      <a th:href="@{/backoffice}" th:if="${user != null and user.isAdmin()}">Backoffice</a>
+    </nav>
+    <a th:href="@{/esperienze/{id}/recensioni/nuova(id=${esperienza.id})}"><button class="btn-write">✎ Recensione</button></a>
+    <a class="avatar" th:href="@{/profilo}" title="Il tuo profilo" th:text="${user != null ? user.iniziali : 'MP'}">MP</a>
+  </div>
+</header>
 
 <div class="page">
 
@@ -59,6 +81,13 @@
             <span class="stars" th:text="${#strings.repeat('★', r.voto)}">★★★★★</span>
           </div>
           <p class="review-text" th:text="${r.testo}">Acque cristalline e grotte spettacolari. L'aperitivo a bordo è stato il tocco perfetto.</p>
+
+          <!-- Foto della recensione -->
+          <div th:if="${r.nomeFile != null}">
+            <img th:each="nomeFoto : ${r.nomeFile.split(',')}"
+                 th:src="@{/uploads/{nome}(nome=${nomeFoto})}" alt="Foto recensione"
+                 style="max-width:100%; border-radius:8px; margin-top:8px;">
+          </div>
         </div>
 
       </div>

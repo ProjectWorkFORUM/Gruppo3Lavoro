@@ -31,7 +31,26 @@
 <body>
 
 <!-- ══ APP BAR ══ -->
-<header th:replace="~{fragments/navbar :: main-navbar}"></header>
+<header>
+  <div class="bar">
+    <a class="logo" href="/">
+      <div class="logo-icon">P</div>
+      <div>
+        <div class="logo-name" > Pugliamare</div>
+        <div class="logo-tag">FORUM · COMMUNITY</div>
+      </div>
+    </a>
+    <nav class="top">
+      <a th:href="@{/}" >Home</a>
+      <a th:href="@{/esperienze}">Esperienze</a>
+      <a th:href="@{/dashboard}">Dashboard</a>
+      <a th:href="@{/backoffice}"
+      th:if="${user != null and user.isAdmin()}">
+      Backoffice</a>
+    </nav>
+    <a class="avatar-top" href="/profilo" title="Il tuo profilo">MP</a>
+  </div>
+</header>
 
 <!-- ══ PROFILO ══ -->
 <div class="page">

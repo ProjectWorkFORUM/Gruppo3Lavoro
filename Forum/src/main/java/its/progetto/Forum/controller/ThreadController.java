@@ -42,7 +42,7 @@ public class ThreadController {
 
     // discussioni di una singola esperienza: aperte a tutti (anche non loggati) in visualizzazione
     @GetMapping("/esperienze/{esperienzaId}/discussioni")
-    public String discussioniEsperienza(@PathVariable Long esperienzaId, Model model, HttpSession session){
+    public String discussioniEsperienza(@PathVariable(name = "esperienzaId") Long esperienzaId, Model model, HttpSession session){
         Esperienze esperienza = esperienzeDao.findById(esperienzaId).orElse(null);
         if(esperienza == null){
             return "redirect:/esperienze";
@@ -54,7 +54,7 @@ public class ThreadController {
     }
 
     @GetMapping("/esperienze/{esperienzaId}/Thread/nuovo")
-    public String nuovoThread(@PathVariable Long esperienzaId, Thread thread, Model model, HttpSession session){
+    public String nuovoThread(@PathVariable(name = "esperienzaId") Long esperienzaId, Thread thread, Model model, HttpSession session){
         Utenti loggato = (Utenti) session.getAttribute("loggedUser");
         if(loggato == null){
             return "redirect:/login";
@@ -69,7 +69,7 @@ public class ThreadController {
     }
 
     @PostMapping("/esperienze/{esperienzaId}/Thread")
-    public String salvaThread(@PathVariable Long esperienzaId, @Valid Thread thread, BindingResult bindingResult, HttpSession session, Model model){
+    public String salvaThread(@PathVariable(name = "esperienzaId") Long esperienzaId, @Valid Thread thread, BindingResult bindingResult, HttpSession session, Model model){
         Utenti loggato = (Utenti) session.getAttribute("loggedUser");
         if(loggato == null){
             return "redirect:/login";
