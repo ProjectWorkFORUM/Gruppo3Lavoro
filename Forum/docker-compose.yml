@@ -1,0 +1,48 @@
+# =====================================================================
+# docker-compose.yml del progetto Forum
+#   - app : Spring Boot + Thymeleaf (buildata dal Dockerfile qui accanto)
+#   - db  : MySQL 8 (immagine ufficiale, nessun Dockerfile)
+#
+# I due servizi stanno sulla stessa rete Docker di default del compose:
+# l'app raggiunge il database con l'hostname "db" (nome del servizio).
+# =====================================================================
+
+services:
+
+  # -------------------- DATABASE --------------------
+  db:
+    image: mysql:8
+    environment:                        # configurazione via variabili d'ambiente, non nel codice
+      MYSQL_DATABASE: forum
+      MYSQL_USER: app_user
+      MYSQL_PASSWORD: app_password
+      MYSQL_ROOT_PASSWORD: root_password
+    ports:
+      - "3306:3306"                     # opzionale: serve solo per ispezionare il DB dall'host
+    volumes:
+      - db_data:/var/lib/mysql          # volume dedicato: i dati persistono ai riavvii
+    healthcheck:                        # l'app parte solo quando MySQL risponde davvero
+      test: ["CMD", "mysqladmin", "ping", "-h", "localhost"]
+      interval: 5s
+      timeout: 3s
+      retries: 10
+
+  # -------------------- APPLICAZIONE --------------------
+  app:
+    build: .                            # usa il Dockerfile in questa cartella (Forum/)
+    ports:
+      - "8080:8080"
+    environment:
+      # Il punto chiave dell'interoperabilita': l'host non e' piu' localhost
+      # ma "db", il nome del servizio qui sopra. Queste variabili SPRING_*
+      # sovrascrivono i valori di application.properties senza toccare il codice.
+      SPRING_DATASOURCE_URL: jdbc:mysql://db:3306/forum?serverTimezone=UTC
+      SPRING_DATASOURCE_USERNAME: app_user
+      SPRING_DATASOURCE_PASSWORD: app_password
+    depends_on:
+      db:
+        condition: service_healthy      # aspetta l'healthcheck del DB prima di partire
+
+# -------------------- VOLUMI --------------------
+volumes:
+  db_data:

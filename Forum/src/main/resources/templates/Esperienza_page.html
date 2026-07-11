@@ -8,38 +8,17 @@
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@400;500;600;700;800&family=Mulish:wght@400;500;600;700;800&display=swap" rel="stylesheet">
   <link rel="stylesheet" href="../static/css/Esperienza_page.css" th:href="@{/Css/Esperienza_page.css}">
-</head>
+  <link rel="stylesheet" th:href="@{/Css/layout.css}">
 </head>
 
 <body>
-<header>
-  <div class="bar">
-    <a class="logo" th:href="@{/}">
-      <div class="logo-icon">P</div>
-      <div>
-        <div class="logo-name">Pugliamare</div>
-        <div class="logo-tag">FORUM · COMMUNITY</div>
-      </div>
-    </a>
-    <div class="search">
-      <span>⌕</span>
-      <input type="text" placeholder="Cerca un'esperienza, una città, un #hashtag…" aria-label="Cerca">
-    </div>
-    <nav class="top">
-      <a th:href="@{/}">Home</a>
-      <a th:href="@{/esperienze}">Esperienze</a>
-      <a th:href="@{/dashboard}">Dashboard</a>
-      <a th:href="@{/backoffice}" th:if="${user != null and user.isAdmin()}">Backoffice</a>
-    </nav>
-    <a th:href="@{/esperienze/{id}/recensioni/nuova(id=${esperienza.id})}"><button class="btn-write">✎ Recensione</button></a>
-    <a class="avatar" th:href="@{/profilo}" title="Il tuo profilo" th:text="${user != null ? user.iniziali : 'MP'}">MP</a>
-  </div>
-</header>
+<!-- ══ APP BAR (fragment condiviso) ══ -->
+<header th:replace="~{fragments/layout :: header('esperienze')}"></header>
 
 <div class="page">
 
   <div class="breadcrumb">
-    <a th:href="@{/home}">Home</a>
+    <a th:href="@{/}">Home</a>
     <span class="sep">›</span>
     <a class="cat" th:if="${esperienza.categoria != null}" th:href="@{/esperienze(categoriaId=${esperienza.categoria.id})}" th:text="${esperienza.categoria.nome}">Al mare</a>
     <span class="sep">›</span>
@@ -130,5 +109,8 @@
     saveBtn.textContent = saved ? '★ Salvato nei preferiti' : '♡ Salva nei preferiti';
   });
 </script>
+
+<footer th:replace="~{fragments/layout :: footer}"></footer>
+
 </body>
 </html>

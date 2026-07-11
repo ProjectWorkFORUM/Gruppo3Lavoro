@@ -60,7 +60,7 @@ public class PageController {
             return "redirect:/login";
         }
         if (utente.getRuolo() != Ruolo.ADMIN) {
-            return "redirect:/home";
+            return "redirect:/";
         }
 
         model.addAttribute("threads", threadDao.findByVisibileTrue());

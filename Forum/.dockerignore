@@ -1,0 +1,7 @@
+# escluso dal build context: build piu' veloce e cache piu' stabile
+target/
+.git/
+.gitignore
+.idea/
+.vscode/
+*.md

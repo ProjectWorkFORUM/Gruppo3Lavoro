@@ -1,0 +1,62 @@
+<!DOCTYPE html>
+<html lang="it" xmlns:th="http://www.thymeleaf.org">
+<head>
+  <meta charset="utf-8">
+  <!--
+    Fragment condivisi: header (navbar) e footer.
+    Uso nelle pagine:
+      <header th:replace="~{fragments/layout :: header('home')}"></header>
+      ...contenuto pagina...
+      <div th:replace="~{fragments/layout :: footer}"></div>
+    Ricordarsi di includere il CSS:  <link rel="stylesheet" th:href="@{/Css/layout.css}">
+    Il parametro di header(...) evidenzia la voce di menu attiva:
+      'home' | 'esperienze' | 'dashboard' | 'backoffice'  (stringa vuota = nessuna)
+    L'utente loggato è disponibile come ${user} grazie a GlobalModelAdvice.
+  -->
+</head>
+<body>
+
+<!-- ══════════════ HEADER / NAVBAR ══════════════ -->
+<header class="nav-header" th:fragment="header(active)">
+  <div class="nav-bar">
+    <a class="nav-logo" th:href="@{/}">
+      <div class="nav-logo-icon">P</div>
+      <div>
+        <div class="nav-logo-name">Pugliamare</div>
+        <div class="nav-logo-tag">FORUM · COMMUNITY</div>
+      </div>
+    </a>
+    <nav class="nav-top">
+      <a th:href="@{/}"            th:classappend="${active == 'home'} ? 'active'">Home</a>
+      <a th:href="@{/esperienze}"  th:classappend="${active == 'esperienze'} ? 'active'">Esperienze</a>
+      <a th:href="@{/dashboard}"   th:classappend="${active == 'dashboard'} ? 'active'">Dashboard</a>
+      <a th:href="@{/backoffice}"  th:if="${user != null and user.isAdmin()}"
+         th:classappend="${active == 'backoffice'} ? 'active'">Backoffice</a>
+    </nav>
+    <a th:href="@{/recensione}" th:if="${user != null}" class="nav-write">✎ Recensione</a>
+    <div class="nav-auth">
+      <a th:href="@{/login}"    th:if="${user == null}">Accedi</a>
+      <a th:href="@{/register}" th:if="${user == null}">Registrati</a>
+      <a th:href="@{/logout}"   th:if="${user != null}">Logout</a>
+    </div>
+    <a class="nav-avatar" th:if="${user != null}" th:href="@{/profilo}"
+       title="Il tuo profilo" th:text="${user != null ? user.iniziali : 'MP'}">MP</a>
+  </div>
+</header>
+
+<!-- ══════════════ FOOTER ══════════════ -->
+<footer class="site-footer" th:fragment="footer">
+  <div class="site-footer-logo">
+    <div class="site-footer-logo-icon">P</div>
+    <span>Pugliamare Forum</span>
+  </div>
+  <nav class="site-footer-links">
+    <a th:href="@{/}">Home</a>
+    <a th:href="@{/esperienze}">Esperienze</a>
+    <a href="#">Contatti</a>
+  </nav>
+  <div class="site-footer-copy">© 2026 Pugliamare SRL · Conversano (BA)</div>
+</footer>
+
+</body>
+</html>

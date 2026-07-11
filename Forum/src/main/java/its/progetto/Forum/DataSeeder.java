@@ -39,8 +39,21 @@ public class DataSeeder implements CommandLineRunner {
         this.recensioniDao = recensioniDao;
     }
 
+    // Comodita' per la demo: se true, a ogni avvio ogni utente riceve tutte le
+    // esperienze (cosi' chiunque puo' scrivere recensioni e risposte senza acquisti
+    // manuali). Metti a false per tornare alla regola "solo chi ha davvero acquistato".
+    private static final boolean ASSEGNA_TUTTE_LE_ESPERIENZE_A_TUTTI = true;
+
     @Override
     public void run(String... args) {
+        seedDemoData();
+        if (ASSEGNA_TUTTE_LE_ESPERIENZE_A_TUTTI) {
+            assegnaTutteLeEsperienzeATutti();
+        }
+    }
+
+    // Dati demo iniziali: girano solo la prima volta, a database vuoto.
+    private void seedDemoData() {
         // se l'utente demo esiste gia' non riseminiamo (evita duplicati a ogni avvio)
         if (utentiDao.existsByUsername("mario")) {
             return;
@@ -122,6 +135,27 @@ public class DataSeeder implements CommandLineRunner {
             salvaRecensione("Cooking class top", 5,
                     "Ho imparato a fare orecchiette e focaccia con una chef simpaticissima. Cena finale inclusa. Top!",
                     esperienze.get(1), mario);
+        }
+    }
+
+    // Assegna a ogni utente tutte le esperienze che non ha ancora acquistato.
+    // Idempotente: grazie al controllo existsBy... i doppioni non vengono inseriti,
+    // quindi si puo' rilanciare a ogni avvio senza creare acquisti duplicati.
+    private void assegnaTutteLeEsperienzeATutti() {
+        List<Esperienze> esperienze = esperienzeDao.findAll();
+        List<Utenti> utenti = utentiDao.findAll();
+        for (Utenti utente : utenti) {
+            for (Esperienze esperienza : esperienze) {
+                if (acquistoDao.existsByUtenteIdAndEsperienzaId(utente.getId(), esperienza.getId())) {
+                    continue;
+                }
+                Acquisto acquisto = new Acquisto();
+                acquisto.setUtente(utente);
+                acquisto.setEsperienza(esperienza);
+                acquisto.setDataAcquisto(LocalDate.now().toString());
+                acquisto.setPrezzo_pagato(esperienza.getPrezzo() != null ? esperienza.getPrezzo() : 0);
+                acquistoDao.save(acquisto);
+            }
         }
     }
 
