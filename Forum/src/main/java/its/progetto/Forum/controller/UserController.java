@@ -99,11 +99,7 @@ public class UserController {
 
     // logut
     // uso remove attribute perchè cancella solo l'attribute loggedUser-
-    @GetMapping("/logout")
-    public String logout(HttpSession session) {
-        session.removeAttribute("loggedUser");
-        return "redirect:/";
-    }
+
 
 
 }
