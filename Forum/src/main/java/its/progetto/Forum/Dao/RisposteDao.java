@@ -13,5 +13,7 @@ public interface RisposteDao extends JpaRepository<Risposte, Long> {
 
     List<Risposte> findByThread(Thread thread);
 
+    List<Risposte> findByThreadIdAndVisibileTrueOrderByIdAsc(Long threadId);
+
     List<Risposte> findByVisibileTrue();
 }

@@ -18,20 +18,17 @@ public class Risposte {
     @GeneratedValue(strategy = jakarta.persistence.GenerationType.IDENTITY)
     private Long id;
 
-    @Size(min = 3, max=30)
-    @NotNull(message = "Titolo richiesto")
-    @NotBlank(message = "Titolo richiesto")
+    @Size(max=30)
     @Column(name="titolo")
     private String titolo;
 
     @Size(min = 3, max=255)
-    @NotNull(message = "Testo richiesto")
     @NotBlank(message = "Testo richiesto")
     @Column(name="testo")
     private String testo;
 
+    // valorizzata lato server al salvataggio, non è un campo del form
     @DateTimeFormat(pattern = "yyyy-MM-dd")
-    @NotNull(message = "Data creazione richiesta")
     @Column(name="data_creazione")
     private String data_creazione;
 
@@ -91,14 +88,6 @@ public class Risposte {
 
     public String getData_creazione() {
         return data_creazione;
-    }
-
-    public void setId_utente(Long id_utente) {
-        this.id = id_utente;
-    }
-
-    public Long getId_utente() {
-        return id;
     }
 
     public Utenti getUtente() {

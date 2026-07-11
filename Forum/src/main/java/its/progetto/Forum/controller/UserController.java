@@ -129,5 +129,9 @@ public class UserController {
 
         return "redirect:/profilo?successo";
     }
+    // logut
+    // uso remove attribute perchè cancella solo l'attribute loggedUser-
+
+
 
 }

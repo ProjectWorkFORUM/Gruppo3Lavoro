@@ -5,7 +5,9 @@ import jakarta.validation.Valid;
 import org.springframework.ui.Model;
 import its.progetto.Forum.Dao.AcquistoDao;
 import its.progetto.Forum.Dao.EsperienzeDao;
+import its.progetto.Forum.Dao.RisposteDao;
 import its.progetto.Forum.Dao.ThreadDao;
+import its.progetto.Forum.Model.Risposte;
 import its.progetto.Forum.Model.Thread;
 import its.progetto.Forum.Model.Utenti;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -27,6 +29,8 @@ public class ThreadController {
     private AcquistoDao acquistoDao;
     @Autowired
     private EsperienzeDao esperienzeDao;
+    @Autowired
+    private RisposteDao risposteDao;
 
     @GetMapping("/Threads")
         public String listaThread (Model model, HttpSession session){
@@ -73,7 +77,11 @@ public class ThreadController {
 
         Esperienze esperienza = esperienzeDao.findById(esperienzaId).orElseThrow();
 
-        // le discussioni sono aperte a qualsiasi utente loggato (nessun vincolo di acquisto)
+        // BR-02: come per le recensioni, può porre domande solo chi ha acquistato l'esperienza
+        if(!acquistoDao.existsByUtenteIdAndEsperienzaId(loggato.getId(), esperienzaId)){
+            return "redirect:/esperienze/" + esperienzaId + "/discussioni?nonAcquistata";
+        }
+
         if(bindingResult.hasErrors()){
             model.addAttribute("esperienza", esperienza);
             model.addAttribute("listaThread", threadDao.findByEsperienzaIdAndVisibileTrue(esperienzaId));
@@ -84,6 +92,41 @@ public class ThreadController {
         thread.setStato(true);
         thread.setEsperienza(esperienza);
         threadDao.save(thread);
+        return "redirect:/esperienze/" + esperienzaId + "/discussioni";
+    }
+
+    // US-09: rispondere a una domanda della community
+    @PostMapping("/esperienze/{esperienzaId}/discussioni/{threadId}/risposte")
+    public String salvaRisposta(@PathVariable Long esperienzaId,
+                                @PathVariable Long threadId,
+                                @Valid Risposte risposte,
+                                BindingResult bindingResult,
+                                HttpSession session){
+
+        Utenti loggato = (Utenti) session.getAttribute("loggedUser");
+        if(loggato == null){
+            return "redirect:/login";
+        }
+
+        // BR-02: come per domande e recensioni, risponde solo chi ha acquistato l'esperienza
+        if(!acquistoDao.existsByUtenteIdAndEsperienzaId(loggato.getId(), esperienzaId)){
+            return "redirect:/esperienze/" + esperienzaId + "/discussioni?nonAcquistata";
+        }
+
+        Thread thread = threadDao.findById(threadId).orElse(null);
+        if(thread == null || thread.getEsperienza() == null
+                || !thread.getEsperienza().getId().equals(esperienzaId)){
+            return "redirect:/esperienze/" + esperienzaId + "/discussioni";
+        }
+
+        if(bindingResult.hasErrors()){
+            return "redirect:/esperienze/" + esperienzaId + "/discussioni?rispostaNonValida";
+        }
+
+        risposte.setThread(thread);
+        risposte.setUtente(loggato);
+        risposte.setData_creazione(java.time.LocalDate.now().toString());
+        risposteDao.save(risposte);
         return "redirect:/esperienze/" + esperienzaId + "/discussioni";
     }
 }

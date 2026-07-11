@@ -1,0 +1,68 @@
+<!DOCTYPE html>
+<html lang="it" xmlns:th="http://www.thymeleaf.org">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Nuova risposta · Pugliamare Forum</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Outfit:wght@400;500;600;700;800&family=Mulish:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="../static/css/thread-page.css" th:href="@{/Css/thread-page.css}">
+<link rel="stylesheet" th:href="@{/Css/layout.css}">
+<style>
+  .form-field { margin-bottom: 14px; }
+  .form-field label { display: block; font-weight: 700; font-size: 13.5px; color: #15323B; margin-bottom: 6px; }
+  .form-field input,
+  .form-field textarea {
+    width: 100%; border: 1.5px solid #E6DCCB; border-radius: 11px; padding: 11px 14px;
+    font-size: 14px; outline: none; background: #FBF7EF; box-sizing: border-box;
+  }
+  .form-field textarea { min-height: 120px; resize: vertical; }
+  .form-field input:focus, .form-field textarea:focus { border-color: #1B8DA3; box-shadow: 0 0 0 3px rgba(27,141,163,.14); }
+  .field-error { color: #C0392B; font-size: 12.5px; margin-top: 5px; }
+</style>
+</head>
+<body>
+
+<header th:replace="~{fragments/layout :: header('esperienze')}"></header>
+
+<div class="page">
+
+  <!-- Breadcrumb -->
+  <div class="breadcrumb">
+    <a href="/">Home</a>
+    <span class="sep">›</span>
+    <a class="exp" th:href="@{/Threads/{id}/Risposte(id=${thread.id})}" th:text="${thread.titolo}">Discussione</a>
+    <span class="sep">›</span>
+    <span class="current">Nuova risposta</span>
+  </div>
+
+  <div class="eyebrow">RISPONDI ALLA DISCUSSIONE</div>
+  <h1 class="title" th:text="${thread.titolo}">Titolo della discussione</h1>
+
+  <form class="new-thread" method="post"
+        th:action="@{/Threads/{id}/Risposte/salva(id=${thread.id})}" th:object="${risposte}">
+
+    <div class="form-field">
+      <label for="titolo">Titolo</label>
+      <input type="text" id="titolo" th:field="*{titolo}" placeholder="Un titolo breve per la tua risposta">
+      <div class="field-error" th:if="${#fields.hasErrors('titolo')}" th:errors="*{titolo}">Errore titolo</div>
+    </div>
+
+    <div class="form-field">
+      <label for="testo">Testo</label>
+      <textarea id="testo" th:field="*{testo}" placeholder="Scrivi la tua risposta…"></textarea>
+      <div class="field-error" th:if="${#fields.hasErrors('testo')}" th:errors="*{testo}">Errore testo</div>
+    </div>
+
+    <div class="row">
+      <button class="btn-post" type="submit">Pubblica risposta</button>
+    </div>
+  </form>
+
+</div>
+
+<footer th:replace="~{fragments/layout :: footer}"></footer>
+
+</body>
+</html>
