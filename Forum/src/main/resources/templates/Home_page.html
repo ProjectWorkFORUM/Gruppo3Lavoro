@@ -27,39 +27,12 @@
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@400;500;600;700;800&family=Mulish:wght@400;500;600;700;800&display=swap" rel="stylesheet">
 <link rel="stylesheet" href="../static/css/Home_page.css" th:href="@{/Css/Home_page.css}">
+<link rel="stylesheet" th:href="@{/Css/layout.css}">
 </head>
 <body>
 
-<!-- ══ APP BAR ══ -->
-<header>
-  <div class="bar">
-    <a class="logo" href="/">
-      <div class="logo-icon">P</div>
-      <div>
-        <div class="logo-name">Pugliamare</div>
-        <div class="logo-tag">FORUM · COMMUNITY</div>
-      </div>
-    </a>
-    <div class="search">
-      <span>⌕</span>
-      <input type="text" placeholder="Cerca un'esperienza, una città, un #hashtag…" aria-label="Cerca">
-    </div>
-    <nav class="top">
-      <a th:href="@{/}" class="active">Home</a>
-      <a th:href="@{/esperienze}">Esperienze</a>
-      <a th:href="@{/dashboard}">Dashboard</a>
-      <a th:href="@{/backoffice}" 
-      th:if="${user != null and user.isAdmin()}">
-      Backoffice</a>
-          <div class="auth">
-      <a th:href="@{/login}" th:if="${user == null}">Accedi</a>
-      <a th:href="@{/register}" th:if="${user == null}">Registrati</a>
-      <a th:href="@{/logout}" th:if="${user != null}">Logout</a>
-  </div>
-      <a class="avatar" th:if="${user != null}" th:href="@{/profilo}" title="Il tuo profilo" th:text="${user != null ? user.iniziali : 'MP'}">MP</a>
-    </nav>
-
-</header>
+<!-- ══ APP BAR (fragment condiviso) ══ -->
+<header th:replace="~{fragments/layout :: header('home')}"></header>
 
 <!-- ══ HOME ══ -->
 <div class="page">
@@ -184,6 +157,8 @@
 
   </div>
 </div>
+
+<footer th:replace="~{fragments/layout :: footer}"></footer>
 
 <script>
   // Like toggle (demo lato client — in produzione usa una chiamata al backend)

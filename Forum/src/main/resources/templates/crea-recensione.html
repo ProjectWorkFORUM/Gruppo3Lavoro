@@ -8,29 +8,14 @@
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Mulish:wght@400;600;700;800&family=Outfit:wght@700;800&display=swap" rel="stylesheet">
   <link rel="stylesheet" href="../static/css/crea-recensione.css" th:href="@{/Css/crea-recensione.css}">
+  <link rel="stylesheet" th:href="@{/Css/layout.css}">
 </head>
 <body>
 
 <div style="min-height:100vh;">
 
-  <!-- ── Header ──────────────────────────────────────── -->
-  <header class="site-header">
-    <div class="inner">
-      <a class="logo" th:href="@{/home}">
-        <div>
-          <div class="name">Pugliamare</div>
-          <div class="tagline">FORUM · COMMUNITY</div>
-        </div>
-      </a>
-      <nav class="site-nav">
-        <a th:href="@{/}">Home</a>
-        <a th:href="@{/esperienze}">Esperienze</a>
-        <a th:href="@{/dashboard}">Dashboard</a>
-      </nav>
-
-      <a class="avatar" th:href="@{/profilo}" title="Il tuo profilo">MP</a>
-    </div>
-  </header>
+  <!-- ── Header (fragment condiviso) ──────────────────── -->
+  <header th:replace="~{fragments/layout :: header('')}"></header>
 
   <!-- ── Contenuto ───────────────────────────────────── -->
   <div class="page">
@@ -138,6 +123,8 @@
     this.action = '/esperienze/' + esperienzaId + '/recensioni';
   });
 </script>
+
+<footer th:replace="~{fragments/layout :: footer}"></footer>
 
 </body>
 </html>

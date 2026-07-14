@@ -31,38 +31,19 @@
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@400;500;600;700;800&family=Mulish:wght@400;500;600;700;800&display=swap" rel="stylesheet">
-<link rel="stylesheet" href="../static/css/thread-page.css" th:href="@{Css/thread_page.css}">
+<link rel="stylesheet" href="../static/css/thread-page.css" th:href="@{/Css/Thread_page.css}">
 </head>
 <body>
 
-<!-- ══ APP BAR ══ -->
-<header>
-  <div class="bar">
-    <a class="logo" href="/">
-      <div class="logo-icon">P</div>
-      <div>
-        <div class="logo-name">Pugliamare</div>
-        <div class="logo-tag">FORUM · COMMUNITY</div>
-      </div>
-    </a>
-    <nav class="top">
-      <a th:href="@{/}">Home</a>
-      <a th:href="@{/esperienze}">Esperienze</a>
-      <a th:href="@{/dashboard}">Dashboard</a>
-      <a th:href="@{/backoffice}"
-      th:if="${user != null and user.isAdmin()}">
-      Backoffice</a>
-    </nav>
-    <a class="avatar-top" href="/profilo" title="Il tuo profilo">MP</a>
-  </div>
-</header>
+<!-- ══ APP BAR (fragment condiviso) ══ -->
+<header th:replace="~{fragments/layout :: header('esperienze')}"></header>
 
 <!-- ══ THREAD / DISCUSSIONI ══ -->
 <div class="page">
 
   <!-- Breadcrumb -->
   <div class="breadcrumb">
-    <a href="/home">Home</a>
+    <a href="/">Home</a>
     <span class="sep">›</span>
     <a class="exp" href="/esperienze" th:text="${esperienza != null ? esperienza.titolo : 'Esperienze'}">Tour in barca a Polignano</a>
     <span class="sep">›</span>
@@ -89,7 +70,8 @@
       <!-- Lista thread: dinamica dal database -->
       <div class="threads">
 
-        <div class="thread" th:each="t : ${listaThread}">
+        <a class="thread" th:each="t : ${listaThread}" style="display:block; text-decoration:none; color:inherit;"
+           th:href="@{/Threads/{id}/Risposte(id=${t.id})}">
           <div class="thread-head">
             <div class="thread-ava" style="background:#0C4A57;">💬</div>
             <div style="flex:1;">
@@ -98,7 +80,7 @@
             </div>
             <span class="thread-tag" th:text="${t.stato} ? 'Aperta' : 'Chiusa'">Aperta</span>
           </div>
-        </div>
+        </a>
 
         <div class="thread" th:if="${listaThread == null or #lists.isEmpty(listaThread)}">
           <p class="thread-text">Ancora nessuna discussione. Sii il primo a fare una domanda!</p>
@@ -135,5 +117,8 @@
     });
   });
 </script>
+
+<footer th:replace="~{fragments/layout :: footer}"></footer>
+
 </body>
 </html>

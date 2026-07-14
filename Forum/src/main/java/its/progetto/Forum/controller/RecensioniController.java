@@ -122,7 +122,7 @@ public class RecensioniController {
             recensioni.setDataCreazione(LocalDate.now());
             recensioniDao.save(recensioni);
 
-            return "redirect:/home";
+            return "redirect:/";
 
 
 
