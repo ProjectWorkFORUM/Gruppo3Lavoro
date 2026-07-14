@@ -18,7 +18,7 @@
    6. CSRF sui form se implementi azioni POST.
   ════════════════════════════════════════════════════════════════
 -->
-<html lang="it">
+<html lang="it" xmlns:th="http://www.thymeleaf.org">
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
@@ -44,7 +44,7 @@
       <div class="profile-top">
         <!-- TH: th:text="${utente.iniziali}" -->
         <div class="p-avatar"> <a th:href="@{/profilo-personale}"></a>MP
-          <a class="edit" href="/profilo/modifica" title="Modifica foto">✎</a>
+          <a class="edit" th:href="@{/profilo/modifica}" title="Modifica foto">✎</a>
         </div>
         <div class="p-info">
           <!-- TH: th:text="${utente.nomeCompleto}" -->
@@ -115,17 +115,62 @@
   </div>
 </div>
 
-    <div class="anagrafica-card" id="anagrafica-card">
+<!--/*@thymesVar id="utente" type="its.progetto.Forum.Model.Utenti"*/-->
+<form class="anagrafica-card" id="anagrafica-card" method="post" th:action="@{/profilo/modifica}" th:object="${utente}">
   <div class="anagrafica-title">Anagrafica utente</div>
-  <p class="anagrafica-field" >Nome: Marco</p>
-  <p class="anagrafica-field">Cognome: Pollo</p>
-  <p class="anagrafica-field">Username: marco.pollo</p>
-  <p class="anagrafica-field" >Email: marco.pollo@pollo.it</p>
-  <p class="anagrafica-field">Data di nascita: 01/02/2003</p>
-  <button class="anagrafica-edit-btn" type="button">✎ Modifica Dati</button>
-</div>
+
+  <!-- CAMPI NASCOSTI: Fondamentali per superare le validazioni @NotBlank e @NotNull -->
+  <input type="hidden" th:field="*{id}">
+  <input type="hidden" th:field="*{nome}">
+  <input type="hidden" th:field="*{cognome}">
+  <input type="hidden" th:field="*{email}">
+  <input type="hidden" th:field="*{dataNascita}">
+  <input type="hidden" th:field="*{dataRegistrazione}">
+  <input type="hidden" th:field="*{stato_account}">
+  <input type="hidden" th:field="*{ruolo}">
+
+  <!-- Testi statici visibili all'utente -->
+  <p class="anagrafica-field" th:text="'Nome: ' + *{nome}">Nome: Marco</p>
+  <p class="anagrafica-field" th:text="'Cognome: ' + *{cognome}">Cognome: Pollo</p>
+  <div class="anagrafica-field" style="display: flex; justify-content: center; align-items: center;">
+    <span id="username-testo" th:text="'Username: ' + *{username}">Username: giulia</span>
+
+    <div id="username-input-container" style="display: none; align-items: center; gap: 10px; width: 100%; justify-content: center;">
+      <label for="username" style="font-weight: 700; color: #00565b;">Nuovo Username:</label>
+      <input type="text" id="username" th:field="*{username}" required
+             style="border: 1px solid #00565b; padding: 4px 10px; border-radius: 4px; font-family: inherit;">
+    </div>
+  </div>
+
+  <p class="anagrafica-field" th:text="'Email: ' + *{email}">Email: marco.pollo@pollo.it</p>
+  <p class="anagrafica-field" th:if="*{dataNascita != null}" th:text="'Data di nascita: ' + *{dataNascita}">Data di nascita: 01/02/2003</p>
+
+  <hr style="border: 0; border-top: 1px solid #eee; margin: 15px 0;">
+
+  <!-- Campo PASSWORD-->
+  <div class="anagrafica-field" id="password-blocco" style="display: none; justify-content: center; align-items: center; gap: 10px; min-height: 45px; border:none; background:transparent;">
+    <label for="password" style="font-weight: 700; color: #00565b;">Nuova Password:</label>
+    <input type="password" id="password" th:field="*{password}"  placeholder="Scrivi la nuova password..."
+           style="border: 1px solid #00565b; padding: 6px 10px; border-radius: 4px; font-family: inherit;">
+  </div>
+
+  <!-- Gestione Bottoni -->
+  <div style="margin-top: 20px;">
+    <button class="anagrafica-edit-btn" id="btn-attiva" type="button" onclick="abilitaModifica()">✎ Modifica Dati</button>
+    <button class="anagrafica-edit-btn" id="btn-salva" type="submit" style="display: none; background-color: #00565b; color: white;">💾 Salva Modifiche</button>
+  </div>
+</form>
 
 <footer th:replace="~{fragments/layout :: footer}"></footer>
 
 </body>
+<script>
+  function abilitaModifica() {
+    document.getElementById('username-testo').style.display = 'none';
+    document.getElementById('username-input-container').style.display = 'flex';
+    document.getElementById('password-blocco').style.display = 'flex';
+    document.getElementById('btn-attiva').style.display = 'none';
+    document.getElementById('btn-salva').style.display = 'inline-block';
+  }
+</script>
 </html>

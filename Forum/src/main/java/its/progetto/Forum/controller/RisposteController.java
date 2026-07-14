@@ -65,6 +65,8 @@ public class RisposteController {
             return "redirect:/Threads/" + threadId + "/Risposte";
         }
         model.addAttribute("thread", thread);
+        model.addAttribute("risposte", risposte);
+
         return "Risposta_form";
     }
 
