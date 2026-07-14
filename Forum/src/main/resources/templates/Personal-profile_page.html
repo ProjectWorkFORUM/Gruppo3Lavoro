@@ -56,34 +56,25 @@
   </div>
 
   <!-- Recensioni Dinamiche -->
+
   <h2 class="section">Le tue recensioni</h2>
   <div class="reviews-grid">
 
-    <!-- Iterazione sulla lista di recensioni. ASSICURATI DI AVERE QUESTI CAMPI NELLA CLASSE RECENSIONE! -->
     <div class="review" th:each="r : ${recensioni}">
       <div class="review-head">
-        <span class="review-cat" th:text="${r.categoria}">Categoria</span>
-
-        <!-- Logica dinamica per le stelle (assume che r.voto sia un int da 1 a 5) -->
-        <span class="stars">
-          <th:block th:each="i : ${#numbers.sequence(1, 5)}">
-            <span th:if="${i <= r.voto}">★</span>
-            <span th:if="${i > r.voto}" class="off">★</span>
-          </th:block>
-        </span>
+        <span class="review-cat"
+              th:if="${r.esperienza != null and r.esperienza.categoria != null}"
+              th:text="${r.esperienza.categoria.nome}">Al mare</span>
+        <span class="stars" th:text="${#strings.repeat('★', r.voto)}">★★★★★</span>
       </div>
-
-      <div class="review-exp" th:text="${r.titolo}">Titolo Recensione</div>
-      <p class="review-text" th:text="${r.testo}">Testo della recensione...</p>
-
-      <div class="review-date" th:text="${#temporals.format(r.data, 'MMM yyyy')}">Giu 2026</div>
+      <div class="review-exp" th:text="${r.esperienza != null ? r.esperienza.titolo : ''}">Tour in barca nelle Grotte di Polignano</div>
+      <p class="review-text" th:text="${r.testo}">Indimenticabile, mare cristallino e aperitivo al tramonto.</p>
+      <div class="review-date" th:text="${r.dataCreazione}">Giu 2026</div>
     </div>
 
-    <!-- Messaggio di fallback se non ci sono recensioni -->
-    <div th:if="${#lists.isEmpty(recensioni)}" class="review" style="grid-column: 1 / -1; text-align: center; border: none;">
-      <p>Non hai ancora scritto nessuna recensione.</p>
+    <div class="review" th:if="${#lists.isEmpty(recensioni)}">
+      <p class="review-text">Non hai ancora scritto recensioni. <a th:href="@{/recensione}">Scrivi la prima →</a></p>
     </div>
-
   </div>
 </div>
 

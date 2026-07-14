@@ -3,6 +3,7 @@ package its.progetto.Forum.controller;
 import java.time.LocalDate;
 import java.util.Optional;
 
+import its.progetto.Forum.Dao.RecensioniDao;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -23,6 +24,8 @@ public class UserController {
 
     @Autowired
     private UtentiDao utentiDao;
+    @Autowired
+    private RecensioniDao recensioniDao;
 
     // da togliere in pagecontroller o chiedere
     @GetMapping("/login")
@@ -108,6 +111,7 @@ public class UserController {
             }
 
             model.addAttribute("utente", loggato);
+        model.addAttribute("recensioni", recensioniDao.findByAutoreIdAndVisibileTrueOrderByIdDesc(loggato.getId()));
             return "Personal-profile_page";
 
     }
