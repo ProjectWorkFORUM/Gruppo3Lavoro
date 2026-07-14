@@ -61,7 +61,7 @@
                 th:if="${r.esperienza != null and r.esperienza.categoria != null}"
                 th:text="${r.esperienza.categoria.nome}">Al mare</span>
         </div>
-        <a class="post-body" th:href="@{/esperienze/{id}/discussioni(id=${r.esperienza != null ? r.esperienza.id : 0})}">
+        <a class="post-body" th:href="@{/esperienze/{id}(id=${r.esperienza.id})}">
           <div class="post-exp-row">
             <span class="stars" th:text="${#strings.repeat('★', r.voto)}">★★★★★</span>
             <span class="post-exp" th:text="${r.esperienza != null ? r.esperienza.titolo : ''}">Tour in barca nelle Grotte di Polignano</span>
@@ -78,7 +78,6 @@
         </a>
         <div class="post-actions">
           <button class="like" type="button">♡ 0</button>
-          <button type="button">💬 0</button>
           <button class="share" type="button">↗ Condividi</button>
         </div>
       </article>
