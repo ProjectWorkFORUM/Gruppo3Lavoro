@@ -30,19 +30,10 @@
   <div class="eyebrow">DISCUSSIONE</div>
   <h1 class="title" th:text="${thread.titolo}">Titolo della discussione</h1>
 
-  <!-- CTA per rispondere -->
-  <div class="new-thread" th:if="${puoRispondere}">
-    <a class="btn-post" th:href="@{/Threads/{id}/Risposte/nuova(id=${thread.id})}"
-       style="display:inline-block; text-decoration:none;">↩ Scrivi una risposta</a>
-  </div>
-  <div class="new-thread" th:if="${!puoRispondere}">
-    Solo chi ha acquistato questa esperienza può rispondere.
-    <a href="/login" th:if="${user == null}">Accedi</a>
-  </div>
+
 
   <!-- Lista risposte -->
-  <div class="threads" style="display:flex; flex-direction:column; gap:16px;">
-
+  <div class="thread-list">
     <div class="thread" th:each="r : ${listaRisposte}">
       <div class="thread-head">
         <div class="thread-ava" style="background:#CE6F3D;"
@@ -56,12 +47,23 @@
       <p class="thread-text" th:text="${r.testo}">Testo della risposta.</p>
     </div>
 
-    <div class="thread" th:if="${listaRisposte == null or #lists.isEmpty(listaRisposte)}">
+    <div class="thread thread-empty" th:if="${listaRisposte == null or #lists.isEmpty(listaRisposte)}">
       <p class="thread-text">Ancora nessuna risposta. Sii il primo a rispondere!</p>
     </div>
-  </div>
 
+    <div class="thread-actions">
+      <div th:if="${puoRispondere}">
+        <a class="button-scrivi" th:href="@{/Threads/{id}/Risposte/nuova(id=${thread.id})}"
+           style="display:inline-block; text-decoration:none;">↩ Scrivi una risposta</a>
+      </div>
+      <div  th:if="${!puoRispondere}">
+        Solo chi ha acquistato questa esperienza può rispondere.
+        <a href="/login" th:if="${user == null}"><span style="color:blue;text-decoration: underline;">Accedi</span></a>
+      </div>
+    </div>
+  </div>
 </div>
+
 
 <footer th:replace="~{fragments/layout :: footer}"></footer>
 

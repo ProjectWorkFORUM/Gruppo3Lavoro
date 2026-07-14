@@ -40,18 +40,24 @@
   }
   .new-thread textarea:focus { border-color: #1B8DA3; box-shadow: 0 0 0 3px rgba(27,141,163,.14); }
   .new-thread .row { display: flex; justify-content: flex-end; }
-  .btn-post { border: none; background: #CE6F3D; color: #fff; font-weight: 700; font-size: 14px; padding: 10px 20px; border-radius: 11px; cursor: pointer; transition: filter .15s; }
+  .btn-post {  background: #CE6F3D; color: #fff; font-weight: 700; font-size: 14px; padding-left: 20px; padding-bottom: 10px; padding-top: 10px;  cursor: pointer; transition: filter .15s; }
   .btn-post:hover { filter: brightness(.94); }
 
   /* ── thread list ── */
   .threads { display: flex; flex-direction: column; gap: 14px; }
-  .thread { background: #fff; border: 1px solid #EDE3D2; border-radius: 16px; padding: 18px 20px; box-shadow: 0 3px 12px rgba(7,50,61,.05); }
-  .thread-head { display: flex; align-items: center; gap: 12px; margin-bottom: 10px; }
+  .thread-list { background: #fff; border: 1px solid #EDE3D2; border-radius: 24px; padding: 18px 20px; display: flex; flex-direction: column; gap: 0; }
+  .thread-list .thread { background: transparent; border: none; box-shadow: none; padding: 16px 0; border-bottom: 1px solid #EDE3D2; }
+  .thread-list .thread:last-child { border-bottom: none; padding-bottom: 0; }
+  .thread-list .thread.thread-empty { padding: 0; border-bottom: none; }
+  .thread-actions { padding: 15px 0 15px 20px; }
+  .thread-actions .new-thread { margin: 0; }
+  .thread { background: #fff; border: 1px solid #EDE3D2;  padding: 18px 20px; box-shadow: 0 3px 12px rgba(7,50,61,.05); }
+  .thread-head { display: flex; align-items: center; gap: 12px; margin-bottom: 8px; }
   .thread-ava { width: 40px; height: 40px; border-radius: 50%; display: flex; align-items: center; justify-content: center; color: #fff; font-weight: 800; font-family: 'Outfit'; font-size: 13px; flex: none; }
   .thread-user { font-weight: 800; font-size: 14.5px; color: #15323B; }
   .thread-time { font-size: 12px; color: #9DA8A2; }
   .thread-tag { background: #F1ECE0; color: #5F7882; font-size: 11.5px; font-weight: 700; padding: 5px 11px; border-radius: 999px; }
-  .thread-text { font-size: 15px; line-height: 1.55; color: #34474E; margin-bottom: 12px; }
+  .thread-text { font-size: 15px; padding:10px; color: #34474E; margin-bottom: 5px; }
 
   .reply { display: flex; gap: 11px; background: #F8F3E9; border-radius: 12px; padding: 13px 15px; margin-bottom: 10px; }
   .reply-ava { width: 32px; height: 32px; border-radius: 50%; background: linear-gradient(135deg, #0C4A57, #1B8DA3); display: flex; align-items: center; justify-content: center; color: #fff; font-weight: 800; font-family: 'Outfit'; font-size: 11px; flex: none; }
@@ -85,7 +91,7 @@
   .guidelines { background: #fff; border: 1px solid #EDE3D2; border-radius: 18px; padding: 18px; box-shadow: 0 4px 16px rgba(7,50,61,.05); }
   .guidelines .t { font-family: 'Outfit'; font-weight: 800; font-size: 14.5px; color: #0C4A57; margin-bottom: 8px; }
   .guidelines p { font-size: 13px; color: #5F7882; line-height: 1.5; }
-
+  .button-scrivi{ display: inline-block; background: #CE6F3D; color: #fff; font-weight: 700; font-size: 14px; padding-left: 20px; padding-bottom: 14px; padding-top: 14px; padding-right: 20px; border-radius: 10px; cursor: pointer; transition: filter .15s; }
   @media (max-width: 980px) {
     .grid { grid-template-columns: 1fr; }
     aside { position: static; }
