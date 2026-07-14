@@ -10,6 +10,7 @@ import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 
 import its.progetto.Forum.Dao.UtentiDao;
 import its.progetto.Forum.Model.LoginForm;
@@ -112,22 +113,33 @@ public class UserController {
     }
 
     @PostMapping("/profilo/modifica")
-    public String salvaModifiche(@Valid @ModelAttribute("utente") Utenti utenteModificato, BindingResult bindingResult, HttpSession session ){
+    public String salvaModifiche(@RequestParam("username") String nuovoUsername,
+                                 @RequestParam(value = "password", required = false) String nuovaPassword,
+                                 HttpSession session) {
+
         Utenti loggato = (Utenti) session.getAttribute("loggedUser");
         if(loggato == null){
             return "redirect:/login";
         }
-        if(bindingResult.hasErrors()){
-            return "Personal-profile_page";
+
+        if(nuovoUsername != null && !nuovoUsername.trim().isEmpty()){
+            loggato.setUsername(nuovoUsername);
         }
-        loggato.setUsername(utenteModificato.getUsername());
-        loggato.setPassword(utenteModificato.getPassword());
+
+        if(nuovaPassword != null && !nuovaPassword.trim().isEmpty()){
+            if(nuovaPassword.length() >= 8 && nuovaPassword.length() <= 20) {
+                loggato.setPassword(nuovaPassword);
+            } else {
+                // Se la password è troppo corta, ricarica la pagina senza salvare
+                return "redirect:/profilo/modifica";
+            }
+        }
 
         utentiDao.save(loggato);
 
         session.setAttribute("loggedUser", loggato);
 
-        return "redirect:/profilo?successo";
+        return "redirect:/profilo/modifica";
     }
     // logut
     // uso remove attribute perchè cancella solo l'attribute loggedUser-
