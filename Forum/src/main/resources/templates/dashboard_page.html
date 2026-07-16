@@ -7,8 +7,8 @@
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@400;500;600;700;800&family=Mulish:wght@400;500;600;700;800&display=swap" rel="stylesheet">
-  <link rel="stylesheet" href="../static/css/dashboard.css" th:href="@{/Css/dashboard.css}">
-  <link rel="stylesheet" th:href="@{/Css/layout.css}">
+  <link rel="stylesheet" th:href="@{/CSS/dashboard.css}">
+  <link rel="stylesheet" th:href="@{/CSS/layout.css}">
 
 </head>
 <body>
@@ -38,7 +38,7 @@
         </div>
       </div>
       <div class="map-wrap">
-        <img th:src="@{/img/mappa-puglia.png}" alt="Mappa della Puglia">
+        <img th:src="@{/Img/mappa-puglia.png}" alt="Mappa della Puglia">
 
         <div class="pin" th:each="p : ${tappe}"
              th:style="'left:' + ${p.left} + ';top:' + ${p.top} + ';'"
