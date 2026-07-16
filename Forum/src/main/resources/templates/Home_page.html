@@ -40,7 +40,7 @@
 
     <!-- FEED -->
     <main>
-      <div class="feed-head">
+      <div class="feed-head"  th:if="${user != null}">
         <h1 th:text="${user != null ? 'Bentornato, ' + user.nome : 'Benvenuto nella community'}">Bentornato, Marco</h1>
         <div class="segments">
           <a href="#" class="active">Per te</a>
@@ -76,7 +76,7 @@
                  style="max-width:100%; border-radius:8px; margin-top:8px;">
           </div>
         </a>
-        <div class="post-actions">
+        <div class="post-actions" th:if="${user != null}">
           <button class="like" type="button">♡ 0</button>
           <button class="share" type="button">↗ Condividi</button>
         </div>
