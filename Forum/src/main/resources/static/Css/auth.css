@@ -1,0 +1,80 @@
+/* =====================================================================
+   auth.css — pagine di accesso: login e registrazione.
+   Prima erano due file (Login_page.css e register.css) identici al 90%:
+   cambiava solo la foto del pannello di sinistra, ora scelta con le
+   classi .auth-visual--login / .auth-visual--register.
+   Richiede base.css (reset, variabili, .field, .alert).
+   ===================================================================== */
+
+.auth { min-height: 100vh; display: grid; grid-template-columns: 1fr 1fr; }
+
+/* ── Pannello immagine (sinistra) ── */
+.auth-visual {
+  position: relative; padding: 48px;
+  display: flex; flex-direction: column; justify-content: space-between;
+  color: #fff; background-color: #07323D;
+  background-size: cover; background-position: center; background-repeat: no-repeat;
+}
+.auth-visual--login {
+  background-image:
+    linear-gradient(180deg, rgba(7, 50, 61, .55), rgba(7, 50, 61, .82)),
+    url('https://www.pugliamare.it/cdn/shop/files/Pugliamare_Cooking-Class_5_2.jpg?v=1776955365');
+}
+.auth-visual--register {
+  background-image:
+    linear-gradient(180deg, rgba(7, 50, 61, .5), rgba(7, 50, 61, .8)),
+    url('https://www.pugliamare.it/cdn/shop/files/DSCF1985-RAF_DxO_DeepPRIME.jpg?v=1776767615');
+}
+.brand { display: flex; align-items: center; gap: 11px; color: #fff; }
+.brand-icon {
+  width: 42px; height: 42px; border-radius: 13px;
+  background: rgba(255, 255, 255, .16); backdrop-filter: blur(4px);
+  display: flex; align-items: center; justify-content: center;
+  font-family: var(--pm-font-title); font-weight: 800; font-size: 22px;
+}
+.brand-name { font-family: var(--pm-font-title); font-weight: 800; font-size: 21px; }
+.brand-name span { font-weight: 500; opacity: .7; }
+.visual-copy h2 { font-family: var(--pm-font-title); font-weight: 800; font-size: 38px; line-height: 1.1; margin-bottom: 16px; }
+.visual-copy p { font-size: 17px; opacity: .85; max-width: 420px; }
+
+/* Elenco vantaggi (solo registrazione) */
+.perks { display: flex; flex-direction: column; gap: 12px; }
+.perk { display: flex; align-items: center; gap: 11px; font-size: 16px; opacity: .92; }
+.perk::before { content: '✓'; font-weight: 800; }
+
+/* ── Pannello form (destra) ── */
+.auth-form-wrap {
+  display: flex; align-items: center; justify-content: center;
+  padding: 48px; background: var(--pm-bg);
+}
+.auth-form { width: 100%; max-width: 430px; animation: pmFade .45s ease both; }
+.auth-form h1 { font-family: var(--pm-font-title); font-weight: 800; font-size: 32px; color: var(--pm-teal-dark); margin-bottom: 6px; }
+.auth-form .lead { color: var(--pm-muted-2); font-size: 15px; margin-bottom: 26px; }
+
+.grid-2 { display: grid; grid-template-columns: 1fr 1fr; gap: 14px; }
+
+/* Link "password dimenticata" (solo login) */
+.row-forgot { text-align: right; margin: -4px 0 20px; }
+.row-forgot a { color: var(--pm-teal); font-weight: 700; font-size: 13.5px; }
+.row-forgot a:hover { text-decoration: underline; }
+
+/* Accettazione termini (solo registrazione) */
+.terms { display: flex; align-items: flex-start; gap: 9px; margin: 6px 0 22px; }
+.terms input { width: 17px; height: 17px; margin-top: 2px; accent-color: var(--pm-orange); flex: none; }
+.terms label { font-size: 13px; color: var(--pm-muted); line-height: 1.45; }
+.terms a { color: var(--pm-teal); font-weight: 700; }
+.terms a:hover { text-decoration: underline; }
+
+/* Bottone di invio: è il .btn-primary di base.css, un po' più grande */
+.auth-form .btn-primary { font-size: 16px; padding: 15px; border-radius: 13px; box-shadow: 0 6px 18px rgba(206, 111, 61, .3); }
+
+.switch { text-align: center; color: var(--pm-muted-2); font-size: 14px; margin-top: 20px; }
+.switch a { color: var(--pm-teal-dark); font-weight: 800; }
+.switch a:hover { color: var(--pm-orange); }
+
+@media (max-width: 860px) {
+  .auth { grid-template-columns: 1fr; }
+  .auth-visual { min-height: 240px; padding: 32px; }
+  .visual-copy h2 { font-size: 26px; }
+  .auth-form-wrap { padding: 40px 24px; }
+}

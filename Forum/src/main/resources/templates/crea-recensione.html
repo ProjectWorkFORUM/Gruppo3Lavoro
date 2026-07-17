@@ -7,8 +7,9 @@
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Mulish:wght@400;600;700;800&family=Outfit:wght@700;800&display=swap" rel="stylesheet">
-  <link rel="stylesheet" th:href="@{/CSS/crea-recensione.css}">
-  <link rel="stylesheet" th:href="@{/CSS/layout.css}">
+  <link rel="stylesheet" th:href="@{/Css/base.css}">
+  <link rel="stylesheet" th:href="@{/Css/layout.css}">
+  <link rel="stylesheet" th:href="@{/Css/crea-recensione.css}">
 </head>
 <body>
 
@@ -40,7 +41,7 @@
       <div class="field">
         <input type="text" id="titolo" th:field="*{titolo}"
                placeholder="Riassumi la tua esperienza in una frase" required>
-        <span class="field-error" th:if="${#fields.hasErrors('titolo')}" th:errors="*{titolo}"></span>
+        <span class="err" th:if="${#fields.hasErrors('titolo')}" th:errors="*{titolo}"></span>
       </div>
 
       <!-- Valutazione -->
@@ -63,7 +64,7 @@
         <textarea id="descrizione" th:field="*{testo}"
                   placeholder="Racconta com'è andata: cosa ti è piaciuto, consigli per gli altri viaggiatori…"
                   required></textarea>
-        <span class="field-error" th:if="${#fields.hasErrors('testo')}" th:errors="*{testo}"></span>
+        <span class="err" th:if="${#fields.hasErrors('testo')}" th:errors="*{testo}"></span>
       </div>
 
       <!-- Foto -->

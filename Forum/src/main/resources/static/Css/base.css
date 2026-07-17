@@ -1,0 +1,257 @@
+/* =====================================================================
+   base.css — fondamenta condivise da TUTTE le pagine.
+   Va caricato per PRIMO, prima di layout.css e del CSS della pagina:
+
+     <link rel="stylesheet" th:href="@{/Css/base.css}">
+     <link rel="stylesheet" th:href="@{/Css/layout.css}">
+     <link rel="stylesheet" th:href="@{/Css/nome-pagina.css}">
+
+   Contiene: variabili (colori/font/ombre), reset, animazioni e i
+   componenti usati da più pagine (bottoni, card, form, stelle...).
+   Per cambiare un colore in tutto il sito basta toccare una variabile
+   qui sotto: non serve più cercarlo in 14 file.
+   ===================================================================== */
+
+/* ── VARIABILI ─────────────────────────────────────────────────────── */
+:root {
+  /* Sfondi */
+  --pm-bg: #F5EFE2;         /* sfondo pagina (sabbia) */
+  --pm-bg-soft: #FBF7EF;    /* sfondo input / righe in hover */
+  --pm-bg-tint: #F8F3E9;    /* hover bottoni secondari */
+  --pm-cream: #F1ECE0;      /* chip, bottoni neutri */
+  --pm-surface: #fff;       /* card */
+
+  /* Bordi */
+  --pm-border: #EDE3D2;     /* bordo card */
+  --pm-border-strong: #E6DCCB; /* bordo input */
+  --pm-border-btn: #D9CDB6; /* bordo bottone secondario */
+  --pm-divider: #F0E8D8;    /* separatori interni */
+
+  /* Testo */
+  --pm-ink: #15323B;        /* testo principale */
+  --pm-ink-soft: #34474E;   /* paragrafi */
+  --pm-muted: #5F7882;
+  --pm-muted-2: #7C8C92;
+  --pm-muted-3: #9DA8A2;    /* date, metadati */
+
+  /* Colori brand */
+  --pm-teal-dark: #0C4A57;  /* titoli */
+  --pm-teal: #176B7E;       /* link/accenti */
+  --pm-teal-light: #1B8DA3; /* focus input */
+  --pm-teal-pale: #DCEFF1;  /* badge tealine */
+  --pm-orange: #CE6F3D;     /* accento principale */
+  --pm-gold: #E7A736;       /* stelle piene */
+  --pm-star-off: #DDD3C2;   /* stelle vuote */
+
+  /* Stati */
+  --pm-danger: #B2400F;
+  --pm-danger-bg: #F6DAD0;
+  --pm-danger-border: #EEC0B2;
+  --pm-warn: #9A6B12;
+  --pm-warn-bg: #FBEFD6;
+
+  /* Gradienti */
+  --pm-grad-teal: linear-gradient(135deg, #0C4A57, #1B8DA3);
+  --pm-grad-logo: linear-gradient(135deg, #115E6F, #1B8DA3);
+
+  /* Ombre */
+  --pm-shadow-card: 0 4px 16px rgba(7, 50, 61, .05);
+  --pm-shadow-card-lg: 0 6px 22px rgba(7, 50, 61, .07);
+  --pm-shadow-orange: 0 4px 14px rgba(206, 111, 61, .28);
+
+  /* Font */
+  --pm-font: 'Mulish', -apple-system, sans-serif;
+  --pm-font-title: 'Outfit', sans-serif;
+
+  /* Misure */
+  --pm-page-width: 1340px;
+  --pm-radius: 12px;        /* bottoni, input */
+  --pm-radius-card: 18px;
+}
+
+/* ── RESET ─────────────────────────────────────────────────────────── */
+*, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+body {
+  font-family: var(--pm-font);
+  background: var(--pm-bg);
+  color: var(--pm-ink);
+}
+
+::selection { background: var(--pm-orange); color: #fff; }
+::placeholder { color: var(--pm-muted-2); }
+
+input, button, textarea, select { font-family: inherit; }
+button { cursor: pointer; }
+a { color: inherit; text-decoration: none; }
+img { display: block; }
+
+/* ── ANIMAZIONI ────────────────────────────────────────────────────── */
+@keyframes pmFade { from { opacity: 0; transform: translateY(16px); } to { opacity: 1; transform: none; } }
+@keyframes pmPop  { from { opacity: 0; transform: scale(.97); } to { opacity: 1; transform: none; } }
+@keyframes pmPin  { 0% { opacity: 0; transform: translate(-50%, -150%); } 65% { transform: translate(-50%, -90%); } 100% { opacity: 1; transform: translate(-50%, -100%); } }
+
+/* ── CONTENITORE PAGINA ────────────────────────────────────────────── */
+/* Le pagine più strette ridefiniscono solo max-width (es. .page { max-width: 880px }) */
+.page {
+  max-width: var(--pm-page-width);
+  margin: 0 auto;
+  padding: 28px 40px 96px;
+  animation: pmFade .35s ease both;
+}
+
+/* ── TESTI RICORRENTI ──────────────────────────────────────────────── */
+.eyebrow {
+  color: var(--pm-orange); font-weight: 800;
+  letter-spacing: .14em; font-size: 12.5px; margin-bottom: 7px;
+}
+h2.section {
+  font-family: var(--pm-font-title); font-weight: 800;
+  font-size: 22px; color: var(--pm-teal-dark); margin-bottom: 18px;
+}
+
+/* ── BREADCRUMB ────────────────────────────────────────────────────── */
+.breadcrumb {
+  display: flex; align-items: center; gap: 8px;
+  color: var(--pm-muted-2); font-size: 13.5px; font-weight: 600; margin-bottom: 18px;
+}
+.breadcrumb a:hover { color: var(--pm-teal-dark); }
+.breadcrumb .sep { color: #C9BCA6; }
+.breadcrumb .cat, .breadcrumb .exp { color: var(--pm-teal); }
+.breadcrumb .exp:hover { text-decoration: underline; }
+.breadcrumb .current { color: var(--pm-ink); }
+
+/* ── BOTTONI ───────────────────────────────────────────────────────── */
+/* Funzionano sia su <button> che su <a>.
+   Aggiungi .btn-block per farli larghi quanto il contenitore. */
+.btn-primary {
+  display: inline-block; text-align: center;
+  border: none; background: var(--pm-orange); color: #fff;
+  font-weight: 700; font-size: 14px; padding: 12px 20px;
+  border-radius: var(--pm-radius); box-shadow: var(--pm-shadow-orange);
+  transition: filter .15s;
+}
+.btn-primary:hover { filter: brightness(.94); }
+
+.btn-secondary {
+  display: inline-block; text-align: center;
+  border: 1.5px solid var(--pm-border-btn); background: var(--pm-surface);
+  color: var(--pm-teal-dark); font-weight: 700; font-size: 14px;
+  padding: 11px 20px; border-radius: var(--pm-radius); transition: background .15s;
+}
+.btn-secondary:hover { background: var(--pm-bg-tint); }
+
+/* Bottone neutro (sfondo crema) — usato in sidebar e azioni secondarie */
+.btn-neutral {
+  display: inline-block; text-align: center;
+  border: none; background: var(--pm-cream); color: var(--pm-teal-dark);
+  font-weight: 700; font-size: 14px; padding: 11px 16px;
+  border-radius: 11px; transition: filter .15s;
+}
+.btn-neutral:hover { filter: brightness(.97); }
+
+.btn-block { width: 100%; display: block; }
+
+/* ── CARD ──────────────────────────────────────────────────────────── */
+.card {
+  background: var(--pm-surface); border: 1px solid var(--pm-border);
+  border-radius: var(--pm-radius-card); padding: 18px; box-shadow: var(--pm-shadow-card);
+}
+.card-title {
+  font-family: var(--pm-font-title); font-weight: 800;
+  font-size: 15px; color: var(--pm-teal-dark); margin-bottom: 13px;
+}
+
+/* ── AVATAR (cerchio con iniziali) ─────────────────────────────────── */
+/* Tratti comuni a tutti gli avatar del sito: la dimensione la decide
+   la pagina, qui stanno forma, font e colore di default. */
+.post-ava, .review-ava, .thread-ava, .reply-ava, .contrib-ava,
+.profile-card .ava, .qa-q .ava, .p-avatar {
+  display: flex; align-items: center; justify-content: center;
+  border-radius: 50%; flex: none;
+  background: var(--pm-grad-teal); color: #fff;
+  font-family: var(--pm-font-title); font-weight: 800;
+}
+
+/* ── STELLE ────────────────────────────────────────────────────────── */
+.stars { color: var(--pm-gold); letter-spacing: 1px; }
+.stars .off { color: var(--pm-star-off); }
+
+/* ── ETICHETTE / BADGE ─────────────────────────────────────────────── */
+.pill {
+  display: inline-block; background: var(--pm-teal-pale); color: var(--pm-teal);
+  font-size: 12.5px; font-weight: 800; padding: 6px 13px; border-radius: 999px;
+}
+.tag-neutral {
+  background: var(--pm-cream); color: var(--pm-muted);
+  font-size: 11.5px; font-weight: 700; padding: 5px 11px; border-radius: 999px;
+}
+
+/* ── FORM ──────────────────────────────────────────────────────────── */
+.field { margin-bottom: 18px; }
+.field label {
+  display: block; font-weight: 700; font-size: 14px;
+  color: var(--pm-ink); margin-bottom: 7px;
+}
+.field input, .field select, .field textarea {
+  width: 100%; border: 1.5px solid var(--pm-border-strong);
+  border-radius: 13px; padding: 14px 16px; font-size: 15px;
+  color: var(--pm-ink); background: var(--pm-surface); outline: none;
+  transition: border-color .15s, box-shadow .15s;
+}
+.field textarea { min-height: 120px; resize: vertical; line-height: 1.5; }
+.field input:focus, .field select:focus, .field textarea:focus {
+  border-color: var(--pm-teal-light);
+  box-shadow: 0 0 0 3px rgba(27, 141, 163, .14);
+}
+.field .err {
+  display: block; color: var(--pm-danger);
+  font-size: 12.5px; font-weight: 600; margin-top: 5px;
+}
+
+.alert {
+  background: var(--pm-danger-bg); color: var(--pm-danger);
+  border: 1px solid var(--pm-danger-border);
+  font-size: 13.5px; font-weight: 600;
+  padding: 11px 14px; border-radius: 11px; margin-bottom: 18px;
+}
+
+/* ── CARD ESPERIENZA (landing + lista esperienze) ──────────────────── */
+.exp-card {
+  display: flex; flex-direction: column;
+  background: var(--pm-surface); border: 1px solid var(--pm-border);
+  border-radius: var(--pm-radius-card); overflow: hidden;
+  box-shadow: 0 4px 18px rgba(7, 50, 61, .06);
+  transition: transform .18s ease, box-shadow .18s ease;
+  cursor: pointer; animation: pmPop .4s ease both;
+}
+.exp-card:hover { transform: translateY(-5px); box-shadow: 0 16px 36px rgba(7, 50, 61, .14); }
+.exp-thumb { position: relative; height: 196px; flex: none; background: var(--pm-teal-dark); }
+.exp-thumb img { width: 100%; height: 100%; object-fit: cover; }
+.exp-badge {
+  position: absolute; top: 13px; left: 13px;
+  background: rgba(7, 50, 61, .78); backdrop-filter: blur(3px);
+  color: #fff; font-size: 11.5px; font-weight: 700;
+  padding: 5px 11px; border-radius: 999px;
+}
+.exp-body { padding: 17px 19px 20px; flex: 1; display: flex; flex-direction: column; }
+.exp-place { display: flex; align-items: center; gap: 5px; color: var(--pm-muted-2); font-size: 13px; margin-bottom: 7px; }
+.exp-title {
+  font-family: var(--pm-font-title); font-weight: 700; font-size: 18px;
+  color: var(--pm-ink); line-height: 1.25; margin-bottom: 12px; min-height: 46px;
+}
+.exp-desc { font-size: 13.5px; color: var(--pm-muted); line-height: 1.5; margin-bottom: 12px; }
+/* margin-top:auto tiene il footer in fondo anche se le card hanno testi di lunghezza diversa */
+.exp-footer {
+  display: flex; align-items: center; justify-content: space-between;
+  margin-top: auto; border-top: 1px solid var(--pm-divider); padding-top: 12px;
+}
+.exp-stars { color: var(--pm-gold); font-size: 15px; letter-spacing: 1px; }
+.exp-stars .cnt { color: var(--pm-muted); font-weight: 700; font-size: 13px; }
+.exp-stars .rev { color: #A7B2AD; font-size: 12px; }
+.exp-price { font-family: var(--pm-font-title); font-weight: 800; color: var(--pm-teal-dark); font-size: 15px; }
+
+/* ── RESPONSIVE ────────────────────────────────────────────────────── */
+@media (max-width: 600px) {
+  .page { padding: 20px 18px 80px; }
+}

@@ -1,0 +1,86 @@
+/* =====================================================================
+   profile.css — profilo utente.
+   Usata sia da profile_page.html (profilo pubblico) sia da
+   Personal-profile_page.html (il proprio profilo): erano due file
+   identici tranne il blocco .anagrafica-*, ora sono uno solo.
+   Richiede base.css (reset, variabili, .page, h2.section, .stars,
+   bottoni) e layout.css (navbar).
+   ===================================================================== */
+
+.page { max-width: 1040px; padding-top: 34px; }
+
+/* ── INTESTAZIONE PROFILO ── */
+.profile {
+  position: relative; background: var(--pm-surface); border: 1px solid var(--pm-border);
+  border-radius: 22px; overflow: hidden; box-shadow: var(--pm-shadow-card-lg); margin-bottom: 26px;
+}
+.cover { height: 150px; background: linear-gradient(120deg, #0C4A57, #1B8DA3); }
+.profile-body { padding: 0 34px 30px; }
+.profile-top { display: flex; align-items: flex-end; gap: 22px; margin-top: -60px; }
+.p-avatar {
+  position: relative; width: 124px; height: 124px;
+  background: linear-gradient(135deg, #CE6F3D, #E0A04A); border: 5px solid #fff;
+  font-size: 44px;
+}
+.p-avatar .edit {
+  position: absolute; bottom: 4px; right: 4px; width: 38px; height: 38px; border-radius: 50%;
+  background: var(--pm-teal-dark); border: 3px solid #fff;
+  display: flex; align-items: center; justify-content: center;
+  color: #fff; font-size: 15px; cursor: pointer; transition: filter .15s;
+}
+.p-avatar .edit:hover { filter: brightness(1.2); }
+.p-info { flex: 1; padding-bottom: 8px; }
+.p-info h1 { font-family: var(--pm-font-title); font-weight: 800; font-size: 30px; color: var(--pm-ink); }
+.p-info .meta { color: var(--pm-muted-2); font-size: 14px; font-weight: 600; margin-top: 2px; }
+.btn-edit {
+  border: 1.5px solid var(--pm-border-btn); background: var(--pm-surface); color: var(--pm-teal-dark);
+  font-weight: 700; font-size: 14px; padding: 11px 20px; border-radius: var(--pm-radius);
+  margin-bottom: 10px; transition: background .15s;
+}
+.btn-edit:hover { background: var(--pm-bg-tint); }
+.stats { display: flex; gap: 32px; margin-top: 22px; padding-top: 20px; border-top: 1px solid var(--pm-divider); }
+.stats .num { font-family: var(--pm-font-title); font-weight: 800; font-size: 22px; color: var(--pm-teal-dark); }
+.stats .lbl { color: var(--pm-muted-2); font-size: 14px; font-weight: 600; }
+.stats .birthday { margin-left: auto; color: var(--pm-muted); font-size: 14px; font-weight: 600; }
+
+/* ── RECENSIONI ── */
+.reviews-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 18px; }
+.review { background: var(--pm-surface); border: 1px solid var(--pm-border); border-radius: 16px; padding: 18px 20px; box-shadow: 0 3px 12px rgba(7, 50, 61, .05); }
+.review-head { display: flex; align-items: center; justify-content: space-between; margin-bottom: 8px; }
+.review-cat { background: var(--pm-teal-pale); color: var(--pm-teal); font-size: 11px; font-weight: 800; padding: 4px 10px; border-radius: 999px; }
+.review .stars { font-size: 14px; }
+.review-exp { font-family: var(--pm-font-title); font-weight: 700; font-size: 16px; color: var(--pm-ink); margin-bottom: 6px; }
+.review-text { font-size: 14px; color: var(--pm-ink-soft); line-height: 1.5; margin-bottom: 8px; }
+.review-date { color: var(--pm-muted-3); font-size: 12.5px; }
+
+/* ── ANAGRAFICA (solo profilo personale) ── */
+.anagrafica-card {
+  background: var(--pm-surface); margin: 0 20px;
+  border: 1px solid var(--pm-border); border-radius: 22px;
+  padding: 24px 34px; box-shadow: var(--pm-shadow-card-lg);
+}
+.anagrafica-title {
+  font-family: var(--pm-font-title); font-weight: 700; font-size: 24px;
+  color: var(--pm-teal-dark); margin-bottom: 12px; text-align: center;
+}
+.anagrafica-field {
+  font-size: 16px; color: var(--pm-ink); font-weight: 600; margin-bottom: 8px;
+  border-bottom: 1px solid var(--pm-border); padding: 10px; text-align: center;
+}
+.anagrafica-edit-btn {
+  border: 1.5px solid var(--pm-border-btn); background: var(--pm-surface); color: var(--pm-teal-dark);
+  font-weight: 700; font-size: 14px; padding: 11px 20px; border-radius: var(--pm-radius);
+  margin-bottom: 10px; transition: background .15s;
+}
+.anagrafica-edit-btn:hover { background: var(--pm-bg-tint); }
+
+@media (max-width: 780px) {
+  .reviews-grid { grid-template-columns: 1fr; }
+  .profile-top { flex-wrap: wrap; }
+  .btn-edit { margin-left: auto; }
+}
+@media (max-width: 600px) {
+  .profile-body { padding: 0 20px 24px; }
+  .stats { flex-wrap: wrap; gap: 18px; }
+  .stats .birthday { margin-left: 0; width: 100%; }
+}
