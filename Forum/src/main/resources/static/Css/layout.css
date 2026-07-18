@@ -12,7 +12,7 @@
   border-bottom: 1px solid #EADFCC;
 }
 .nav-bar { max-width: 1340px; margin: 0 auto; display: flex; align-items: center; gap: 22px; padding: 13px 40px; }
-.nav-logo { display: flex; align-items: center; gap: 11px; }
+.nav-logo { display: flex; align-items: center; gap: 11px; text-decoration: none; }
 .nav-logo-icon {
   width: 42px; height: 42px; border-radius: 13px;
   background: linear-gradient(135deg, #115E6F, #1B8DA3);
@@ -27,6 +27,7 @@
 .nav-top a {
   font-size: 15px; padding: 8px 13px; border-radius: 8px 8px 0 0;
   color: #5F7882; font-weight: 600; border-bottom: 2px solid transparent; transition: background .15s;
+  text-decoration: none;
 }
 .nav-top a:hover { background: #F1ECE0; }
 .nav-top a.active { color: #0C4A57; font-weight: 800; border-bottom-color: #CE6F3D; }
@@ -35,12 +36,12 @@
   display: inline-flex; align-items: center; gap: 7px;
   background: #CE6F3D; color: #fff; font-weight: 700; font-size: 14px;
   padding: 10px 16px; border-radius: 12px; box-shadow: 0 4px 12px rgba(206, 111, 61, .3);
-  transition: filter .15s;
+  transition: filter .15s; text-decoration: none;
 }
 .nav-write:hover { filter: brightness(.93); color: #fff; }
 
 .nav-auth { display: flex; align-items: center; gap: 6px; }
-.nav-auth a { font-size: 14px; font-weight: 700; color: #5F7882; padding: 8px 12px; border-radius: 8px; transition: background .15s; }
+.nav-auth a { font-size: 14px; font-weight: 700; color: #5F7882; padding: 8px 12px; border-radius: 8px; transition: background .15s; text-decoration: none; }
 .nav-auth a:hover { background: #F1ECE0; color: #0C4A57; }
 
 .nav-avatar {
@@ -49,6 +50,7 @@
   display: flex; align-items: center; justify-content: center;
   color: #fff; font-weight: 800; font-family: 'Outfit', sans-serif;
   border: 2px solid #fff; box-shadow: 0 2px 8px rgba(0, 0, 0, .15); transition: transform .15s;
+  text-decoration: none;
 }
 .nav-avatar:hover { transform: scale(1.05); }
 

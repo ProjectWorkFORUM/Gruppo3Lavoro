@@ -40,7 +40,7 @@
   }
   .new-thread textarea:focus { border-color: #1B8DA3; box-shadow: 0 0 0 3px rgba(27,141,163,.14); }
   .new-thread .row { display: flex; justify-content: flex-end; }
-  .btn-post {  background: #CE6F3D; color: #fff; font-weight: 700; font-size: 14px; padding-left: 20px; padding-bottom: 10px; padding-top: 10px;  cursor: pointer; transition: filter .15s; }
+  .btn-post { background: #CE6F3D; color: #fff; font-weight: 700; font-size: 14px; border: none; border-radius: 12px; padding: 10px 20px; cursor: pointer; transition: filter .15s; }
   .btn-post:hover { filter: brightness(.94); }
 
   /* ── thread list ── */
