@@ -110,15 +110,29 @@
 }
 
 .anagrafica-field {
+  margin-bottom: 16px;
+  text-align: center;
+}
+
+.anagrafica-label {
+  display: block;
+  font-family: 'Outfit', sans-serif;
+  font-weight: 700;
+  font-size: 13px;
+  letter-spacing: .04em;
+  text-transform: uppercase;
+  color: #5F7882;
+  margin-bottom: 6px;
+}
+
+.anagrafica-value {
   font-size: 16px;
   color: #15323B;
   font-weight: 600;
-  margin-bottom: 8px;
-  border-style: solid;
-  border-bottom-width: 5px;
-  border-color: black;
-  padding: 10px;
-  text-align: center;
+  border: 1.5px solid #EDE3D2;
+  border-radius: 12px;
+  background: #FBF7EF;
+  padding: 11px 14px;
 }
 
 .anagrafica-edit-btn {

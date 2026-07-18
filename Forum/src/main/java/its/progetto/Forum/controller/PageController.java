@@ -104,10 +104,7 @@ public class PageController {
         return "Personal-profile_page";
     }
 
-    @GetMapping("/Thread")
-    public String threadPage( ) {
-        return "Thread_page";
-    }
+    // non referenzial acun modello
 
     @GetMapping("/recensione")
 

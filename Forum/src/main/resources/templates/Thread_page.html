@@ -1,28 +1,4 @@
 <!DOCTYPE html>
-<!--
-  ════════════════════════════════════════════════════════════════
-  PUGLIAMARE FORUM · THREAD / DISCUSSIONI ESPERIENZA
-  Pagina standalone, pronta per Thymeleaf + Spring Boot.
-
-  Per integrarla in Thymeleaf:
-   1. Rinomina in  src/main/resources/templates/thread.html
-   2. Namespace:  <html lang="it" xmlns:th="http://www.thymeleaf.org">
-   3. Rotta suggerita: GET /esperienze/{id}/discussioni
-   4. Breadcrumb ed esperienza mini-card: th:text da ${esperienza}.
-   5. Nuovo thread: <form th:action="@{/esperienze/{id}/discussioni(id=${esperienza.id})}"
-        th:object="${threadForm}" method="post"> con th:field="*{testo}".
-   6. Lista thread: sostituisci i <div class="thread"> statici con
-        <div class="thread" th:each="t : ${threads}"> … </div>
-      usando th:text sui campi (utente, iniziali, tempo, tag, domanda).
-   7. Risposta annidata: th:if="${t.risposta != null}" sul blocco reply.
-   8. Bottone "↩ Rispondi": apre un piccolo form inline (JS) che fa POST a
-        /esperienze/{id}/discussioni/{threadId}/risposte
-   9. Da qui si arriva: bottone 💬 nei post della Home, e "Vai alle domande →"
-      nella pagina Esperienza — entrambi devono puntare a questa rotta con
-      l'id dell'esperienza corretto.
-  10. CSRF sui form:  <input type="hidden" th:name="${_csrf.parameterName}" th:value="${_csrf.token}"/>
-  ════════════════════════════════════════════════════════════════
--->
 <html lang="it" xmlns:th="http://www.thymeleaf.org">
 <head>
 <meta charset="utf-8">
@@ -108,16 +84,6 @@
     </aside>
   </div>
 </div>
-
-<script>
-  // Toggle form di risposta inline (demo lato client)
-  document.querySelectorAll('.respond').forEach(function (el) {
-    el.addEventListener('click', function () {
-      var target = document.getElementById(el.dataset.target);
-      if (target) target.classList.toggle('open');
-    });
-  });
-</script>
 
 <footer th:replace="~{fragments/layout :: footer}"></footer>
 

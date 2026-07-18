@@ -33,11 +33,11 @@ public class Risposte {
     private String data_creazione;
 
     @ManyToOne
-    @JoinColumn
+    @JoinColumn(name="id_utente")
     private Utenti utente;
     // correzione relazione modifiche fede
     @ManyToOne
-    @JoinColumn
+    @JoinColumn(name="id_thread")
     private Thread thread;
 
     @Column(name="visibile")

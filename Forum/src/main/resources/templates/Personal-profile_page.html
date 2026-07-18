@@ -93,11 +93,18 @@
   <input type="hidden" th:field="*{ruolo}">
 
   <!-- Testi dinamici visibili all'utente -->
-  <p class="anagrafica-field" th:text="'Nome: ' + *{nome}">Nome: Marco</p>
-  <p class="anagrafica-field" th:text="'Cognome: ' + *{cognome}">Cognome: Pollo</p>
+  <div class="anagrafica-field">
+    <label class="anagrafica-label">Nome</label>
+    <div class="anagrafica-value" th:text="*{nome}">Marco</div>
+  </div>
+  <div class="anagrafica-field">
+    <label class="anagrafica-label">Cognome</label>
+    <div class="anagrafica-value" th:text="*{cognome}">Pollo</div>
+  </div>
 
-  <div class="anagrafica-field" style="display: flex; justify-content: center; align-items: center;">
-    <span id="username-testo" th:text="'Username: ' + *{username}">Username: giulia</span>
+  <div class="anagrafica-field">
+    <label class="anagrafica-label">Username</label>
+    <div id="username-testo" class="anagrafica-value" th:text="*{username}">giulia</div>
 
     <div id="username-input-container" style="display: none; align-items: center; gap: 10px; width: 100%; justify-content: center;">
       <label for="username" style="font-weight: 700; color: #00565b;">Nuovo Username:</label>
@@ -106,8 +113,14 @@
     </div>
   </div>
 
-  <p class="anagrafica-field" th:text="'Email: ' + *{email}">Email: marco.pollo@pollo.it</p>
-  <p class="anagrafica-field" th:if="*{dataNascita != null}" th:text="'Data di nascita: ' + *{dataNascita}">Data di nascita: 01/02/2003</p>
+  <div class="anagrafica-field">
+    <label class="anagrafica-label">Email</label>
+    <div class="anagrafica-value" th:text="*{email}">marco.pollo@pollo.it</div>
+  </div>
+  <div class="anagrafica-field" th:if="*{dataNascita != null}">
+    <label class="anagrafica-label">Data di nascita</label>
+    <div class="anagrafica-value" th:text="*{dataNascita}">01/02/2003</div>
+  </div>
 
   <hr style="border: 0; border-top: 1px solid #eee; margin: 15px 0;">
 
@@ -122,6 +135,7 @@
   <div style="margin-top: 20px;">
     <button class="anagrafica-edit-btn" id="btn-attiva" type="button" onclick="abilitaModifica()">✎ Modifica Dati</button>
     <button class="anagrafica-edit-btn" id="btn-salva" type="submit" style="display: none; background-color: #00565b; color: white;">💾 Salva Modifiche</button>
+    <button class="anagrafica-edit-btn" id="btn-annulla" type="button" onclick="annullaModifica()" style="display: none;">✕ Annulla</button>
   </div>
 </form>
 
@@ -134,6 +148,18 @@
     document.getElementById('password-blocco').style.display = 'flex';
     document.getElementById('btn-attiva').style.display = 'none';
     document.getElementById('btn-salva').style.display = 'inline-block';
+    document.getElementById('btn-annulla').style.display = 'inline-block';
+  }
+
+  function annullaModifica() {
+    document.getElementById('username').value = '';
+    document.getElementById('password').value = '';
+    document.getElementById('username-testo').style.display = '';
+    document.getElementById('username-input-container').style.display = 'none';
+    document.getElementById('password-blocco').style.display = 'none';
+    document.getElementById('btn-attiva').style.display = 'inline-block';
+    document.getElementById('btn-salva').style.display = 'none';
+    document.getElementById('btn-annulla').style.display = 'none';
   }
 </script>
 </body>
