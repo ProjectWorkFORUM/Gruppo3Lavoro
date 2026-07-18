@@ -1,6 +1,6 @@
 
 <!DOCTYPE html>
-<html lang="it">
+<html lang="it" xmlns:th="http://www.thymeleaf.org">
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
@@ -8,7 +8,9 @@
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@400;500;600;700;800&family=Mulish:wght@400;500;600;700;800&display=swap" rel="stylesheet">
-<link rel="stylesheet" th:href="@{/CSS/landing.css}">
+<link rel="stylesheet" th:href="@{/Css/base.css}">
+<link rel="stylesheet" th:href="@{/Css/layout.css}">
+<link rel="stylesheet" th:href="@{/Css/landing.css}">
 </head>
 <body>
 
@@ -140,19 +142,8 @@
   </div>
 </div>
 
-<!-- ══ FOOTER ══ -->
-<footer>
-  <div class="footer-logo">
-    <div class="footer-logo-icon">P</div>
-    <span>Pugliamare Forum</span>
-  </div>
-  <nav class="footer-links">
-    <a href="#">Privacy</a>
-    <a href="#">Termini</a>
-    <a href="#">Contatti</a>
-  </nav>
-  <div class="footer-copy">© 2026 Pugliamare SRL · Conversano (BA)</div>
-</footer>
+<!-- ══ FOOTER (fragment condiviso) ══ -->
+<footer th:replace="~{fragments/layout :: footer}"></footer>
 
 </body>
 </html>

@@ -7,8 +7,9 @@
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Mulish:wght@400;500;600;700;800&family=Outfit:wght@400;500;600;700;800&display=swap" rel="stylesheet">
-  <link rel="stylesheet" th:href="@{/CSS/layout.css}">
-  <link rel="stylesheet" th:href="@{/CSS/esperienze-lista.css}">
+  <link rel="stylesheet" th:href="@{/Css/base.css}">
+  <link rel="stylesheet" th:href="@{/Css/layout.css}">
+  <link rel="stylesheet" th:href="@{/Css/esperienze-lista.css}">
 </head>
 <body>
 
@@ -17,11 +18,11 @@
   <!-- ── Header (fragment condiviso) ──────────────────── -->
   <header th:replace="~{fragments/layout :: header('esperienze')}"></header>
 
-  <!-- ── Intestazione pagina ─────────────────────────── -->
-  <div class="page-head">
+  <!-- ── Contenuto ───────────────────────────────────── -->
+  <div class="page">
     <div class="eyebrow">ESPERIENZE</div>
     <h1>Scopri le esperienze in Puglia</h1>
-    <p>Selezionate e recensite dalla community Pugliamare.</p>
+    <p class="lead">Selezionate e recensite dalla community Pugliamare.</p>
 
     <!-- Filtri per categoria: link a /esperienze?categoriaId=... -->
     <div class="chips">
@@ -32,21 +33,19 @@
          th:classappend="${categoriaAttiva != null and categoriaAttiva == cat.id} ? 'active'"
          th:text="${cat.nome}">Al mare</a>
     </div>
-  </div>
 
-  <!-- ── Griglia esperienze ──────────────────────────── -->
-  <div class="grid-wrap">
+    <!-- Griglia esperienze: la .exp-card è condivisa con la landing (base.css) -->
     <div class="grid">
       <a class="exp-card" th:each="exp : ${esperienze}"
          th:href="@{/esperienze/{id}/discussioni(id=${exp.id})}">
-        <div class="exp-media">
+        <div class="exp-thumb is-placeholder">
           <span class="placeholder" th:text="'foto: ' + ${exp.titolo}">foto: Tour in barca</span>
           <span class="exp-badge" th:if="${exp.categoria != null}" th:text="${exp.categoria.nome}">Al mare</span>
         </div>
         <div class="exp-body">
           <div class="exp-title" th:text="${exp.titolo}">Tour in barca nelle Grotte di Polignano</div>
           <p class="exp-desc" th:text="${exp.descrizione}">Le grotte al tramonto e un aperitivo in barca lungo la costa.</p>
-          <div class="exp-foot">
+          <div class="exp-footer">
             <span class="exp-price" th:text="'da €' + ${#numbers.formatDecimal(exp.prezzo, 1, 0)}">da €25</span>
           </div>
         </div>

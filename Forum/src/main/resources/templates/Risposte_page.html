@@ -7,8 +7,9 @@
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@400;500;600;700;800&family=Mulish:wght@400;500;600;700;800&display=swap" rel="stylesheet">
-<link rel="stylesheet" th:href="@{/CSS/thread-page.css}">
-<link rel="stylesheet" th:href="@{/CSS/layout.css}">
+<link rel="stylesheet" th:href="@{/Css/base.css}">
+<link rel="stylesheet" th:href="@{/Css/layout.css}">
+<link rel="stylesheet" th:href="@{/Css/thread-page.css}">
 </head>
 <body>
 
@@ -53,8 +54,7 @@
 
     <div class="thread-actions">
       <div th:if="${puoRispondere}">
-        <a class="button-scrivi" th:href="@{/Threads/{id}/Risposte/nuova(id=${thread.id})}"
-           style="display:inline-block; text-decoration:none;">↩ Scrivi una risposta</a>
+        <a class="btn-primary" th:href="@{/Threads/{id}/Risposte/nuova(id=${thread.id})}">↩ Scrivi una risposta</a>
       </div>
       <div  th:if="${!puoRispondere}">
         Solo chi ha acquistato questa esperienza può rispondere.

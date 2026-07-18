@@ -7,20 +7,9 @@
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@400;500;600;700;800&family=Mulish:wght@400;500;600;700;800&display=swap" rel="stylesheet">
-<link rel="stylesheet" th:href="@{/CSS/thread-page.css}">
-<link rel="stylesheet" th:href="@{/CSS/layout.css}">
-<style>
-  .form-field { margin-bottom: 14px; }
-  .form-field label { display: block; font-weight: 700; font-size: 13.5px; color: #15323B; margin-bottom: 6px; }
-  .form-field input,
-  .form-field textarea {
-    width: 100%; border: 1.5px solid #E6DCCB; border-radius: 11px; padding: 11px 14px;
-    font-size: 14px; outline: none; background: #FBF7EF; box-sizing: border-box;
-  }
-  .form-field textarea { min-height: 120px; resize: vertical; }
-  .form-field input:focus, .form-field textarea:focus { border-color: #1B8DA3; box-shadow: 0 0 0 3px rgba(27,141,163,.14); }
-  .field-error { color: #C0392B; font-size: 12.5px; margin-top: 5px; }
-</style>
+<link rel="stylesheet" th:href="@{/Css/base.css}">
+<link rel="stylesheet" th:href="@{/Css/layout.css}">
+<link rel="stylesheet" th:href="@{/Css/thread-page.css}">
 </head>
 <body>
 
@@ -43,20 +32,20 @@
   <form class="new-thread" method="post"
         th:action="@{/Threads/{id}/Risposte/salva(id=${thread.id})}" th:object="${risposte}">
 
-    <div class="form-field">
+    <div class="field">
       <label for="titolo">Titolo</label>
       <input type="text" id="titolo" th:field="*{titolo}" placeholder="Un titolo breve per la tua risposta">
-      <div class="field-error" th:if="${#fields.hasErrors('titolo')}" th:errors="*{titolo}">Errore titolo</div>
+      <div class="err" th:if="${#fields.hasErrors('titolo')}" th:errors="*{titolo}">Errore titolo</div>
     </div>
 
-    <div class="form-field">
+    <div class="field">
       <label for="testo">Testo</label>
       <textarea id="testo" th:field="*{testo}" placeholder="Scrivi la tua risposta…"></textarea>
-      <div class="field-error" th:if="${#fields.hasErrors('testo')}" th:errors="*{testo}">Errore testo</div>
+      <div class="err" th:if="${#fields.hasErrors('testo')}" th:errors="*{testo}">Errore testo</div>
     </div>
 
     <div class="row">
-      <button class="button-scrivi" type="submit">Pubblica risposta</button>
+      <button class="btn-primary" type="submit">Pubblica risposta</button>
     </div>
   </form>
 
