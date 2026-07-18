@@ -59,6 +59,7 @@ public class AdminController {
     /**
      * Disattiva un account utente invece di eliminarlo fisicamente.
      */
+    //
     @PostMapping("/utenti/{id}/elimina")
     public String eliminaUtente(@PathVariable(name = "id") Long id, HttpSession session) {
         if (!isAdmin(session)) return "redirect:/login";
