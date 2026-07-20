@@ -14,7 +14,8 @@ WORKDIR /workspace
 # e non le riscarica a ogni modifica del codice sorgente
 COPY mvnw pom.xml ./
 COPY .mvn .mvn
-RUN chmod +x mvnw && ./mvnw dependency:go-offline -q
+# sed: rimuove i fine riga Windows (CRLF) che romperebbero la shebang su Linux
+RUN sed -i 's/\r$//' mvnw && chmod +x mvnw && ./mvnw dependency:go-offline -q
 
 # poi il codice e la build vera e propria (il JAR contiene anche i template Thymeleaf)
 COPY src src
