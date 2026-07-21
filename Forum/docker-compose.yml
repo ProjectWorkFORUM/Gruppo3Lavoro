@@ -22,14 +22,15 @@ services:
     volumes:
       - db_data:/var/lib/mysql          # volume dedicato: i dati persistono ai riavvii
     healthcheck:                        # l'app parte solo quando MySQL risponde davvero
-      test: ["CMD", "mysqladmin", "ping", "-h", "localhost"]
+      test: ["CMD", "mysqladmin", "ping", "-h", "127.0.0.1", "-uapp_user", "-papp_password"]
       interval: 5s
       timeout: 3s
       retries: 10
-
+      start_period: 30s
   # -------------------- APPLICAZIONE --------------------
   app:
-    build: .                            # usa il Dockerfile in questa cartella (Forum/)
+    build: .  # usa il Dockerfile in questa cartella (Forum/)
+    restart: on-failure
     ports:
       - "8080:8080"
     environment:
